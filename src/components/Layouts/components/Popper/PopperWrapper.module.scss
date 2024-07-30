@@ -1,0 +1,12 @@
+.wrapper{
+    width: 100%;    
+    max-height: calc(90vh - var(--header-height));
+    min-height: 50px;
+    min-width: 230px;
+    overscroll-behavior: contain;
+    border-radius: 8px;
+    background: rgb(255,255,255);
+    box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
+    padding: 12px 24px;
+    overflow-y: auto;
+}

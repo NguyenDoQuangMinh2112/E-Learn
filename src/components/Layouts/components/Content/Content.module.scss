@@ -1,0 +1,12 @@
+.wrapper {
+  margin-top: var(--header-height);
+  display: flex;
+  min-height: 100vh;
+}
+.content {
+  width: min(100% - 96px, 2400px);
+  margin: 0 auto;
+  margin-top: 17px;
+  padding: 0 32px 0 10px;
+  z-index: 0;
+}
