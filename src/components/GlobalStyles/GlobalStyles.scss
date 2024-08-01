@@ -17,9 +17,12 @@
 
   // Header layout
   --header-height: 66px;
+  --course-learning-header-height: 50px;
+
+  // Slider
+  --slider-height: 400px;
 
   // css grid
-
   --grid-gutter-y: 0;
   --grid-gutter-x: 24px;
 }
@@ -105,6 +108,88 @@ body {
   .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
     top: -8px;
   }
+
+  // custom react-slick
+  .slick-slide img {
+    border-radius: 15px;
+  }
+
+  .slick-list {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .slick-prev {
+    left: 0;
+    transform: translate(-50%, -50%);
+
+    &::before {
+      content: '';
+    }
+  }
+  .slick-next {
+    right: -31px;
+    transform: translate(-50%, -50%);
+
+    &::before {
+      content: '';
+    }
+  }
+  .slick-next,
+  .slick-prev {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    color: #4b4b4b;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 3px 6px #00000029;
+    text-align: center;
+    line-height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .slick-dots {
+    text-align: left;
+
+    li {
+      position: relative;
+      display: inline-block;
+      width: 32px;
+      height: 20px;
+      margin: 0 5px;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    li.slick-active {
+      width: 50px;
+    }
+
+    li button::before {
+      content: '';
+      width: 32px;
+      height: 8px;
+      opacity: 1;
+      border-radius: 4px;
+      margin-right: 10px;
+      background-color: #dce0e3;
+      transition: width 0.3s linear, background-color 0.3s linear;
+    }
+
+    .slick-active button::before {
+      width: 50px;
+      background-color: #9aa6af;
+    }
+  }
+
+  //custom toolbar
+  .rdw-editor-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 7px;
+  }
 }
 
 .d-flex-center {
@@ -115,7 +200,17 @@ body {
 .no-scroll {
   overflow: hidden !important;
 }
+.db-none {
+  display: none;
+}
 
+.db-block {
+  display: block;
+}
+.disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
 // css grid
 .row {
   display: flex;
@@ -123,6 +218,13 @@ body {
   margin-top: calc(var(--grid-gutter-y) * -1);
   margin-left: calc(var(--grid-gutter-x) * 0.5 * -1);
   margin-right: calc(var(--grid-gutter-x) * 0.5 * -1);
+}
+.row > * {
+  margin-top: 36px;
+}
+.row > * {
+  padding-left: calc(var(--grid-gutter-x) * 0.5);
+  padding-right: calc(var(--grid-gutter-x) * 0.5);
 }
 .col {
   flex: 1 0;
@@ -147,3 +249,7 @@ body {
   flex: 0 0 auto;
   width: 100%;
 }
+
+// Mobile: width < 740px
+// Tablet: width >= 740px and width < 1024px
+// Pc: width >= 1024px

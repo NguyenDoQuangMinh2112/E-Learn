@@ -1,0 +1,88 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 35;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  animation: fade-in ease 0.5s;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background-color: #0009;
+}
+.container {
+  z-index: 2;
+  width: 43%;
+  min-width: 800px;
+  max-width: 100%;
+  background-color: #fff;
+  box-shadow: #00000026 0 4px 12px;
+  cursor: default;
+  position: relative;
+  will-change: transform;
+  animation: slide-in ease 0.5s;
+  overflow: hidden;
+}
+.body {
+  position: relative;
+  max-height: 100vh;
+  padding: 40px 30px 60px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.close {
+  display: flex;
+  justify-content: flex-end;
+}
+.close-btn {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translate(80%);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+@keyframes slide-out {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(80%);
+  }
+}

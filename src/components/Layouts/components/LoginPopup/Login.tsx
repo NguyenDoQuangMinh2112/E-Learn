@@ -15,13 +15,18 @@ import { IoMdClose } from 'react-icons/io'
 import { IoChevronBackSharp } from 'react-icons/io5'
 
 import { useDispatch } from 'react-redux'
-import { hidePopup } from '~/redux/popup/popupSlice'
+import { hidePopup, showPopup } from '~/redux/popup/popupSlice'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/store'
 
 const cx = classNames.bind(styles)
 
 const Login = () => {
   const [isEmailLogin, setIsEmailLogin] = useState<boolean>(false)
+
   const dispatch = useDispatch()
+  const { type } = useSelector((state: RootState) => state.popup)
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('login-popup-container')}>
@@ -33,7 +38,7 @@ const Login = () => {
             {' '}
             <img src={logo} alt="" />
           </a>
-          <h1 className={cx('heading-title')}>Đăng nhập với E-Learn</h1>
+          <h1 className={cx('heading-title')}>{type === 'register' ? 'Đăng ký' : 'Đăng nhập'} tài khoản E-Learn</h1>
           <p className={cx('warning')}>
             Mỗi người nên sử dụng riêng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa.
           </p>
@@ -47,49 +52,77 @@ const Login = () => {
         <main className={cx('main')}>
           {isEmailLogin ? (
             <div className={cx('content')}>
-              <div className={cx('form-group')}>
-                <label htmlFor="username">Tên đăng nhập</label>
-                <div className={cx('inputWrap')}>
-                  <input type="text" id="username" placeholder="Tài khoản email của bạn" />
-                </div>
-              </div>
-              <div className={cx('form-group')}>
-                <label htmlFor="password">Mật khẩu</label>
-                <div className={cx('inputWrap')}>
-                  <input type="password" id="password" placeholder="Mật khẩu" />
-                </div>
-              </div>
-              <div className={cx('remember')}>
-                <input type="checkbox" id="remember" defaultChecked />
-                <label htmlFor="remember">Ghi nhớ đăng nhập</label>
-              </div>
-              <Button className={cx('login-btn')}>Đăng nhập</Button>
+              {type === 'register' ? (
+                <>
+                  <div className={cx('form-group')}>
+                    <label htmlFor="username">Tên của bạn?</label>
+                    <div className={cx('inputWrap')}>
+                      <input type="text" id="username" placeholder="Họ và tên của bạn" />
+                    </div>
+                  </div>
+                  <div className={cx('form-group')}>
+                    <label htmlFor="username">Email của bạn</label>
+                    <div className={cx('inputWrap')}>
+                      <input type="email" id="email" placeholder="Email của bạn" />
+                    </div>
+                  </div>
+                  <div className={cx('form-group')}>
+                    <label htmlFor="password">Mật khẩu</label>
+                    <div className={cx('inputWrap')}>
+                      <input type="password" id="password" placeholder="Mật khẩu" />
+                    </div>
+                  </div>
+                  <Button className={cx('login-btn')}>Đăng ký</Button>
+                </>
+              ) : (
+                <>
+                  <div className={cx('form-group')}>
+                    <label htmlFor="username">Tên đăng nhập</label>
+                    <div className={cx('inputWrap')}>
+                      <input type="text" id="username" placeholder="Tài khoản email của bạn" />
+                    </div>
+                  </div>
+                  <div className={cx('form-group')}>
+                    <label htmlFor="password">Mật khẩu</label>
+                    <div className={cx('inputWrap')}>
+                      <input type="password" id="password" placeholder="Mật khẩu" />
+                    </div>
+                  </div>
+                  <div className={cx('remember')}>
+                    <input type="checkbox" id="remember" defaultChecked />
+                    <label htmlFor="remember">Ghi nhớ đăng nhập</label>
+                  </div>
+                  <Button className={cx('login-btn')}>Đăng nhập</Button>
+                </>
+              )}
             </div>
           ) : (
             <div className={cx('content')}>
               <Button
-                to="/"
                 className={cx('btnPopupLogin')}
                 classNameTitle={cx('text')}
                 svgIcon={userIcon}
                 onClick={() => setIsEmailLogin(true)}
               >
-                Sử dụng Email / Số điện thoại
+                Sử dụng tài khoản Email
               </Button>
               <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={googleIcon}>
-                Login with Google
+                {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Google
               </Button>
               <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={facebookIcon}>
-                Login with Facebook
+                {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Facebook
               </Button>
               <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={githubIcon}>
-                Login with Github
+                {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Github
               </Button>
             </div>
           )}
           <p className={cx('registerOrLogin')}>
-            Bạn chưa có tài khoản?
-            <a href=""> Đăng ký</a>
+            {type === 'register' ? 'Bạn đã có tài khoản?' : 'Bạn chưa có tài khoản?'}
+            <a onClick={() => dispatch(showPopup(type === 'register' ? 'login' : 'register'))}>
+              {' '}
+              {type === 'register' ? 'Đăng nhập' : 'Đăng ký'}
+            </a>
           </p>
           <a className={cx('forgotPassword')} href="">
             Quên mật khẩu?

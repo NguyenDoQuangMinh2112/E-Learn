@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import popupReducer from './popup/popupSlice'
+import noteLessonReducer from './noteLesson/noteLesson'
 const store = configureStore({
   reducer: {
-    popup: popupReducer
+    popup: popupReducer,
+    noteLesson: noteLessonReducer
   }
 })
 

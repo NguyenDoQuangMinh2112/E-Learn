@@ -1,1 +1,3 @@
-// custom hooks
+import useOutsideClick from './useOutsideClick'
+
+export default useOutsideClick

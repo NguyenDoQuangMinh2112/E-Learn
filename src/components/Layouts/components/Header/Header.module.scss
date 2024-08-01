@@ -3,7 +3,6 @@
   padding: 0 28px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   background: var(--white);
   position: fixed;
@@ -12,9 +11,11 @@
   right: 0;
   z-index: 10;
 }
+
 .header_left {
   display: flex;
   align-items: center;
+  flex: 1;
 }
 .header_left .logo {
   width: 130px;
@@ -23,11 +24,14 @@
 .header_mid {
   display: flex;
   align-items: center;
+  flex: 1;
 }
 //right
 .header_right {
   display: flex;
+  flex: 1;
   align-items: center;
+  justify-content: flex-end;
 }
 .fallbackAvatar {
   font-size: 3.2px;
@@ -36,9 +40,9 @@
 }
 .avatar {
   border-radius: 50%;
-  height: 11em;
+  height: 10em;
   object-fit: cover;
-  width: 11em;
+  width: 10em;
   margin-left: 12px;
 }
 

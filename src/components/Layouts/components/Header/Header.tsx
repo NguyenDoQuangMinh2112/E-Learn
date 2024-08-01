@@ -11,6 +11,7 @@ import { IoMdSettings } from 'react-icons/io'
 import { MdLogout } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
+import { NavLink } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 
@@ -34,13 +35,15 @@ const userMenu = [
 ]
 
 const Header = () => {
-  const user = false
+  const user = true
   const dispatch = useDispatch()
   return (
     <header className={cx('wrapper')}>
       {/* left */}
       <div className={cx('header_left')}>
-        <img className={cx('logo')} src={logo} alt="Logo" />
+        <NavLink to="/">
+          <img className={cx('logo')} src={logo} alt="Logo" />
+        </NavLink>
       </div>
       {/* end left */}
 
@@ -64,8 +67,10 @@ const Header = () => {
           </Menu>
         ) : (
           <>
-            <Button className={cx('btn-register')}>Đăng ký</Button>
-            <Button className={cx('btn-login')} onClick={() => dispatch(showPopup())}>
+            <Button className={cx('btn-register')} onClick={() => dispatch(showPopup('register'))}>
+              Đăng ký
+            </Button>
+            <Button className={cx('btn-login')} onClick={() => dispatch(showPopup('login'))}>
               Đăng nhập
             </Button>
           </>
