@@ -103,7 +103,7 @@ const CourseDetails = () => {
               </li>
             ))}
           </ul> */}
-          {showPopup && <Note setShowPopup={setShowPopup} />}
+          {showPopup && <Note setShowPopup={setShowPopup} formattedCurrentTime={formattedCurrentTime} />}
         </div>
         <div className={cx('right', { close: isSidebarClosed })}>
           <div className={cx('container')}>

@@ -171,7 +171,9 @@ const CourseInfoDescription = () => {
               </ul>
             </div>
             <div className={cx('info-button')}>
-              <Button className={cx('btn-enroll')}>Mua khóa học</Button>
+              <Button className={cx('btn-enroll')} to="/learning/title">
+                Mua khóa học
+              </Button>
             </div>
           </div>
         </div>

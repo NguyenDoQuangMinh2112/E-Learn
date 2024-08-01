@@ -6,29 +6,38 @@ import classNames from 'classnames/bind'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { useState } from 'react'
-import { EditorState } from 'draft-js'
+import { convertToRaw, EditorState } from 'draft-js'
 
 const cx = classNames.bind(styles)
 
 interface NoteProps {
   setShowPopup: (show: boolean) => void
+  formattedCurrentTime: string
 }
-const Note = ({ setShowPopup }: NoteProps) => {
+const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
-  const onEditorStateChange = (newState: any) => {
+  const onEditorStateChange = (newState: EditorState) => {
     setEditorState(newState)
+  }
+  const getEditorContentAsPlainText = () => {
+    const contentState = editorState.getCurrentContent()
+    return contentState.getPlainText()
   }
 
   const isEditorEmpty = () => {
     const content = editorState.getCurrentContent()
     return !content.hasText()
   }
+
+  const handleCreatNote = () => {
+    console.log(getEditorContentAsPlainText(), formattedCurrentTime)
+  }
   return (
     <div className={cx('wrapper')}>
       <div className={cx('popup_inner')}>
         <h2>
-          Thêm ghi chú tại <span>00:00</span>
+          Thêm ghi chú tại <span>{formattedCurrentTime}</span>
         </h2>
         <Editor
           editorState={editorState}
@@ -62,10 +71,17 @@ const Note = ({ setShowPopup }: NoteProps) => {
         />
 
         <div className={cx('popup_btn')}>
-          <Button className={cx('cancle')} onClick={() => setShowPopup(false)}>
+          <Button
+            className={cx('cancle')}
+            onClick={() => {
+              setShowPopup(false), setEditorState(EditorState.createEmpty())
+            }}
+          >
             HỦY BỎ
           </Button>
-          <Button className={cx('addNote_btn', { disable: isEditorEmpty() })}>TẠO GHI CHÚ</Button>
+          <Button className={cx('addNote_btn', { disable: isEditorEmpty() })} onClick={handleCreatNote}>
+            TẠO GHI CHÚ
+          </Button>
         </div>
       </div>
     </div>
