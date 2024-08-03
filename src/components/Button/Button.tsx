@@ -13,6 +13,7 @@ interface ButtonProps {
   disabled?: boolean
   small?: boolean
   large?: boolean
+  type?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   leftIcon?: React.ReactNode
   svgIcon?: string
@@ -32,6 +33,7 @@ const Button = ({
   primary = false,
   outline = false,
   svgIcon,
+  type = 'button',
   text = false,
   rounded = false,
   disabled = false,
@@ -78,7 +80,7 @@ const Button = ({
   })
 
   return (
-    <Comp className={classes} {...props}>
+    <Comp className={classes} {...props} type={type}>
       {leftIcon && <span className={classesIcon}>{leftIcon}</span>}
       {svgIcon && <img src={svgIcon} alt="" className={classesSvgIcon} />}
       <span className={classesTitle}>{children}</span>

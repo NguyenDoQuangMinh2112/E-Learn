@@ -58,7 +58,7 @@ const CourseItem = <
             </div>
 
             {!isHide && (
-              <div className={cx('moreInfo')}>
+              <div className={cx('moreInfo', 'd-xxl-none d-sm-flex')}>
                 <FaCirclePlay />
                 <span className={cx('students')}>{data.totalVideo}</span>
               </div>

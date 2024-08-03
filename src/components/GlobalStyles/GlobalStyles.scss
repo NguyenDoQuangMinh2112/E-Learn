@@ -8,6 +8,7 @@
   --white: #fff;
   --text-color: #333;
   --color-footer: #bbbbbb;
+  --invalid-color: #f33a58;
 
   --font-family: 'Roboto', sans-serif;
 
@@ -212,48 +213,8 @@ body {
 }
 .disable {
   opacity: 0.5;
-  pointer-events: none;
   cursor: not-allowed;
 }
-// css grid
-// .row {
-//   display: flex;
-//   flex-wrap: wrap;
-//   margin-top: calc(var(--grid-gutter-y) * -1);
-//   margin-left: calc(var(--grid-gutter-x) * 0.5 * -1);
-//   margin-right: calc(var(--grid-gutter-x) * 0.5 * -1);
-// }
-// .row > * {
-//   margin-top: 36px;
-// }
-// .row > * {
-//   padding-left: calc(var(--grid-gutter-x) * 0.5);
-//   padding-right: calc(var(--grid-gutter-x) * 0.5);
-// }
-// .col {
-//   flex: 1 0;
-// }
-// .col-9 {
-//   flex: 0 0 auto;
-//   width: 75%;
-// }
-// .col-3 {
-//   flex: 0 0 auto;
-//   width: 25%;
-// }
-// .col-xxxxxl-8 {
-//   flex: 0 0 auto;
-//   width: 66.6666666667%;
-// }
-// .col-xxxxxl-4 {
-//   flex: 0 0 auto;
-//   width: 33.3333333333%;
-// }
-// .col-md-12 {
-//   flex: 0 0 auto;
-//   width: 100%;
-// }
-
 // Mobile: width < 740px
 // Tablet: width >= 740px and width < 1024px
 // Pc: width >= 1024px

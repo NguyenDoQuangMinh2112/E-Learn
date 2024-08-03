@@ -1,0 +1,81 @@
+.form-group {
+  width: 100%;
+  margin-top: 10px;
+  overflow: hidden;
+  text-align: left;
+
+  label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 10px 0 10px 8px;
+    display: block;
+    color: var(--black-color);
+  }
+}
+.inputWrap {
+  position: relative;
+  background: #fff;
+  border: 1.5px solid #dee3e9;
+  border-radius: 44px;
+  overflow: hidden;
+  height: 44px;
+  display: flex;
+
+  &:focus-within {
+    border-color: #1dbfaf;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 12px 42px 12px 20px;
+    border: none;
+    outline: none;
+    font-size: 1.4rem;
+    background-color: transparent;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    translate: 0 -50%;
+    color: var(--primary);
+    animation: shake 0.5s ease-in-out;
+  }
+}
+.error {
+  margin: 8px 0 8px 8px;
+  color: var(--invalid-color);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+// handle validation
+.invalid {
+  border-color: var(--invalid-color);
+  background-color: #ff00001a;
+
+  // Không áp dụng kiểu focus-within khi có lỗi
+  &:focus-within {
+    border-color: var(--invalid-color); // Màu đường viền khi có lỗi và đang focus
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(-8px);
+  }
+  50% {
+    transform: translate(8px);
+  }
+  75% {
+    transform: translate(-8px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}

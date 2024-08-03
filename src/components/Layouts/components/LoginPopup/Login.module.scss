@@ -143,39 +143,6 @@
     text-decoration: underline;
   }
 }
-.form-group {
-  width: 100%;
-  margin-top: 10px;
-  overflow: hidden;
-  text-align: left;
-
-  label {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin: 10px 0 10px 8px;
-    display: block;
-    color: var(--black-color);
-  }
-}
-.inputWrap {
-  position: relative;
-  background: #fff;
-  border: 1.5px solid #dee3e9;
-  border-radius: 44px;
-  overflow: hidden;
-  height: 44px;
-  display: flex;
-
-  input {
-    display: block;
-    width: 100%;
-    padding: 12px 42px 12px 20px;
-    border: none;
-    outline: none;
-    font-size: 1.4rem;
-    background-color: transparent;
-  }
-}
 
 .remember {
   width: 100%;
@@ -190,6 +157,68 @@
     height: 15px;
   }
 }
+
+.login-btn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: 1px solid #dee3e9;
+  font-weight: 600;
+  font-size: 1.6rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.25s;
+  border-radius: 100px;
+  background-color: #1d92bf;
+
+  span {
+    color: white !important;
+  }
+}
+.wrapper_form {
+  --normal: #e1e4eb;
+  --weak: #d43031;
+  --medium: #faa61b;
+  --strong: #02875a;
+  margin: 10px 4px;
+
+  .verify {
+    display: flex;
+    gap: 4px;
+
+    .bar {
+      flex: 1;
+      height: 5px;
+      border-radius: 4px;
+      background: var(--normal);
+
+      &.normal {
+        background: var(--normal);
+      }
+
+      &.weak {
+        background: var(--weak);
+      }
+
+      &.medium {
+        background: var(--medium);
+      }
+
+      &.strong {
+        background: var(--strong);
+      }
+    }
+  }
+  .result {
+    padding: 8px 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: right;
+    color: #666;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
