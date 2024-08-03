@@ -54,6 +54,17 @@ export const mockDataCourse: mockDataCourseInterface[] = [
     nameAuthor: 'Quang Minh',
     totalVideo: 20,
     totalHoure: '116h30'
+  },
+  {
+    id: 5,
+    thumbnail: 'https://files.fullstack.edu.vn/f8-prod/courses/15/62f13d2424a47.png',
+    title: 'HTML CSS Pro',
+    oldPrice: 2500000,
+    newPrice: 1299000,
+    avatarAuthor: 'https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png',
+    nameAuthor: 'Quang Minh',
+    totalVideo: 20,
+    totalHoure: '116h30'
   }
 ]
 

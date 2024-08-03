@@ -10,3 +10,10 @@
   padding: 0 32px 0 32px;
   z-index: 0;
 }
+
+@media (max-width: 740px) {
+  .content {
+    padding: 0;
+    width: 100%;
+  }
+}

@@ -35,8 +35,9 @@ const userMenu = [
 ]
 
 const Header = () => {
-  const user = true
+  const user = false
   const dispatch = useDispatch()
+
   return (
     <header className={cx('wrapper')}>
       {/* left */}
