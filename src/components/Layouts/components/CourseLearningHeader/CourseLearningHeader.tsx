@@ -15,7 +15,7 @@ import { MdArrowBackIosNew } from 'react-icons/md'
 import { MdOutlineStickyNote2 } from 'react-icons/md'
 import { FaRegCircleQuestion } from 'react-icons/fa6'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
-import { hideNoteLesson, showNoteLesson } from '~/redux/noteLesson/noteLesson'
+import { hideNoteLesson, showNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 
 const cx = classNames.bind(styles)
 

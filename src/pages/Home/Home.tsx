@@ -11,7 +11,6 @@ import Login from '~/components/Layouts/components/LoginPopup'
 import { useSelector } from 'react-redux'
 import { popupSelector } from '~/redux/popup/popup.selector'
 import MetaData from '~/components/MetaData'
-
 const cx = classNames.bind(styles)
 
 const Home = () => {
@@ -33,6 +32,7 @@ const Home = () => {
       body.classList.remove('no-scroll')
     }
   }, [isOpenPopup])
+
   return (
     <>
       <MetaData title="E-Lean" />

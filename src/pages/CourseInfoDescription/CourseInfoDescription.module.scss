@@ -154,4 +154,30 @@
   .topic_list .list {
     flex-direction: column;
   }
+
+  .sidebar-widget {
+    position: fixed;
+    top: unset;
+    bottom: 60px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    border: none;
+    background: none;
+  }
+  .info-price {
+    display: none;
+  }
+  .info-list {
+    display: none;
+  }
+  .info-button {
+    margin-top: 0;
+
+    .btn-enroll {
+      width: calc(100% - 32px);
+    }
+  }
 }

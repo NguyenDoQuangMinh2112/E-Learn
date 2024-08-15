@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
 
@@ -25,8 +25,17 @@ const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({ strength }) =
           <div key={index} className={cx('bar', getBarColor(index))}></div>
         ))}
       </div>
+      <p className={cx('result')}>
+        {strength === 1
+          ? 'Mật khẩu yếu'
+          : strength === 2 || strength === 3
+          ? 'Mật khẩu trung bình'
+          : strength === 4
+          ? 'Mật khẩu mạnh'
+          : ''}
+      </p>
     </div>
   )
 }
 
-export default PasswordStrengthBar
+export default memo(PasswordStrengthBar)

@@ -4,7 +4,7 @@ import styles from './NoteLesson.module.scss'
 import Button from '../Button'
 
 import { useDispatch } from 'react-redux'
-import { hideNoteLesson } from '~/redux/noteLesson/noteLesson'
+import { hideNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 
 const cx = classNames.bind(styles)
 

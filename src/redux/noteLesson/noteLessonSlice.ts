@@ -9,7 +9,7 @@ const initialState: NoteLessonState = {
   myNotes: []
 }
 
-const noteLesson = createSlice({
+const noteLessonSlice = createSlice({
   name: 'noteLesson',
   initialState,
   reducers: {
@@ -22,5 +22,5 @@ const noteLesson = createSlice({
   }
 })
 
-export const { showNoteLesson, hideNoteLesson } = noteLesson.actions
-export default noteLesson.reducer
+export const { showNoteLesson, hideNoteLesson } = noteLessonSlice.actions
+export default noteLessonSlice.reducer

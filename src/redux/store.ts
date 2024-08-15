@@ -1,14 +1,37 @@
 import { configureStore } from '@reduxjs/toolkit'
 import popupReducer from './popup/popupSlice'
-import noteLessonReducer from './noteLesson/noteLesson'
+import noteLessonReducer from './noteLesson/noteLessonSlice'
+import authReducer from './auth/authSlice'
+
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist'
+
+import { Persistor } from 'redux-persist/es/types'
+// Config redux persist
+const persistConfig = {
+  key: 'elearn/user',
+  storage
+}
+const userConfig = {
+  ...persistConfig,
+  whitelist: ['isLogin', 'userInfo']
+}
+
 const store = configureStore({
   reducer: {
     popup: popupReducer,
-    noteLesson: noteLessonReducer
-  }
+    noteLesson: noteLessonReducer,
+    auth: persistReducer<ReturnType<typeof authReducer>>(userConfig, authReducer)
+  },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-export default store
+const persistor: Persistor = persistStore(store)
+export { store, persistor }

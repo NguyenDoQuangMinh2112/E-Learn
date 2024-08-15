@@ -6,7 +6,7 @@ import classNames from 'classnames/bind'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { useState } from 'react'
-import { convertToRaw, EditorState } from 'draft-js'
+import { EditorState } from 'draft-js'
 
 const cx = classNames.bind(styles)
 

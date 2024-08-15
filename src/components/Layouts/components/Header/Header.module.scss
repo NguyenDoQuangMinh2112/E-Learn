@@ -51,4 +51,16 @@
   .header_left .logo {
     width: 90px;
   }
+  .btn-register {
+    display: none;
+  }
+}
+
+@media (max-width: 740px) {
+  .wrapper {
+    padding: 0 10px;
+  }
+  .btn-register {
+    display: none;
+  }
 }

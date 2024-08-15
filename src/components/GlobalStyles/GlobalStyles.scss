@@ -219,3 +219,23 @@ body {
 // Tablet: width >= 740px and width < 1024px
 // Pc: width >= 1024px
 /* >= Tablet */
+/* Mobile First Approach: Đối với điện thoại di động */
+// @media (max-width: 767px) {
+//   .example {
+//       font-size: 14px;
+//   }
+// }
+
+// /* Tablet: Đối với máy tính bảng */
+// @media (min-width: 768px) and (max-width: 1024px) {
+//   .example {
+//       font-size: 18px;
+//   }
+// }
+
+// /* Desktop: Đối với máy tính để bàn */
+// @media (min-width: 1025px) {
+//   .example {
+//       font-size: 22px;
+//   }
+// }

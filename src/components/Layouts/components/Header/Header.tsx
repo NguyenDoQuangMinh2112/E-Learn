@@ -12,30 +12,29 @@ import { MdLogout } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { authSelector } from '~/redux/auth/authSelectors'
 
 const cx = classNames.bind(styles)
 
 const userMenu = [
   {
     icon: <FaUser />,
-    title: 'View profile',
-    to: '/@hoaa'
+    title: 'View profile'
   },
   {
     icon: <IoMdSettings />,
-    title: 'Settings',
-    to: '/settings'
+    title: 'Settings'
   },
   {
     icon: <MdLogout />,
     title: 'Log out',
-    to: '/logout',
     separate: true
   }
 ]
 
 const Header = () => {
-  const user = false
+  const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch()
 
   return (
@@ -56,14 +55,10 @@ const Header = () => {
 
       {/* right */}
       <div className={cx('header_right')}>
-        {user ? (
+        {userInfo ? (
           <Menu items={userMenu}>
             <div className={cx('fallbackAvatar')}>
-              <img
-                className={cx('avatar')}
-                src="https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-1/334494904_909968490428262_1880365116923209069_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeErH2P7xEeo-vkOF98bYC1I-2A4wtwBWXv7YDjC3AFZe6D-FvUkuCF_XJ3a7smeJ6xuy9uvzpa-wEnnm0OUwpJl&_nc_ohc=hENnBr3Q8lQQ7kNvgFsH_Qd&_nc_ht=scontent.fdad3-6.fna&oh=00_AYAgReDNx1EtPXglQBzbH_ViOn09SzcHo6tOC3Kor04T-Q&oe=66AD4F40"
-                alt="avatar"
-              />
+              <img className={cx('avatar')} src={userInfo.avatar_url} alt="avatar" />
             </div>
           </Menu>
         ) : (

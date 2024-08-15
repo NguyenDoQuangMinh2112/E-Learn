@@ -11,14 +11,37 @@ import { PiVideoLight } from 'react-icons/pi'
 import { GrCertificate } from 'react-icons/gr'
 import { IoMdCode } from 'react-icons/io'
 import { formatPrice } from '~/utils/helper'
+import { getAllUsers } from '~/apis/auth'
+import { useEffect } from 'react'
 
 const cx = classNames.bind(styles)
 
 const CourseInfoDescription = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllUsers()
+      console.log(res)
+    }
+    fetchData()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllUsers()
+      console.log(res)
+    }
+    fetchData()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllUsers()
+      console.log(res)
+    }
+    fetchData()
+  }, [])
   return (
     <div className={cx('wrapper', 'container')}>
       <div className={cx('row')}>
-        <article className={cx('col', 'col-9')}>
+        <article className={cx('col col-9 col-xxxxxl-8 col-md-12')}>
           <div className={cx('content')}>
             <div>
               {' '}
@@ -124,7 +147,7 @@ const CourseInfoDescription = () => {
           </div>
         </article>
 
-        <div className={cx('col', 'col-3')}>
+        <div className={cx('col col-3 col-xxxxxl-4 ')}>
           <div className={cx('sidebar-widget')}>
             <div className={cx('info-price')}>
               <span className={cx('price')}>{`${formatPrice(1200000)} đ`} </span>

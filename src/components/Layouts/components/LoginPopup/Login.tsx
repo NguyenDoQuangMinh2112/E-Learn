@@ -58,7 +58,7 @@ const Login: React.FC = () => {
             <SocialLoginButtons type={type} onEmailLogin={handleEmailLogin} />
           )}
           <p className={cx('registerOrLogin')}>
-            {type === 'register' ? 'Bạn đã có tài khoản?' : 'Bạn chưa có tài khoản?'}
+            {type === 'register' ? 'Bạn đã có tài khoản? ' : 'Bạn chưa có tài khoản? '}
             <a onClick={handleToggleLoginType}>{type === 'register' ? 'Đăng nhập' : 'Đăng ký'}</a>
           </p>
           <a className={cx('forgotPassword')} href="">
