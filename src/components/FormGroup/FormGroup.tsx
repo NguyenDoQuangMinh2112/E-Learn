@@ -4,19 +4,25 @@ import classNames from 'classnames/bind'
 import styles from './FormGroup.module.scss'
 
 import { FaTriangleExclamation } from 'react-icons/fa6'
+import Spinner from '../Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
 interface FormGroupProps {
   id: string
-  label: string
+  label?: string
   type?: string
-  placeholder: string
+  placeholder?: string
   value?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  error?: boolean
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  error?: string
   status?: 'login' | 'register'
+  isHide?: boolean
+  isDisabledInputCode?: boolean
+  showSendCode?: boolean
+  isLoading?: boolean
 }
 
 const FormGroup: React.FC<FormGroupProps> = ({
@@ -27,8 +33,13 @@ const FormGroup: React.FC<FormGroupProps> = ({
   placeholder,
   onChange,
   onBlur,
+  onClick,
   error,
-  status
+  status,
+  isHide = false,
+  showSendCode = false,
+  isDisabledInputCode,
+  isLoading
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -38,10 +49,15 @@ const FormGroup: React.FC<FormGroupProps> = ({
       inputRef.current?.focus()
     }
   }, [id, status])
+
+  const isInvalid = error && (error.includes('Email đã được sử dụng') || error.length > 0)
+  const isDisabled = id === 'code'
+  const isConditional = id === 'code' && !showSendCode
+
   return (
     <div className={cx('form-group')}>
-      <label htmlFor={id}>{label}</label>
-      <div className={cx('inputWrap', { invalid: error && !value })}>
+      {!isHide && <label htmlFor={id}>{label}</label>}
+      <div className={cx('inputWrap', { invalid: isInvalid, disabled: !!isDisabledInputCode })}>
         <input
           ref={inputRef}
           type={type}
@@ -51,10 +67,22 @@ const FormGroup: React.FC<FormGroupProps> = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={isDisabledInputCode}
         />
-        {error && !value && <FaTriangleExclamation fontSize={18} />}
+        {isHide && (
+          <div className={cx('right-btn', { active: isConditional, disabled: !!isDisabled })} onClick={onClick}>
+            {isLoading ? (
+              <span>
+                <Spinner color="#fff" />
+              </span>
+            ) : (
+              <span>Gửi mã</span>
+            )}
+          </div>
+        )}
+        {error && !value && <FaTriangleExclamation className={cx('showError')} fontSize={18} />}
       </div>
-      {error && <p className={cx('error')}>Trường này không được để trống</p>}
+      {error && <p className={cx('error')}>{error}</p>}
     </div>
   )
 }

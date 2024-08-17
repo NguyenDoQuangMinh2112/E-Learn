@@ -19,4 +19,7 @@ export interface User {
 export interface RefreshTokenResponse {
   accessToken: string
 }
+export interface CheckEmailResponse {
+  isAvailable: boolean
+}
 export type UserListResponse = ApiResponse<User>

@@ -1,3 +1,4 @@
 import useOutsideClick from './useOutsideClick'
+import useForm from './useForm'
 
-export default useOutsideClick
+export { useOutsideClick, useForm }

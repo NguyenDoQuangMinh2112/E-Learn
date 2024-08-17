@@ -170,7 +170,7 @@
   cursor: pointer;
   transition: opacity 0.25s;
   border-radius: 100px;
-  background-color: #1d92bf;
+  background: linear-gradient(to right bottom, #71faff, #1e1390);
 
   span {
     color: white !important;
@@ -226,6 +226,12 @@
   font-weight: 600;
   line-height: 1.5;
   text-align: left;
+}
+.noticeVerify {
+  margin-top: 10px;
+  color: #1bd68f;
+  font-weight: 900;
+  font-style: italic;
 }
 @keyframes fadeIn {
   from {

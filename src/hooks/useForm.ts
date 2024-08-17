@@ -1,22 +1,29 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { checkEmailAPI } from '~/apis/auth'
+import { RootState } from '~/redux/store'
 
 interface FormValues {
   email: string
   password: string
   fullName?: string
+  code?: string
 }
 
 interface FormErrors {
   email?: string
   password?: string
   fullName?: string
+  code?: string
 }
-
-export const useForm = (initialValues: FormValues) => {
+const useForm = (initialValues: FormValues) => {
+  const type = useSelector((state: RootState) => state.popup.type) || 'login'
   const [values, setValues] = useState<FormValues>(initialValues)
   const [errors, setErrors] = useState<FormErrors>({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const debounceTimeout = useRef<number | null>(null)
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
 
     // Update the form values
@@ -32,6 +39,20 @@ export const useForm = (initialValues: FormValues) => {
         [id]: undefined
       }))
     }
+    if (type === 'register' && id === 'email') {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current)
+      }
+      debounceTimeout.current = window.setTimeout(async () => {
+        const res = await checkEmailAPI(value)
+        if (!res.isAvailable) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [id]: 'Email đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng email khác!'
+          }))
+        }
+      }, 500)
+    }
   }, [])
 
   const handleBlur = useCallback((e: any) => {
@@ -42,7 +63,14 @@ export const useForm = (initialValues: FormValues) => {
         [id]: 'Trường này không được để trống'
       }))
     }
+    if (id === 'fullName' && value.length < 5) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [id]: 'Tên đăng nhập phải có ít nhất 5 ký tự'
+      }))
+    }
   }, [])
 
-  return { values, errors, handleChange, handleBlur }
+  return { values, errors, handleChange, handleBlur, isLoading, setIsLoading }
 }
+export default useForm

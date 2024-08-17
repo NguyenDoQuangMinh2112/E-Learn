@@ -20,3 +20,13 @@ export const refreshTokenAPI = async (refreshToken: string): Promise<RefreshToke
 export const getAllUsers = async () => {
   return await authorizedAxiosInstance.get(`${API_ROOT}/v1/users`)
 }
+
+// API Check email before register account
+export const checkEmailAPI = async (email: string): Promise<{ isAvailable: boolean }> => {
+  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/users/check-email?email=${email}`)
+}
+
+//API Verify email
+export const sendCodeAPI = async (code: string): Promise<{ code: string }> => {
+  return await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/check-email}`, { code })
+}

@@ -4,7 +4,6 @@ import styles from './CourseLearningHeader.module.scss'
 import logo from '~/assets/images/logo-white.png'
 
 import NoteLesson from '~/components/NoteLesson/NoteLesson'
-import useOutsideClick from '~/hooks'
 import Button from '~/components/Button'
 import { NavLink } from 'react-router-dom'
 
@@ -16,6 +15,7 @@ import { MdOutlineStickyNote2 } from 'react-icons/md'
 import { FaRegCircleQuestion } from 'react-icons/fa6'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 import { hideNoteLesson, showNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
+import { useOutsideClick } from '~/hooks'
 
 const cx = classNames.bind(styles)
 
