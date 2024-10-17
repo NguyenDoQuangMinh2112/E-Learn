@@ -6,7 +6,7 @@ import { RootState } from '~/redux/store'
 interface FormValues {
   email: string
   password: string
-  fullName?: string
+  fullName: string
   code?: string
 }
 
@@ -51,7 +51,7 @@ const useForm = (initialValues: FormValues) => {
             [id]: 'Email đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng email khác!'
           }))
         }
-      }, 500)
+      }, 700)
     }
   }, [])
 

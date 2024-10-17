@@ -7,10 +7,10 @@ import FormGroup from '~/components/FormGroup'
 import Button from '~/components/Button'
 import PasswordStrengthBar from './PasswordStrengthBar'
 
-import { loginAPI } from '~/apis/auth'
+import { loginAPI, registerAPI, verifyAPI } from '~/apis/auth'
 import { useDispatch } from 'react-redux'
 import { login } from '~/redux/auth'
-import { hidePopup } from '~/redux/popup/popupSlice'
+import { hidePopup, showPopup } from '~/redux/popup/popupSlice'
 import { useForm } from '~/hooks'
 import Spinner from '~/components/Spinner/Spinner'
 
@@ -28,8 +28,8 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
     code: ''
   })
   const [loginError, setLoginError] = useState<string | null>(null)
-  const [isDisabled, setIsDisabled] = useState<boolean>(true)
   const [isSendingCode, setIsSendingCode] = useState<boolean>(false)
+  const [isShowVerifyCode, setIsShowVerifyCode] = useState<boolean>(false)
   const dispatch = useDispatch()
 
   const isFormValid = (): boolean => {
@@ -37,7 +37,6 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
       ? !!values.fullName &&
           !!values.email &&
           !!values.password &&
-          !!values.code &&
           Object.values(errors).every((value) => value === undefined) &&
           calculatePasswordStrength(values.password) >= 3
       : !!values.email && !!values.password
@@ -64,46 +63,73 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
 
     return strength
   }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
-    if (type === 'login') {
-      const data = {
-        email: values.email,
-        password: values.password
-      }
-      const response = await loginAPI(data)
+    try {
+      if (type === 'login') {
+        const data = {
+          email: values.email,
+          password: values.password
+        }
 
-      if (response?.statusCode === 200) {
-        setLoginError(null)
-        response.accessToken && localStorage.setItem('accessToken', response.accessToken)
-        response.refreshToken && localStorage.setItem('refreshToken', response.refreshToken)
-        dispatch(
-          login({
-            isLogin: true,
-            userInfo: response.data
-          })
-        )
-        setIsLoading(false)
-        dispatch(hidePopup())
+        const response = await loginAPI(data)
+        console.log('response', response)
+
+        if (response?.statusCode === 200) {
+          setLoginError(null)
+          response.accessToken && localStorage.setItem('accessToken', response.accessToken)
+          response.refreshToken && localStorage.setItem('refreshToken', response.refreshToken)
+          dispatch(
+            login({
+              isLogin: true,
+              userInfo: response.data
+            })
+          )
+          setIsLoading(false)
+          dispatch(hidePopup())
+        } else {
+          setLoginError(String(response?.message))
+        }
+      }
+      if (type === 'register' && isFormValid()) {
+        setIsLoading(true)
+        const res = await registerAPI({
+          fullName: values.fullName,
+          email: values.email,
+          password: values.password
+        })
+        if (res.statusCode === 201) {
+          setIsLoading(false)
+          setIsShowVerifyCode(true)
+        }
       } else {
-        setLoginError(String(response?.message))
+        setIsLoading(false)
+      }
+    } catch (error: any) {
+      console.error('Error during login/register:', error)
+      setLoginError(error?.response?.data?.message || 'An unexpected error occurred')
+    } finally {
+      // Đảm bảo setIsLoading(false) luôn được gọi, kể cả khi có lỗi.
+      setIsLoading(false)
+    }
+  }
+
+  const handleSendCodeToVeryfiAccount = async () => {
+    if (values.code) {
+      setIsSendingCode(true)
+      const res = await verifyAPI(values.code)
+
+      if (res.statusCode === 201) {
+        setIsSendingCode(false)
+        dispatch(showPopup('login'))
+        setIsShowVerifyCode(false)
+      } else {
+        setIsSendingCode(false)
       }
     }
-    if (type === 'register' && isFormValid()) {
-      console.log({ fullName: values.fullName, email: values.email, password: values.password })
-    }
   }
-
-  const handleSendCodeToVeryfiAccount = () => {
-    setIsSendingCode(true)
-    setTimeout(() => {
-      // Simulate a delay for API call
-      setIsDisabled(false)
-      setIsSendingCode(false)
-    }, 2000) // 2-second delay
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <div className={cx('content')}>
@@ -140,7 +166,7 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
         {!!loginError?.length && <p className={cx('login_mes')}>{loginError}</p>}
         {type === 'register' && <PasswordStrengthBar strength={calculatePasswordStrength(values.password)} />}
 
-        {type === 'register' && (
+        {type === 'register' && isShowVerifyCode && (
           <FormGroup
             id="code"
             placeholder="Nhập mã xác nhận"
@@ -149,14 +175,19 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
             onChange={handleChange}
             showSendCode={!isRegistrationFormValid()}
             onClick={handleSendCodeToVeryfiAccount}
-            isDisabledInputCode={isDisabled}
             isLoading={isSendingCode}
           />
         )}
-        {type === 'register' && !isDisabled && (
-          <p className={cx('noticeVerify')}>Mã xác nhận đã gửi về email của bạn. Vui lòng kiểm tra email !</p>
+        {type === 'register' && isShowVerifyCode && (
+          <p className={cx('noticeVerify')}>
+            Bạn đã đăng ký tài khoản thành công! Vui lòng truy cập email để lấy mã xác thực để xác thực tài khoản !
+          </p>
         )}
-        <Button type="submit" className={cx('login-btn', { disable: !isFormValid() })} disabled={!isFormValid()}>
+        <Button
+          type="submit"
+          className={cx('login-btn', { disable: !isFormValid() || isShowVerifyCode })}
+          disabled={!isFormValid() || isShowVerifyCode}
+        >
           {isLoading ? <Spinner color="#fff" /> : type === 'register' ? 'Đăng ký' : 'Đăng nhập'}
         </Button>
       </div>

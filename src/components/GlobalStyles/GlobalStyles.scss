@@ -195,7 +195,11 @@ body {
     padding: 10px;
   }
 }
-
+// markdown editor light
+.rc-md-editor {
+  margin-bottom: 31px;
+  height: calc(-100px + 100vh) !important;
+}
 .d-flex-center {
   align-items: center;
   display: flex;

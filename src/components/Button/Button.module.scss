@@ -124,4 +124,94 @@
   }
 }
 
-// btn-login-form
+// BUTTON FROM DETAIL COURSE
+.cancle {
+  display: inline-block;
+  min-width: 148px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  background: linear-gradient(#5ebbff80 40%, #a174ff80);
+  transition: opacity 0.2s;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    padding: 4px 16px;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    background-color: var(--white);
+    background-clip: padding-box;
+    color: transparent;
+  }
+}
+.addNote_btn {
+  display: inline-block;
+  min-width: 148px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #5ebbff;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    color: var(--white) !important;
+  }
+}
+
+.createPostBtn {
+  display: inline-block;
+  min-width: 148px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #0093fc !important;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0 !important;
+  cursor: pointer;
+
+  span {
+    color: white !important;
+  }
+}

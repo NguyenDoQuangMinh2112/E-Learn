@@ -22,7 +22,7 @@ const MenuItem = ({ data }: MenuItemProps) => {
     }
   }
   return (
-    <Button className={classes} leftIcon={data.icon} onClick={() => handleClick(data)}>
+    <Button className={classes} leftIcon={data.icon} to={data.to} onClick={() => handleClick(data)}>
       {data?.title}
     </Button>
   )

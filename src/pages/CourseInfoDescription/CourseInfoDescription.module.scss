@@ -21,7 +21,7 @@
 }
 .curriculumOfCourse {
   padding-bottom: 4px;
-  background-color: #fff;
+  background-color: var(--white);
 
   .headingTitle {
     display: flex;
@@ -89,7 +89,7 @@
 }
 
 .sidebar-widget {
-  background-color: #ebfffd;
+  // background-color: #ebfffd;
   padding: 30px 30px 40px;
   border: 1px solid rgba(48, 146, 85, 0.2);
   border-radius: 10px;

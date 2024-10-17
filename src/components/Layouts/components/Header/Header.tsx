@@ -9,6 +9,8 @@ import Button from '~/components/Button'
 import { FaUser } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { MdLogout } from 'react-icons/md'
+import { MdOutlineNoteAlt } from 'react-icons/md'
+
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
 import { NavLink } from 'react-router-dom'
@@ -23,8 +25,14 @@ const userMenu = [
     title: 'View profile'
   },
   {
+    icon: <MdOutlineNoteAlt />,
+    title: 'Write blog',
+    to: '/new-post'
+  },
+  {
     icon: <IoMdSettings />,
-    title: 'Settings'
+    title: 'Settings',
+    to: '/setting'
   },
   {
     icon: <MdLogout />,
@@ -32,8 +40,11 @@ const userMenu = [
     separate: true
   }
 ]
-
-const Header = () => {
+interface headerProps {
+  isHideSearch?: boolean
+  isHidePostBtn?: boolean
+}
+const Header = ({ isHideSearch = false, isHidePostBtn = false }: headerProps) => {
   const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch()
 
@@ -48,13 +59,17 @@ const Header = () => {
       {/* end left */}
 
       {/* mid */}
-      <div className={cx('header_mid')}>
-        <Search />
-      </div>
+      <div className={cx('header_mid')}>{!isHideSearch && <Search />}</div>
       {/* end mid */}
 
       {/* right */}
       <div className={cx('header_right')}>
+        {isHidePostBtn && (
+          <Button className={cx('createPostBtn')} onClick={() => dispatch(showPopup('blog'))}>
+            XUẤT BẢN
+          </Button>
+        )}
+
         {userInfo ? (
           <Menu items={userMenu}>
             <div className={cx('fallbackAvatar')}>

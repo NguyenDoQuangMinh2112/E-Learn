@@ -18,7 +18,7 @@ interface FormGroupProps {
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   error?: string
-  status?: 'login' | 'register'
+  status?: 'login' | 'register' | 'verify'
   isHide?: boolean
   isDisabledInputCode?: boolean
   showSendCode?: boolean
@@ -37,7 +37,6 @@ const FormGroup: React.FC<FormGroupProps> = ({
   error,
   status,
   isHide = false,
-  showSendCode = false,
   isDisabledInputCode,
   isLoading
 }) => {
@@ -51,8 +50,6 @@ const FormGroup: React.FC<FormGroupProps> = ({
   }, [id, status])
 
   const isInvalid = error && (error.includes('Email đã được sử dụng') || error.length > 0)
-  const isDisabled = id === 'code'
-  const isConditional = id === 'code' && !showSendCode
 
   return (
     <div className={cx('form-group')}>
@@ -67,16 +64,15 @@ const FormGroup: React.FC<FormGroupProps> = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
-          disabled={isDisabledInputCode}
         />
         {isHide && (
-          <div className={cx('right-btn', { active: isConditional, disabled: !!isDisabled })} onClick={onClick}>
+          <div className={cx('right-btn')} onClick={onClick}>
             {isLoading ? (
               <span>
                 <Spinner color="#fff" />
               </span>
             ) : (
-              <span>Gửi mã</span>
+              <span>Xác thực</span>
             )}
           </div>
         )}

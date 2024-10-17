@@ -1,0 +1,23 @@
+.wrapper {
+  border: 1px solid #f0f0f0;
+  background-color: var(--white);
+  padding: 6px 8px;
+  margin: 8px 0 0 8px;
+  font-size: 1.4rem;
+  border-radius: 3px;
+  outline: none;
+  display: flex;
+  align-items: center;
+
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #0000008a;
+    padding: 0 0 2px 8px;
+    font-size: 1.8rem;
+  }
+}

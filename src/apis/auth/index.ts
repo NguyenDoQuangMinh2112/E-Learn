@@ -27,6 +27,16 @@ export const checkEmailAPI = async (email: string): Promise<{ isAvailable: boole
 }
 
 //API Verify email
-export const sendCodeAPI = async (code: string): Promise<{ code: string }> => {
-  return await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/check-email}`, { code })
+export const verifyAPI = async (code: string): Promise<{ message: string; statusCode: number }> => {
+  return await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/verify-code`, { code })
+}
+
+//API Register user
+
+export const registerAPI = async (data: {
+  fullName: string
+  email: string
+  password: string
+}): Promise<{ message: string; statusCode: number }> => {
+  return await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/register`, data)
 }

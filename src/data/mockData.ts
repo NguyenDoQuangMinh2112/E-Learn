@@ -24,7 +24,7 @@ export const mockDataCourse: mockDataCourseInterface[] = [
   },
   {
     id: 2,
-    thumbnail: 'https://files.fullstack.edu.vn/f8-prod/courses/15/62f13d2424a47.png',
+    thumbnail: 'https://img-c.udemycdn.com/course/240x135/5939718_4725_4.jpg',
     title: 'HTML CSS Pro',
     oldPrice: 2500000,
     newPrice: 1299000,

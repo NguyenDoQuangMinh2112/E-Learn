@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 import classNames from 'classnames/bind'
 import styles from './Accordion.module.scss'
@@ -7,10 +7,15 @@ import LessonItem from './LessonItem'
 
 import { GoPlus } from 'react-icons/go'
 import { HiMinusSmall } from 'react-icons/hi2'
+import { Chapter } from '~/interfaces/course'
 
 const cx = classNames.bind(styles)
 
-const Accordion = () => {
+interface AccordionProps {
+  data: Chapter
+}
+
+const Accordion = ({ data }: AccordionProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
   return (
     <div className={cx('container')}>
@@ -18,18 +23,19 @@ const Accordion = () => {
         <h5 className={cx('title')}>
           <div className={cx('headline')}>
             {toggle ? <HiMinusSmall /> : <GoPlus />}
-            <strong>1. Technical concepts you need to know</strong>
-            <span className={cx('timeOfSection')}>3 lessons</span>
+            <strong>{data?.title}</strong>
+            <span className={cx('timeOfSection')}>{data?.lessons?.length} lessons</span>
           </div>
         </h5>
       </div>
       {/* content */}
       <div className={cx('content', { active: toggle })}>
-        <LessonItem />
-        <LessonItem />
+        {data?.lessons?.map((lesson) => (
+          <LessonItem data={lesson} />
+        ))}
       </div>
     </div>
   )
 }
 
-export default Accordion
+export default memo(Accordion)

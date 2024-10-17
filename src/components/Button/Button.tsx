@@ -82,7 +82,7 @@ const Button = ({
   return (
     <Comp className={classes} {...props} type={type}>
       {leftIcon && <span className={classesIcon}>{leftIcon}</span>}
-      {svgIcon && <img src={svgIcon} alt="" className={classesSvgIcon} />}
+      {svgIcon && <img src={svgIcon} alt="alt" className={classesSvgIcon} />}
       <span className={classesTitle}>{children}</span>
     </Comp>
   )

@@ -22,25 +22,16 @@ const CourseDetails = () => {
   const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false)
   const playerRef = useRef<ReactPlayer>(null)
   const [currentTime, setCurrentTime] = useState<number>(0)
-  const [notes, setNotes] = useState<Note[]>([])
-  const [noteText, setNoteText] = useState<string>('')
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const handleCloseMenuLesson = () => {
     setIsSidebarClosed(true)
   }
   const handleAddNote = useCallback(() => {
-    // setNotes([...notes, { time: currentTime, text: noteText }])
-    // setNoteText('')
     setShowPopup(true)
-  }, [noteText, currentTime])
+  }, [currentTime])
 
   const handleProgress = useCallback((state: { playedSeconds: number }) => {
     setCurrentTime(state.playedSeconds)
-  }, [])
-  const handleNoteClick = useCallback((time: number) => {
-    if (playerRef.current) {
-      playerRef.current.seekTo(time, 'seconds')
-    }
   }, [])
   const formatTime = useCallback((seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -96,13 +87,6 @@ const CourseDetails = () => {
               </p>
             </div>
           </div>
-          {/* <ul className={cx('notes_list')}>
-            {notes.map((note, index) => (
-              <li key={index} onClick={() => handleNoteClick(note.time)}>
-                <strong>{new Date(note.time * 1000).toISOString().substr(11, 8)}:</strong> {note.text}
-              </li>
-            ))}
-          </ul> */}
           {showPopup && <Note setShowPopup={setShowPopup} formattedCurrentTime={formattedCurrentTime} />}
         </div>
         <div className={cx('right', { close: isSidebarClosed })}>

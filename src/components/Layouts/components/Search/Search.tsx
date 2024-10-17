@@ -7,7 +7,6 @@ import { FiSearch } from 'react-icons/fi'
 import { IoIosCloseCircle } from 'react-icons/io'
 import { FaSpinner } from 'react-icons/fa'
 
-import 'tippy.js/dist/tippy.css'
 import Tippy from '@tippyjs/react/headless'
 import PopperWrapper from '../Popper'
 import CourseItem from '../CourseItem'

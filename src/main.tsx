@@ -9,6 +9,10 @@ import { Provider } from 'react-redux'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
+import 'tippy.js/dist/tippy.css'
+
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store.ts'
 

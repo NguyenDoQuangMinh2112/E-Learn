@@ -4,9 +4,12 @@ import styles from './Note.module.scss'
 import classNames from 'classnames/bind'
 
 import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
 import { useState } from 'react'
 import { EditorState } from 'draft-js'
+import { useDispatch } from 'react-redux'
+import { createNewNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
+import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
 
@@ -16,6 +19,7 @@ interface NoteProps {
 }
 const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const dispatch = useDispatch()
 
   const onEditorStateChange = (newState: EditorState) => {
     setEditorState(newState)
@@ -31,7 +35,11 @@ const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
   }
 
   const handleCreatNote = () => {
-    console.log(getEditorContentAsPlainText(), formattedCurrentTime)
+    const value = getEditorContentAsPlainText()
+    const timeSave = formattedCurrentTime
+    dispatch(createNewNoteLesson({ id: 1, title: 'Loi khuyen truoc khoa hoc', content: value, time: timeSave }))
+    setShowPopup(false)
+    toast.success('Created new note !')
   }
   return (
     <div className={cx('wrapper')}>

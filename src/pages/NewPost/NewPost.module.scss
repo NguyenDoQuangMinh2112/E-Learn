@@ -1,0 +1,146 @@
+.containers {
+  padding: 40px 32px;
+}
+
+.wrapper {
+  width: 100%;
+  border: none;
+  font-size: 3.2rem;
+  font-weight: 500;
+  min-height: 48px;
+  color: #292929;
+  outline: none;
+  line-height: 1.4;
+
+  &:empty::before {
+    content: attr(data-empty-text);
+    pointer-events: none;
+    color: #b3b3b1;
+  }
+}
+.title {
+  width: 100%;
+  border: none;
+  font-size: 3.2rem;
+  font-weight: 500;
+  min-height: 48px;
+  color: #292929;
+}
+.left {
+  padding-right: 2.8rem;
+  line-height: 1.6;
+
+  h3 {
+    font-weight: 500;
+  }
+}
+.content {
+  pointer-events: auto;
+  min-height: 200px;
+  max-height: calc(100vh - 80px);
+  margin: 0;
+  padding-left: 0;
+  border-radius: 10px;
+  filter: drop-shadow(0 -4px 32px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease-in-out;
+  overflow: hidden auto;
+  animation-name: _inline-uex6mkd_aspe0_1;
+  animation-duration: 0.3s;
+}
+.img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  margin-top: 1.6rem;
+  background-color: #fafafa;
+  background-size: cover;
+  background-position: center;
+  font-size: 1.4rem;
+  padding: 2.4rem;
+  color: #0000008a;
+  text-align: center;
+  outline: none;
+  position: relative;
+
+  &::before {
+    content: '';
+    cursor: pointer;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    display: block;
+    position: absolute;
+    background-color: #ffffffe6;
+    transition: opacity ease 0.3s;
+  }
+}
+.blogTitle {
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-bottom: 4px;
+  margin: 1.6rem 0 4px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  outline: none;
+  &::placeholder {
+    color: #b3b3b1;
+  }
+}
+
+.blogDes {
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-bottom: 4px;
+  margin: 1.6rem 0 4px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  outline: none;
+  &::placeholder {
+    color: #b3b3b1;
+  }
+}
+
+.storyBook {
+  margin-top: 30px;
+  padding-left: 2.8rem;
+  line-height: 1.6;
+
+  .lable {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .select {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-color: #fafafa;
+    padding-bottom: 8px;
+
+    .searchTag {
+      height: 37px;
+      flex: 1;
+      font-size: 1.4rem;
+      border: none;
+      outline: none;
+      padding-left: 8px;
+      margin-top: 8px;
+      background-color: transparent;
+    }
+  }
+}
+.actions {
+  display: flex;
+  justify-content: end;
+  margin-top: 3.2rem;
+}
+.text-editor {
+  margin-top: 20px;
+}

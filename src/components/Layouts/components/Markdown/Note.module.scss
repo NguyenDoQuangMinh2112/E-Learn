@@ -5,7 +5,7 @@
   left: 0;
   z-index: 99;
   padding: 24px 0 28px;
-  background-color: #fff;
+  background-color: var(--white);
   animation: slide-top ease 0.5s;
   border-top: 1px solid #ccc;
   will-change: opacity, transform;
@@ -19,7 +19,7 @@
 
     span {
       font-size: 1.8rem;
-      color: #fff;
+      color: var(--white);
       padding: 2px 4px;
       border-radius: 3px;
       background-color: var(--primary);

@@ -1,0 +1,83 @@
+.wrapper {
+  line-height: 1.6;
+  padding: 0 44px 60px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin-top: 24px;
+  font-size: 1.6rem;
+  color: #757575;
+}
+.aside {
+  h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #292929;
+    margin-bottom: 0;
+  }
+}
+.des {
+  font-size: 1.4rem;
+  color: #757575;
+  margin-top: 4px;
+  word-break: break-word;
+}
+.btnReact {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+// middle
+.heading {
+  margin-top: 40px;
+  font-size: 3rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #222;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0;
+
+  .user {
+    display: flex;
+
+    img {
+      width: 9em;
+      height: 9em;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .time {
+      color: #757575;
+      margin: 0;
+      .dot {
+        padding: 0 4px;
+        color: #757575;
+        font-weight: 500;
+      }
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-left: 16px;
+    }
+  }
+}
+// box
+.box {
+  color: #292929;
+  word-wrap: break-word;
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
