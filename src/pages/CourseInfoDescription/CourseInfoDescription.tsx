@@ -12,32 +12,30 @@ import { GrCertificate } from 'react-icons/gr'
 import { IoMdCode } from 'react-icons/io'
 import { formatPrice } from '~/utils/helper'
 import { useParams } from 'react-router-dom'
-import { getDetailCourseAPI } from '~/apis/course'
-import { useEffect, useState } from 'react'
-import { CourseInfo } from '~/interfaces/course'
+import { useEffect } from 'react'
+
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
+import { fetchDetailCourse } from '~/redux/course/courseAction'
+import { AppDispatch } from '~/redux/store'
+import { courseSelector } from '~/redux/course/courseSelector'
 
 const cx = classNames.bind(styles)
 
 const CourseInfoDescription = () => {
-  const [courseInfo, setCourseInfo] = useState<CourseInfo | null>(null)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
+  const { courseDetail } = useSelector(courseSelector)
+  console.log('🚀 ~ CourseInfoDescription ~ courseDetail:', courseDetail)
   const { userInfo } = useSelector(authSelector)
 
   const { id } = useParams()
 
-  const fetchGetCourseInfoDescriptionAPI = async () => {
-    const res = await getDetailCourseAPI(String(id))
-    if (res.statusCode === 200) {
-      setCourseInfo(res.data)
-    }
-  }
   useEffect(() => {
-    fetchGetCourseInfoDescriptionAPI()
+    // fetchGetCourseInfoDescriptionAPI()
+    dispatch(fetchDetailCourse(String(id)))
   }, [])
 
   const handleEnrollCourse = () => {
@@ -47,14 +45,14 @@ const CourseInfoDescription = () => {
   }
   return (
     <>
-      <MetaData title={String(courseInfo?.title)} />
+      <MetaData title={String(courseDetail?.title)} />
       <div className={cx('wrapper', 'container')}>
         <div className={cx('row')}>
           <article className={cx('col col-9 col-xxxxxl-8 col-md-12')}>
             <div className={cx('content')}>
               <div>
                 {' '}
-                <h1>{courseInfo?.title}</h1>
+                <h1>{courseDetail?.title}</h1>
                 <div className={cx('text-content')}>
                   Học Javascript cơ bản phù hợp cho người chưa từng học lập trình. Với hơn 100 bài học và có bài tập
                   thực hành sau mỗi bài học.
@@ -130,7 +128,7 @@ const CourseInfoDescription = () => {
             </div>
 
             {/* accordion */}
-            {courseInfo?.chapters?.map((chapter) => (
+            {courseDetail?.chapters?.map((chapter) => (
               <Accordion data={chapter} key={chapter._id} />
             ))}
 

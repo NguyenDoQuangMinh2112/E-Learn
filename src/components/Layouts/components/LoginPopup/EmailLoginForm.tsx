@@ -70,12 +70,11 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
     try {
       if (type === 'login') {
         const data = {
-          email: values.email,
-          password: values.password
+          email: values.email as string,
+          password: values.password as string
         }
 
         const response = await loginAPI(data)
-        console.log('response', response)
 
         if (response?.statusCode === 200) {
           setLoginError(null)
@@ -96,9 +95,9 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
       if (type === 'register' && isFormValid()) {
         setIsLoading(true)
         const res = await registerAPI({
-          fullName: values.fullName,
-          email: values.email,
-          password: values.password
+          fullName: values.fullName as string,
+          email: values.email as string,
+          password: values.password as string
         })
         if (res.statusCode === 201) {
           setIsLoading(false)
@@ -111,7 +110,6 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
       console.error('Error during login/register:', error)
       setLoginError(error?.response?.data?.message || 'An unexpected error occurred')
     } finally {
-      // Đảm bảo setIsLoading(false) luôn được gọi, kể cả khi có lỗi.
       setIsLoading(false)
     }
   }
@@ -164,7 +162,7 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
           type="password"
         />
         {!!loginError?.length && <p className={cx('login_mes')}>{loginError}</p>}
-        {type === 'register' && <PasswordStrengthBar strength={calculatePasswordStrength(values.password)} />}
+        {type === 'register' && <PasswordStrengthBar strength={calculatePasswordStrength(String(values.password))} />}
 
         {type === 'register' && isShowVerifyCode && (
           <FormGroup

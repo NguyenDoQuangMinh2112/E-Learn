@@ -1,6 +1,6 @@
 import authorizedAxiosInstance from '~/axios'
 import { ApiResponse } from '~/interfaces/ApiResponse'
-import { Course, CourseInfo } from '~/interfaces/course'
+import { Course, CourseInfo, LessonNote } from '~/interfaces/course'
 import { API_ROOT } from '~/utils/constant'
 
 export const getAllCourseAPI = async (): Promise<ApiResponse<Course[]>> => {
@@ -13,4 +13,14 @@ export const getDetailCourseAPI = async (idC: string): Promise<ApiResponse<Cours
 
 export const createCourseAPI = async () => {
   return await authorizedAxiosInstance.get(`${API_ROOT}/v1/course`)
+}
+
+export const addNoteLessonAPI = async (data: {
+  course_id: string
+  chapter_id: string
+  lesson_id: string
+  time: string
+  content: string
+}): Promise<ApiResponse<LessonNote>> => {
+  return await authorizedAxiosInstance.post(`${API_ROOT}/v1/course/add-noteLesson`, data)
 }

@@ -1,0 +1,65 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userAvatar {
+  border-radius: 50%;
+  font-size: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7em;
+  position: relative;
+
+  img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 9em;
+    height: 9em;
+  }
+}
+.userName {
+  color: #0093fc;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.body {
+  font-size: 1.4rem;
+  word-break: break-word;
+
+  .content {
+    margin: -16px 0;
+
+    p {
+      margin: 16px 0;
+    }
+  }
+}
+.reaction {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.reactBtn {
+  color: #0093fc;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.8;
+  transition: color 0.2s;
+  background: transparent;
+  cursor: pointer;
+}

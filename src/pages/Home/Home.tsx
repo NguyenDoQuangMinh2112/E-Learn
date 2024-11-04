@@ -11,36 +11,30 @@ import Login from '~/components/Layouts/components/LoginPopup'
 import { useSelector } from 'react-redux'
 import { popupSelector } from '~/redux/popup/popup.selector'
 import MetaData from '~/components/MetaData'
-import { getDetailCourseAPI } from '~/apis/course'
+import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 const cx = classNames.bind(styles)
 
 const Home = () => {
   const location = useLocation()
   const { isOpenPopup, type } = useSelector(popupSelector)
+  const { isOpenChat } = useSelector(noteLessonSelector)
 
   const showFooter = location.pathname !== '/learning/title'
   const isBlogPage = location.pathname === '/new-post'
   useEffect(() => {
     const body = document.body
-    if (isOpenPopup) {
+    if (isOpenPopup || isOpenChat) {
       body.style.overflow = 'hidden'
     } else {
       body.style.overflow = ''
     }
 
-    if (isOpenPopup) {
+    if (isOpenPopup || isOpenChat) {
       body.classList.add('no-scroll')
     } else {
       body.classList.remove('no-scroll')
     }
-  }, [isOpenPopup])
-
-  useEffect(() => {
-    const fetchApiTest = async () => {
-      const res = await getDetailCourseAPI('66b2111e02402496c308a935')
-    }
-    fetchApiTest()
-  }, [])
+  }, [isOpenPopup, isOpenChat])
 
   return (
     <>

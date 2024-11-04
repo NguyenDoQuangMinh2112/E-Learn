@@ -10,6 +10,11 @@ import { EditorState } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import { createNewNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { courseSelector } from '~/redux/course/courseSelector'
+import { addNoteLessonAPI } from '~/apis/course'
+import Spinner from '~/components/Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
@@ -19,7 +24,10 @@ interface NoteProps {
 }
 const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
+  const { activeLesson } = useSelector(courseSelector)
+  const { id } = useParams()
 
   const onEditorStateChange = (newState: EditorState) => {
     setEditorState(newState)
@@ -34,12 +42,28 @@ const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
     return !content.hasText()
   }
 
-  const handleCreatNote = () => {
+  const handleCreatNote = async () => {
     const value = getEditorContentAsPlainText()
     const timeSave = formattedCurrentTime
-    dispatch(createNewNoteLesson({ id: 1, title: 'Loi khuyen truoc khoa hoc', content: value, time: timeSave }))
-    setShowPopup(false)
-    toast.success('Created new note !')
+    const payload = {
+      course_id: id as string,
+      chapter_id: activeLesson?.chapter_id as string,
+      lesson_id: activeLesson?._id as string,
+      time: timeSave as string,
+      content: value as string
+    }
+    try {
+      setIsLoading(true)
+      const res = await addNoteLessonAPI(payload)
+      if (res.statusCode === 201) {
+        dispatch(createNewNoteLesson({ id: 1, title: 'Loi khuyen truoc khoa hoc', content: value, time: timeSave }))
+        setShowPopup(false)
+        toast.success(res.message)
+        setIsLoading(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className={cx('wrapper')}>
@@ -88,7 +112,7 @@ const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
             HỦY BỎ
           </Button>
           <Button className={cx('addNote_btn', { disable: isEditorEmpty() })} onClick={handleCreatNote}>
-            TẠO GHI CHÚ
+            {isLoading ? <Spinner color="#fff" /> : 'TẠO GHI CHÚ'}
           </Button>
         </div>
       </div>

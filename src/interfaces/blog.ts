@@ -4,18 +4,38 @@ export interface BlogActivity {
   total_reads: number
   total_parent_comments: number
 }
-
+export interface Comment {
+  _id: string
+  blog_id: string
+  blog_author: string
+  comment: string
+  childrenLevel?: number
+  commented_by: {
+    fullName: string
+    avatar_url: string
+  }
+  createdAt: string
+  children: any[]
+  isReply: boolean
+  updatedAt: string | null
+  _destroy: boolean
+}
 export interface Blog {
-  id: number
+  _id: number
   title: string
   banner: string
   des: string
   content: string[]
   tags?: string[]
-  author: string // Object ID
+  author: {
+    fullName: string
+    avatar_url: string
+    role: 'admin' | 'student' | 'teacher'
+  }
   activity: BlogActivity
-  comments?: string[] // Array of Object IDs
+  comments?: Comment[] // Array of Object IDs
   draft?: boolean
+  views: number
   createdAt: number // Timestamp
   updatedAt: number | null // Timestamp or null
   _destroy?: boolean

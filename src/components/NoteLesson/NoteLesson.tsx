@@ -4,37 +4,47 @@ import styles from './NoteLesson.module.scss'
 import Button from '../Button'
 
 import { useDispatch } from 'react-redux'
-import { hideNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
+import { hideNoteLesson, updateNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 
 import { IoMdClose } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
 import { MdDeleteOutline } from 'react-icons/md'
 
 import noNoteYet from '~/assets/images/noNoteYet.svg'
-import { Editor, EditorState } from 'react-draft-wysiwyg'
-import { useEffect, useState } from 'react'
+import { memo, useState } from 'react'
 import 'draft-js/dist/Draft.css'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/store'
-import { ContentState } from 'draft-js'
+
+import { Editor, EditorState } from 'react-draft-wysiwyg'
+import { EditorState as DraftEditorState, ContentState } from 'draft-js'
+import { toast } from 'react-toastify'
+
 const cx = classNames.bind(styles)
 
 const NoteLesson = ({ noteLessonRef }: any) => {
   const dispatch = useDispatch()
   const noNote = false
-
-  const [editorState, setEditorState] = useState(EditorState?.createEmpty())
+  let editorStateS = EditorState?.createEmpty()
+  const [editorState, setEditorState] = useState(editorStateS)
 
   const { myNotes } = useSelector((state: RootState) => state.noteLesson)
   const [edit, setEdit] = useState<boolean>(false)
   const [idNote, setIdNote] = useState<number>(0)
-  const onEditorStateChange = (newState: EditorState) => {
-    setEditorState(newState)
+  const onEditorStateChange = (editorStateS: EditorState) => {
+    setEditorState(editorStateS)
   }
 
   const handleCancleNoteLesson = () => {
     setEdit(false)
     setEditorState(EditorState?.createEmpty())
+  }
+  const handleUpdateNote = (idNote: number) => {
+    const contentState = editorState?.getCurrentContent()?.getPlainText()
+    setEdit(false)
+    setEditorState(EditorState?.createEmpty())
+    dispatch(updateNoteLesson({ id: idNote, content: contentState }))
+    toast.success('Update note lesson successfully!')
   }
   return (
     <div className={cx('wrapper')}>
@@ -71,10 +81,14 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                         onClick={() => {
                           setEdit(true)
                           setIdNote(note.id)
-                          if (note.content) {
-                            const contentState = ContentState.createFromText(note.content)
-                            const newEditorState = EditorState.createWithContent(contentState)
-                            setEditorState(newEditorState)
+                          if (note.content && typeof note.content === 'string') {
+                            const contentState = ContentState?.createFromText(note.content)
+                            if (contentState) {
+                              const newEditorState = DraftEditorState?.createWithContent(contentState)
+                              setEditorState(newEditorState)
+                            } else {
+                              setEditorState(EditorState.createEmpty())
+                            }
                           } else {
                             setEditorState(EditorState.createEmpty())
                           }
@@ -92,10 +106,10 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                       <>
                         <Editor
                           editorState={editorState}
+                          onEditorStateChange={onEditorStateChange}
                           toolbarClassName="toolbarClassName"
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
-                          onEditorStateChange={onEditorStateChange}
                           toolbar={{
                             options: ['inline', 'blockType', 'list', 'textAlign'],
                             inline: {
@@ -125,7 +139,9 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                           <Button className={cx('cancle')} onClick={handleCancleNoteLesson}>
                             HỦY BỎ{' '}
                           </Button>
-                          <Button className={cx('addNote_btn')}>CẬP NHẬT </Button>
+                          <Button className={cx('addNote_btn')} onClick={() => handleUpdateNote(note.id)}>
+                            CẬP NHẬT{' '}
+                          </Button>
                         </div>
                       </>
                     ) : (
@@ -142,4 +158,4 @@ const NoteLesson = ({ noteLessonRef }: any) => {
   )
 }
 
-export default NoteLesson
+export default memo(NoteLesson)

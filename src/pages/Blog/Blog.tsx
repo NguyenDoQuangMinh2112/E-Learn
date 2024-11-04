@@ -2,11 +2,23 @@ import classNames from 'classnames/bind'
 import styles from './Blog.module.scss'
 import BlogItem from '~/components/Layouts/BlogItem/BlogItem'
 import MetaData from '~/components/MetaData'
-import { sampleBlogs } from '~/data/blogData'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { AppDispatch, RootState } from '~/redux/store'
+import { useDispatch } from 'react-redux'
+import { fetBlogs } from '~/redux/blog/blogAction'
 
 const cx = classNames.bind(styles)
 
 const Blog = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { blogs } = useSelector((state: RootState) => state.blog)
+
+  useEffect(() => {
+    // call api get all blogs here
+
+    dispatch(fetBlogs())
+  }, [])
   return (
     <>
       <MetaData title="Danh sách bài viết" />
@@ -21,8 +33,8 @@ const Blog = () => {
           <div className={cx('col col-9 col-xxl-8 col-lg-12')}>
             <div className={cx('left')}>
               <ul>
-                {sampleBlogs?.map((blogs) => (
-                  <BlogItem data={blogs} key={blogs.id} />
+                {blogs?.map((blog) => (
+                  <BlogItem data={blog} key={blog._id} />
                 ))}
               </ul>
             </div>

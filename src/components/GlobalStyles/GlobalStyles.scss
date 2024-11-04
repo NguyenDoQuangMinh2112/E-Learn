@@ -17,6 +17,10 @@
   --default-layout-width: 1150px;
   --default-layout-horizontal-spacer: 24px;
 
+  --comment-placeholder-color: #808b9a;
+  --comment-placeholder-bg: #eef4fc;
+  --comment-title-color: #4e586b;
+
   // Header layout
   --header-height: 66px;
   --course-learning-header-height: 50px;
@@ -200,6 +204,7 @@ body {
   margin-bottom: 31px;
   height: calc(-100px + 100vh) !important;
 }
+
 .d-flex-center {
   align-items: center;
   display: flex;

@@ -41,7 +41,6 @@ const FormGroup: React.FC<FormGroupProps> = ({
   isLoading
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-
   useEffect(() => {
     const shouldForcus = (id === 'email' && status === 'login') || (id === 'username' && status === 'register')
     if (shouldForcus) {

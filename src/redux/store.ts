@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import popupReducer from './popup/popupSlice'
 import noteLessonReducer from './noteLesson/noteLessonSlice'
 import authReducer from './auth/authSlice'
+import blogReducer from './blog/blogSlice'
+import courseReducer from './course/courseSlice'
 
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
@@ -21,6 +23,8 @@ const store = configureStore({
   reducer: {
     popup: popupReducer,
     noteLesson: noteLessonReducer,
+    blog: blogReducer,
+    course: courseReducer,
     auth: persistReducer<ReturnType<typeof authReducer>>(userConfig, authReducer)
   },
 

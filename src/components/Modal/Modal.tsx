@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 
 import styles from './Modal.module.scss'
 import classNames from 'classnames/bind'
@@ -55,4 +55,4 @@ const Modal: React.FC<ModalProps> = ({ iShowHeader, isOpen, title, children, onC
   )
 }
 
-export default Modal
+export default memo(Modal)

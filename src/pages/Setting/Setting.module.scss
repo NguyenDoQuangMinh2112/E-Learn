@@ -165,7 +165,7 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  // gap: 16px;
 }
 
 .saveBtn {
@@ -184,6 +184,10 @@
 
   span {
     color: white !important;
+  }
+
+  &:hover {
+    background: #597789;
   }
 }
 .wcp {

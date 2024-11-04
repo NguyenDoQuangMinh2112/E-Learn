@@ -74,10 +74,78 @@
     }
   }
 }
+.icon {
+  color: #1b74e4;
+  margin-left: 4px;
+  font-size: 1rem;
+}
 // box
 .box {
   color: #292929;
   word-wrap: break-word;
   font-size: 1.6rem;
   line-height: 1.8;
+
+  img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 2px #0003;
+  }
+
+  p {
+    margin: 16px 0;
+  }
+
+  a[href] {
+    color: #2185d0;
+    text-decoration: none;
+  }
+
+  blockquote {
+    margin-left: 0;
+    padding: 0 0 2px 20px;
+    border-left: 3px solid var(--primary);
+    color: #6d6d6d;
+    font-weight: 600;
+  }
+}
+.userMenu_avatar {
+  border-radius: 50%;
+  font-size: 5.6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7em;
+  position: relative;
+
+  .avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 9em;
+    height: 9em;
+  }
+
+  .adminSignature {
+    position: absolute;
+    width: 3.2em !important;
+    height: 3.2em !important;
+    top: -0.2em;
+    right: -2em;
+  }
+}
+
+// tags
+.tags {
+  margin-top: 48px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 1.4rem;
+  color: #666;
+  padding: 4px 10px;
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  margin: 8px 8px 0 0;
 }

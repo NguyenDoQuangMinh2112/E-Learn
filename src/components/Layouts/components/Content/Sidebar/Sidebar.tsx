@@ -6,13 +6,15 @@ import styles from './Sidebar.module.scss'
 import { sideBarMenu } from '~/utils/menu'
 
 import Button from '~/components/Button'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState<number | null>(null)
+  const { id } = useParams()
   const location = useLocation()
+  const checkLocation = location?.pathname === `/blog/${id}`
 
   useEffect(() => {
     const currentItem = sideBarMenu.find((sidebar) => sidebar.path === location.pathname)
@@ -21,7 +23,7 @@ const Sidebar = () => {
     }
   }, [location])
   return (
-    <div className={cx('withSidebar')}>
+    <div className={cx('withSidebar', { 'db-none': checkLocation })}>
       <div className={cx('wrapper')}>
         <ul className={cx('list_menu')}>
           {sideBarMenu?.map((sidebar) => (

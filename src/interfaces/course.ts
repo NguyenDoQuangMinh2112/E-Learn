@@ -13,6 +13,7 @@ export interface Lesson {
   chapter_id: string
   order: number
   videoUrl: string
+  description?: string
   createdAt: number
   updatedAt: number | null
   _destroy: boolean
@@ -54,4 +55,15 @@ export interface CourseInfo {
   updatedAt: number | null
   _destroy: boolean
   instructor: Instructor
+}
+
+export interface LessonNote {
+  _id: string // Unique identifier for the note
+  course_id: string // Unique identifier for the course
+  chapter_id: string // Unique identifier for the chapter
+  lesson_id: string // Unique identifier for the lesson
+  time: string // Duration or timestamp of the note
+  content: string // Content of the note
+  createdAt: string // Timestamp for when the note was created
+  updatedAt: string | null // Timestamp for when the note was last updated, or null if not updated
 }

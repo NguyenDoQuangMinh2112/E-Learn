@@ -1,16 +1,20 @@
 import styles from './ListCourseDetails.module.scss'
 import classNames from 'classnames/bind'
 import IntroduceLesson from './IntroduceLesson/IntroduceLesson'
+import { CourseInfo, Lesson } from '~/interfaces/course'
 const cx = classNames.bind(styles)
 
-const ListCourseDetails = () => {
+interface ListCourseDetailsProps {
+  datas?: CourseInfo | null
+  activeLesson: Lesson | null
+}
+
+const ListCourseDetails = ({ datas, activeLesson }: ListCourseDetailsProps) => {
   return (
     <div className={cx('body')}>
-      <IntroduceLesson />
-      <IntroduceLesson />
-      <IntroduceLesson />
-      <IntroduceLesson />
-      <IntroduceLesson />
+      {datas?.chapters?.map((c) => (
+        <IntroduceLesson chapter={c} activeLesson={activeLesson} />
+      ))}
     </div>
   )
 }

@@ -4,10 +4,13 @@ import { checkEmailAPI } from '~/apis/auth'
 import { RootState } from '~/redux/store'
 
 interface FormValues {
-  email: string
-  password: string
-  fullName: string
+  email?: string
+  password?: string
+  fullName?: string
   code?: string
+  currentPassword?: string
+  newPassword?: string
+  confirmPassword?: string
 }
 
 interface FormErrors {
@@ -15,6 +18,9 @@ interface FormErrors {
   password?: string
   fullName?: string
   code?: string
+  currentPassword?: string
+  newPassword?: string
+  confirmPassword?: string
 }
 const useForm = (initialValues: FormValues) => {
   const type = useSelector((state: RootState) => state.popup.type) || 'login'
@@ -71,6 +77,13 @@ const useForm = (initialValues: FormValues) => {
     }
   }, [])
 
-  return { values, errors, handleChange, handleBlur, isLoading, setIsLoading }
+  const setFormError = (field: keyof FormErrors, message: string) => {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: message
+    }))
+  }
+
+  return { values, setValues, errors, setErrors, handleChange, handleBlur, isLoading, setIsLoading, setFormError }
 }
 export default useForm

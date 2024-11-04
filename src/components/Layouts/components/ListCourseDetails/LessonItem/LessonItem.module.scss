@@ -4,6 +4,9 @@
 .track.active {
   display: block;
 }
+.active-bg {
+  background-color: #f0512333;
+}
 .wrapper_track {
   display: flex;
   flex-direction: row;
@@ -11,7 +14,6 @@
   transition: all ease-in-out 0.3s;
   position: relative;
   cursor: pointer;
-  // background-color: #f0512333;
 
   &:hover {
     background-color: #f1f1f1;

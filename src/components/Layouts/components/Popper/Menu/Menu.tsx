@@ -33,9 +33,14 @@ const Menu = ({ children, items = [] }: MenuProps): ReactElement => {
         <div className={cx('menu-list')} tabIndex={-1} {...attrs}>
           <PopperWrapper className={cx('menu-popper')}>
             <div className={cx('userMenu')}>
-              <div className={cx('userMenu_avatar')}>
+              <div
+                className={cx('userMenu_avatar')}
+                style={{
+                  background: `${userInfo?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'}`
+                }}
+              >
                 <img className={cx('avatar')} src={userInfo?.avatar_url} alt="avatar" />
-                <img src={adminSignature} alt="" className={cx('adminSignature')} />
+                {userInfo?.role === 'admin' && <img src={adminSignature} alt="" className={cx('adminSignature')} />}
               </div>
               <div className={cx('userMenu_info')}>
                 <span className={cx('userMenu_name')}>{userInfo?.fullName}</span>

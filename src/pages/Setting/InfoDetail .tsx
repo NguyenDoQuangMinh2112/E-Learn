@@ -9,11 +9,13 @@ const InfoDetail = ({
   label,
   value,
   image = false,
+  imgSrc,
   onClick
 }: {
   label: string
   value?: string
   image?: boolean
+  imgSrc?: string
   onClick?: () => void
 }) => {
   return (
@@ -21,13 +23,7 @@ const InfoDetail = ({
       <div className={cx('wrapper1', { hasEmail: image })}>
         <h4>{label}</h4>
         <span>{value}</span>
-        {image && (
-          <img
-            className={cx('avatar')}
-            src="https://files.fullstack.edu.vn/f8-prod/public-images/6676511103ac3.png"
-            alt="avtar"
-          />
-        )}
+        {image && <img className={cx('avatar')} src={imgSrc} alt="avtar" />}
       </div>
       <button className={cx('right_btn')}>
         <FaChevronRight />

@@ -2,9 +2,9 @@ import { Blog } from '~/interfaces/blog'
 
 export const sampleBlogs: Blog[] = [
   {
-    id: 1,
+    _id: 1,
     title: 'Lập trình JavaScript cho người mới bắt đầu',
-    banner: 'https://example.com/banner1.jpg',
+    banner: '	https://files.fullstack.edu.vn/f8-prod/blog_posts/65/6139fe28a9844.png',
     des: 'Một hướng dẫn chi tiết về JavaScript. Trong thời đại công nghệ số 4.0, việc học không còn bó buộc trong những cuốn sách truyền thống. Giờ đây, trí tuệ nhân tạo (AI) đang...',
     content: ['JavaScript là một ngôn ngữ lập trình phổ biến.', 'Nó được sử dụng để phát triển web.'],
     tags: ['JavaScript', 'Lập trình', 'Web'],
@@ -22,9 +22,9 @@ export const sampleBlogs: Blog[] = [
     _destroy: false
   },
   {
-    id: 2,
+    _id: 2,
     title: 'Cách sử dụng Node.js',
-    banner: 'https://example.com/banner2.jpg',
+    banner: 'https://files.fullstack.edu.vn/f8-prod/blog_posts/279/6153f692d366e.jpg',
     des: 'Một hướng dẫn chi tiết về JavaScript. Trong thời đại công nghệ số 4.0, việc học không còn bó buộc trong những cuốn sách truyền thống. Giờ đây, trí tuệ nhân tạo (AI) đang..Khám phá Node.js và các ứng dụng của nó.',
     content: [
       'Node.js là một môi trường chạy JavaScript bên ngoài trình duyệt.',

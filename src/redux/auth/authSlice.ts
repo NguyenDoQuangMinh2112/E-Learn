@@ -19,11 +19,17 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isLogin = false
       state.userInfo = null
+    },
+    updateUserInfo(state, action) {
+      state.userInfo = {
+        ...state.userInfo,
+        ...action.payload
+      }
     }
   },
   extraReducers: (builder) => {}
 })
 
 // Xuất các action và reducer
-export const { login, logout } = authSlice.actions
+export const { login, logout, updateUserInfo } = authSlice.actions
 export default authSlice.reducer

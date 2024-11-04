@@ -5,7 +5,6 @@ import styles from './NewPost.module.scss'
 
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
-import 'react-markdown-editor-lite/lib/index.css'
 
 import { useSelector } from 'react-redux'
 import { popupSelector } from '~/redux/popup/popup.selector'
@@ -16,6 +15,7 @@ import Button from '~/components/Button'
 import Tag from '~/components/Tag'
 import { createBlogAPI } from '~/apis/blogs'
 import { authSelector } from '~/redux/auth/authSelectors'
+import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
 
@@ -62,7 +62,7 @@ const NewPost = () => {
 
   // Handle Tags
   const handleKeyDown = (e: any) => {
-    if (e.keyCode === 13 || e.keyCode === 188) {
+    if (e.keyCode === 13 || e.keyCode === 188 || e.keyCode === 9) {
       e.preventDefault()
 
       let tag = e.target.value
@@ -83,35 +83,32 @@ const NewPost = () => {
   // Markdown editor lite
 
   const handleEditorChange = ({ text }: EditorChangeEvent) => {
-    console.log('🚀 ~ handleEditorChange ~ text:', text)
     setContent(text)
   }
 
   // Created new board
   const handleCreateNewPost = async () => {
     try {
-      // const data = {
-      //   title,
-      //   des,
-      //   content,
-      //   tags,
-      //   banner: selectedFile,
-      //   author: userInfo?._id
-      // }
+      const htmlContent = mdParser.render(content)
       const formData = new FormData()
-
       formData.append('title', title || '')
       formData.append('des', des || '')
-      formData.append('content', content)
+      formData.append('content[]', htmlContent)
       tags.forEach((tag: string) => formData.append('tags[]', tag))
       formData.append('author', userInfo?._id || '')
-
       if (fileInputRef.current && fileInputRef.current.files?.[0]) {
         formData.append('banner', fileInputRef.current.files[0]) // Thêm file banner
       }
-
       const res = await createBlogAPI(formData)
-      console.log(res)
+
+      if (res.statusCode === 201) {
+        setContent('')
+        setDes('')
+        setTitle('')
+        setSelectedFile('')
+
+        toast.success(res?.message)
+      }
     } catch (error) {
       console.log(error)
     }

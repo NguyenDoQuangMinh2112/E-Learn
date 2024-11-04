@@ -14,6 +14,7 @@ import { showPopup } from './redux/popup/popupSlice'
 import Setting from './pages/Setting/Setting'
 import DetailBlog from './pages/DetailBlog/DetailBlog'
 import NewPost from './pages/NewPost/NewPost'
+import { ToastContainer } from 'react-toastify'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const ProtectedRoute = () => {
 function App() {
   return (
     <>
+      <ToastContainer />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
@@ -45,13 +47,13 @@ function App() {
             <Route path="/" element={<SidebarContent />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/123" element={<DetailBlog />} />
+              <Route path="/blog/:id" element={<DetailBlog />} />
             </Route>
             <Route path="/course/:id" element={<CourseInfoDescription />} />
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>
-          <Route path="/learning/title" element={<CourseDetails />} />
+          <Route path="/course/learning/:id" element={<CourseDetails />} />
         </Route>
 
         <Route path="/setting" element={<Setting />} />

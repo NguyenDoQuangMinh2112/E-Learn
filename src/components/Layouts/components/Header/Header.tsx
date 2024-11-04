@@ -16,6 +16,7 @@ import { showPopup } from '~/redux/popup/popupSlice'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
+import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 
 const cx = classNames.bind(styles)
 
@@ -46,10 +47,11 @@ interface headerProps {
 }
 const Header = ({ isHideSearch = false, isHidePostBtn = false }: headerProps) => {
   const { userInfo } = useSelector(authSelector)
+  const { isOpenChat } = useSelector(noteLessonSelector)
   const dispatch = useDispatch()
 
   return (
-    <header className={cx('wrapper')}>
+    <header className={cx('wrapper')} style={{ zIndex: `${isOpenChat ? 0 : 10}` }}>
       {/* left */}
       <div className={cx('header_left')}>
         <NavLink to="/">

@@ -4,12 +4,19 @@ import CourseItem from './CourseItem'
 import { useEffect, useState } from 'react'
 import { getAllCourseAPI } from '~/apis/course'
 import { Course } from '~/interfaces/course'
+import CardItem from './CardItem/CardItem'
+import { useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '~/redux/store'
+import { fetBlogs } from '~/redux/blog/blogAction'
+import { useSelector } from 'react-redux'
 
 const cx = classNames.bind(styles)
 
 const ListCourse = () => {
   const [courses, setCourses] = useState<Course[] | null>(null)
+  const { blogs } = useSelector((state: RootState) => state.blog)
 
+  const dispatch = useDispatch<AppDispatch>()
   const fetchAllCoourses = async () => {
     const res = await getAllCourseAPI()
     if (res.statusCode === 200) {
@@ -19,6 +26,10 @@ const ListCourse = () => {
 
   useEffect(() => {
     fetchAllCoourses()
+
+    // call api get all blogs here
+
+    dispatch(fetBlogs())
   }, [])
   return (
     <div className={cx('wrapper')}>
@@ -49,9 +60,9 @@ const ListCourse = () => {
           'row row-cols-6 row-cols-xxxxxl-5 row-cols-xxxxl-4 row-cols-xl-3 row-cols-lg-2 gy-6 gx-xxl-2 gx-xl-3 gx-lg-2'
         )}
       >
-        {/* {mockDataBlog?.map((blog) => (
-          <CourseItem data={blog} isHide={true} key={blog.id} />
-        ))} */}
+        {blogs?.map((blog) => (
+          <CardItem data={blog} isHide={true} key={blog._id} />
+        ))}
       </div>
       {/* End Body */}
     </div>

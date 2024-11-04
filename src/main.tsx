@@ -12,6 +12,8 @@ import 'slick-carousel/slick/slick-theme.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import 'tippy.js/dist/tippy.css'
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-markdown-editor-lite/lib/index.css'
 
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store.ts'

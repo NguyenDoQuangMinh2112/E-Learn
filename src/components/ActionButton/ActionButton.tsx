@@ -8,15 +8,14 @@ import Tippy from '@tippyjs/react/headless'
 import { FaFacebookSquare } from 'react-icons/fa'
 import { FaLink } from 'react-icons/fa6'
 import { IoFlagSharp } from 'react-icons/io5'
-
-import { useState } from 'react'
+import { Placement } from '@popperjs/core'
+import { memo } from 'react'
 
 const cx = classNames.bind(styles)
-
-const ActionButton = () => {
-  const [open, setOpen] = useState(false)
-  console.log(open)
-
+interface ActionButtonProps {
+  place?: Placement
+}
+const ActionButton = ({ place = 'top' }: ActionButtonProps) => {
   return (
     <div className={cx('actions')}>
       <div className={cx('toggle')}>
@@ -24,7 +23,7 @@ const ActionButton = () => {
       </div>
 
       <Tippy
-        placement="top"
+        placement={place}
         interactive
         delay={[0, 300]}
         offset={[12, 8]}
@@ -49,11 +48,11 @@ const ActionButton = () => {
         )}
       >
         <div className={cx('options')}>
-          <FaEllipsis onClick={() => setOpen(!open)} />
+          <FaEllipsis />
         </div>
       </Tippy>
     </div>
   )
 }
 
-export default ActionButton
+export default memo(ActionButton)

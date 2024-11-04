@@ -4,6 +4,10 @@ import styles from './BlogItem.module.scss'
 import { NavLink } from 'react-router-dom'
 import ActionButton from '~/components/ActionButton/ActionButton'
 import { Blog } from '~/interfaces/blog'
+import { checkLengthOfWords, getLastTwoNames } from '~/utils/helper'
+import { FaCheckCircle } from 'react-icons/fa'
+import adminSignature from '~/assets/images/admin.svg'
+import { memo } from 'react'
 
 const cx = classNames.bind(styles)
 
@@ -16,19 +20,26 @@ const BlogItem = ({ data }: blogProps) => {
     <li className={cx('wrapper')}>
       <div className={cx('header')}>
         <div className={cx('author')}>
-          <a href="">
-            <img className={cx('avatar')} src="" alt="" />
-          </a>
-          <span>Quang Minh</span>
+          <div
+            className={cx('userMenu_avatar')}
+            style={{
+              background: `${data.author?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'}`
+            }}
+          >
+            <img className={cx('avatar')} src={data.author.avatar_url} alt="avatar" />
+            {data.author?.role === 'admin' && <img src={adminSignature} alt="" className={cx('adminSignature')} />}
+          </div>
+          <span>{getLastTwoNames(data?.author.fullName)}</span>
+          {data.author?.role === 'admin' && <FaCheckCircle className={cx('icon')} />}
         </div>
         <ActionButton />
       </div>
       <div className={cx('body')}>
         <div className={cx('info')}>
-          <NavLink to="/blog/123">
+          <NavLink to={`/blog/${data._id}`}>
             <h2 className={cx('title')}>{data?.title}</h2>
           </NavLink>
-          <p className={cx('des')}>{data?.des}</p>
+          <p className={cx('des')}>{checkLengthOfWords(data?.content[0], 255)}</p>
           <div className={cx('metaInfo')}>
             {data?.tags?.map((tag, i) => (
               <a key={i} href="" className={cx('tag')}>
@@ -41,7 +52,7 @@ const BlogItem = ({ data }: blogProps) => {
         </div>
         <div className={cx('thumb')}>
           <a href="">
-            <img src="https://files.fullstack.edu.vn/f8-prod/blog_posts/10658/665db085cc3fb.png" alt="thumb" />
+            <img src={data.banner} alt="thumb" />
           </a>
         </div>
       </div>
@@ -49,4 +60,4 @@ const BlogItem = ({ data }: blogProps) => {
   )
 }
 
-export default BlogItem
+export default memo(BlogItem)
