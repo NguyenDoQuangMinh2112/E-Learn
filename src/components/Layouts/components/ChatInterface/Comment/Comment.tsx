@@ -1,30 +1,40 @@
+import { useState } from 'react'
+
 import classNames from 'classnames/bind'
 import styles from './Comment.module.scss'
-import { useSelector } from 'react-redux'
-import { authSelector } from '~/redux/auth/authSelectors'
+
 import { Comment as CommentInterface } from '~/interfaces/blog'
-import { useState } from 'react'
 import CommentField from '../CommentField/CommentField'
+
 const cx = classNames.bind(styles)
+
 interface CommentProps {
   commentData: CommentInterface
-  // onReply: (parentId: string, replyText: string) => void;
+  commentsList: CommentInterface[] | null
 }
 
-const Comment = ({ commentData }: CommentProps) => {
-  const { userInfo } = useSelector(authSelector)
+const Comment = ({ commentData, commentsList }: CommentProps) => {
+  const { commented_by } = commentData
   const [isReplyVisible, setIsReplyVisible] = useState(false)
+
+  const childrenComments = commentData.children
+    .map((childId) => {
+      // Tìm đối tượng bình luận từ ID trong commentsList
+      return commentsList?.find((comment) => comment._id === childId)
+    })
+    .filter(Boolean)
+
   const handleReplyToggle = () => {
-    setIsReplyVisible(!isReplyVisible) // Chuyển đổi trạng thái hiển thị
+    setIsReplyVisible(!isReplyVisible)
   }
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
         <div className={cx('userAvatar')}>
-          <img src={userInfo?.avatar_url} alt="avatar" />
+          <img src={commented_by?.avatar_url} alt="avatar" />
         </div>
-        <span className={cx('userName')}>{userInfo?.fullName}</span>
+        <span className={cx('userName')}>{commented_by?.fullName}</span>
       </div>
 
       <div className={cx('body')}>
@@ -39,7 +49,16 @@ const Comment = ({ commentData }: CommentProps) => {
           Reply
         </button>
       </div>
-      {isReplyVisible && <CommentField isReplyForm={true} setIsReplyVisible={setIsReplyVisible} />}
+      {isReplyVisible && (
+        <CommentField isReplyForm={true} setIsReplyVisible={setIsReplyVisible} parentId={commentData._id} />
+      )}
+      {childrenComments.length > 0 && (
+        <div className={cx('childrent_cmt')}>
+          {childrenComments.map((childComment) => (
+            <Comment key={childComment!._id} commentData={childComment!} commentsList={commentsList} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

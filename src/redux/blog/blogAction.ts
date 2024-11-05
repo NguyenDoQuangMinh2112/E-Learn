@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import * as apis from '~/apis/blogs'
-import { Blog } from '~/interfaces/blog'
+import { Blog, Comment } from '~/interfaces/blog'
 
 // Api get all courses
 export const fetBlogs = createAsyncThunk<Blog[], void>('blogs/fetBlogs', async () => {
@@ -15,6 +15,15 @@ export const fetBlogs = createAsyncThunk<Blog[], void>('blogs/fetBlogs', async (
 
 export const fetchDetailBlog = createAsyncThunk<Blog, string>('blogs/fetchDetailBlog', async (blogId) => {
   const response = await apis.getDetailBlogAPI(blogId)
+  if (response.statusCode !== 200) {
+    throw new Error('Failed to fetch course details')
+  } else {
+    return response.data
+  }
+})
+
+export const fetchCommentByBlog = createAsyncThunk<Comment[], string>('blogs/fetchCommentByBlog', async (blogId) => {
+  const response = await apis.getCommentByBlogAPI(blogId)
   if (response.statusCode !== 200) {
     throw new Error('Failed to fetch course details')
   } else {

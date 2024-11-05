@@ -28,7 +28,6 @@ const cx = classNames.bind(styles)
 const CourseInfoDescription = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { courseDetail } = useSelector(courseSelector)
-  console.log('🚀 ~ CourseInfoDescription ~ courseDetail:', courseDetail)
   const { userInfo } = useSelector(authSelector)
 
   const { id } = useParams()

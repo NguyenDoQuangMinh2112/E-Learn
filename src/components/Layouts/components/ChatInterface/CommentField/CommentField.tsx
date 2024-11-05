@@ -1,28 +1,38 @@
+import { useEffect, useRef, useState } from 'react'
+
 import classNames from 'classnames/bind'
 import styles from './CommentField.module.scss'
+
 import Button from '~/components/Button'
+
 import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
-import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { AppDispatch } from '~/redux/store'
+import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
+
 import { addCommentAPI } from '~/apis/comment/comment'
 
 const cx = classNames.bind(styles)
 
 const CommentField = ({
   isReplyForm,
-  setIsReplyVisible
+  setIsReplyVisible,
+  parentId
 }: {
   isReplyForm?: boolean
   setIsReplyVisible?: (v: boolean) => void
+  parentId?: string
 }) => {
   const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch<AppDispatch>()
   const [isHideComment, setIsHideComment] = useState<boolean>(false)
-  const [comment, setComment] = useState<string>()
+  const [comment, setComment] = useState({
+    text: '',
+    parent: null // dùng để lưu ID của comment cha nếu có
+  })
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
   const { id } = useParams()
 
@@ -34,7 +44,7 @@ const CommentField = ({
 
   const handleCancelComment = () => {
     setIsHideComment(false)
-    setComment('')
+    setComment({ text: '', parent: null })
     if (setIsReplyVisible) {
       setIsReplyVisible(false)
     }
@@ -44,16 +54,23 @@ const CommentField = ({
     try {
       if (!userInfo) {
         dispatch(showPopup('login'))
+        return
+      }
+
+      if (!comment.text) {
+        // Thông báo lỗi nếu comment rỗng
+        return alert('Comment cannot be empty.')
       }
       const payload = {
         blog_id: id,
-        blog_author: userInfo?._id,
-        comment
+        blog_author: userInfo._id,
+        comment: comment.text,
+        parent: parentId || null // Gán ID của comment cha
       }
 
       const res = await addCommentAPI(payload)
       if (res.statusCode === 201) {
-        setComment(textAreaRef.current?.value)
+        setComment({ text: '', parent: null })
         setIsHideComment(false)
       }
     } catch (error) {
@@ -74,9 +91,8 @@ const CommentField = ({
               rows={4}
               ref={textAreaRef}
               placeholder="Leave a comment..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              // defaultValue={comment} // Nếu muốn hiển thị comment hiện tại
+              value={comment.text}
+              onChange={(e) => setComment({ ...comment, text: e.target.value })}
             />
             <div className={cx('actions')}>
               <div

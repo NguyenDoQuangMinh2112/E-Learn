@@ -1,30 +1,34 @@
+import { useEffect, useState } from 'react'
+
 import classNames from 'classnames/bind'
 import styles from './DetailBlog.module.scss'
 
-import { FaCheckCircle, FaRegHeart } from 'react-icons/fa'
-import { FaRegComment } from 'react-icons/fa'
 import ActionButton from '~/components/ActionButton/ActionButton'
 import MetaData from '~/components/MetaData'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
 import { getLastTwoNames } from '~/utils/helper'
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { showChat } from '~/redux/noteLesson/noteLessonSlice'
 import { useSelector } from 'react-redux'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
-import adminSignature from '~/assets/images/admin.svg'
-import ChatInterface from '~/components/Layouts/components/ChatInterface/ChatInterface'
+
 import { fetchDetailBlog } from '~/redux/blog/blogAction'
 import { blogSelector } from '~/redux/blog/blogSelector'
 import { AppDispatch } from '~/redux/store'
+
+import adminSignature from '~/assets/images/admin.svg'
+import ChatInterface from '~/components/Layouts/components/ChatInterface/ChatInterface'
+
+import { FaCheckCircle, FaRegHeart, FaHeart } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 
 const cx = classNames.bind(styles)
 
 const DetailBlog = () => {
   const { id } = useParams()
-  // const [blogDetail, setBlogDetail] = useState<Blog | null>(null)
+  const [isLikeBlog, setIsLikeBlog] = useState<boolean>(false)
   const dispatch = useDispatch<AppDispatch>()
-  const { blogDetail } = useSelector(blogSelector)
+  const { blogDetail, commentByBlog } = useSelector(blogSelector)
 
   const { isOpenChat } = useSelector(noteLessonSelector)
 
@@ -33,6 +37,10 @@ const DetailBlog = () => {
       dispatch(fetchDetailBlog(id))
     }
   }, [id])
+
+  const handleLikeBlog = () => {
+    setIsLikeBlog((prev) => !prev)
+  }
 
   if (!blogDetail) {
     return <div>Loading...</div>
@@ -51,13 +59,13 @@ const DetailBlog = () => {
                 <p className={cx('des')}>{blogDetail?.des}</p>
                 <hr />
                 <div className={cx('actions')}>
-                  <div className={cx('btnReact')}>
-                    <FaRegHeart size={20} />
+                  <div className={cx('btnReact', { active: isLikeBlog })} onClick={handleLikeBlog}>
+                    {isLikeBlog ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
                     <span>5</span>
                   </div>
                   <div className={cx('btnReact')} onClick={() => dispatch(showChat())}>
                     <FaRegComment size={20} />
-                    <span>5</span>
+                    <span>{commentByBlog?.length}</span>
                   </div>
                 </div>
               </div>

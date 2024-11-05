@@ -1,6 +1,6 @@
 import authorizedAxiosInstance from '~/axios'
 import { ApiResponse } from '~/interfaces/ApiResponse'
-import { Blog } from '~/interfaces/blog'
+import { Blog, Comment } from '~/interfaces/blog'
 import { API_ROOT } from '~/utils/constant'
 
 export const createBlogAPI = async (data: any): Promise<ApiResponse<Blog[]>> => {
@@ -13,4 +13,8 @@ export const getAllBlogAPI = async (): Promise<ApiResponse<Blog[]>> => {
 
 export const getDetailBlogAPI = async (id: string): Promise<ApiResponse<Blog>> => {
   return await authorizedAxiosInstance.get(`${API_ROOT}/v1/blog/${id}`)
+}
+
+export const getCommentByBlogAPI = async (id: string): Promise<ApiResponse<Comment[]>> => {
+  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/comment/${id}`)
 }

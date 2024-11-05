@@ -14,8 +14,10 @@ export interface Comment {
     fullName: string
     avatar_url: string
   }
+  parent?: string
   createdAt: string
   children: any[]
+  replies?: Comment[]
   isReply: boolean
   updatedAt: string | null
   _destroy: boolean

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetBlogs, fetchDetailBlog } from './blogAction'
-import { Blog } from '~/interfaces/blog'
+import { fetBlogs, fetchCommentByBlog, fetchDetailBlog } from './blogAction'
+import { Blog, Comment } from '~/interfaces/blog'
 
 interface CourseState {
   blogs: Blog[]
@@ -8,13 +8,15 @@ interface CourseState {
   loading: boolean
   error: string | null
   isShowReplyForm: boolean
+  commentByBlog: Comment[] | null
 }
 const initialState: CourseState = {
   blogs: [],
   blogDetail: null,
   loading: false,
   error: null,
-  isShowReplyForm: false
+  isShowReplyForm: false,
+  commentByBlog: null
 }
 
 const blogSlice = createSlice({
@@ -48,6 +50,19 @@ const blogSlice = createSlice({
         state.blogDetail = action.payload // Lưu chi tiết blog
       })
       .addCase(fetchDetailBlog.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'An error occurred while fetching detail.'
+      })
+
+      .addCase(fetchCommentByBlog.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchCommentByBlog.fulfilled, (state, action: PayloadAction<Comment[]>) => {
+        state.loading = false
+        state.commentByBlog = action.payload
+      })
+      .addCase(fetchCommentByBlog.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message || 'An error occurred while fetching detail.'
       })
