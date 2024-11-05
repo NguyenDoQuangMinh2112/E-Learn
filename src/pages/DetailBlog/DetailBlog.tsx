@@ -12,7 +12,7 @@ import { showChat } from '~/redux/noteLesson/noteLessonSlice'
 import { useSelector } from 'react-redux'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 
-import { fetchDetailBlog } from '~/redux/blog/blogAction'
+import { fetchCommentByBlog, fetchDetailBlog } from '~/redux/blog/blogAction'
 import { blogSelector } from '~/redux/blog/blogSelector'
 import { AppDispatch } from '~/redux/store'
 
@@ -21,26 +21,73 @@ import ChatInterface from '~/components/Layouts/components/ChatInterface/ChatInt
 
 import { FaCheckCircle, FaRegHeart, FaHeart } from 'react-icons/fa'
 import { FaRegComment } from 'react-icons/fa'
+import { authSelector } from '~/redux/auth/authSelectors'
+import { checkLikedByUserAPI, reactionBlogAPI } from '~/apis/blogs'
+import { showPopup } from '~/redux/popup/popupSlice'
+import { updateBlog } from '~/redux/blog/blogSlice'
 
 const cx = classNames.bind(styles)
 
 const DetailBlog = () => {
   const { id } = useParams()
   const [isLikeBlog, setIsLikeBlog] = useState<boolean>(false)
+  const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch<AppDispatch>()
   const { blogDetail, commentByBlog } = useSelector(blogSelector)
+  let total_likes = blogDetail?.activity?.total_likes ?? 0
 
   const { isOpenChat } = useSelector(noteLessonSelector)
 
   useEffect(() => {
     if (id) {
       dispatch(fetchDetailBlog(id))
+      dispatch(fetchCommentByBlog(String(id)))
     }
   }, [id])
-
-  const handleLikeBlog = () => {
-    setIsLikeBlog((prev) => !prev)
+  const handleComment = () => {
+    if (userInfo) {
+      dispatch(showChat())
+    } else {
+      dispatch(showPopup('login'))
+    }
   }
+  const handleLikeBlog = async () => {
+    if (userInfo) {
+      if (blogDetail) {
+        setIsLikeBlog((prev) => !prev)
+        !isLikeBlog ? total_likes++ : total_likes--
+        const { activity } = blogDetail
+        dispatch(updateBlog({ ...blogDetail, activity: { ...activity, total_likes } }))
+        const payload = {
+          blogId: blogDetail?._id,
+          isLiked: isLikeBlog
+        }
+        await reactionBlogAPI(payload).then(({ data }) => console.log(data))
+      }
+    } else {
+      dispatch(showPopup('login'))
+    }
+  }
+
+  useEffect(() => {
+    if (userInfo) {
+      const fetchIsLikedData = async () => {
+        try {
+          const payload = {
+            blogId: blogDetail?._id as string
+          }
+          const res = await checkLikedByUserAPI(payload)
+          console.log('🚀 ~ fetchIsLikedData ~ res:', res)
+          if (res.statusCode === 200) {
+            setIsLikeBlog(Boolean(res.data))
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error)
+        }
+      }
+      fetchIsLikedData()
+    }
+  }, [])
 
   if (!blogDetail) {
     return <div>Loading...</div>
@@ -61,9 +108,9 @@ const DetailBlog = () => {
                 <div className={cx('actions')}>
                   <div className={cx('btnReact', { active: isLikeBlog })} onClick={handleLikeBlog}>
                     {isLikeBlog ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
-                    <span>5</span>
+                    <span>{total_likes}</span>
                   </div>
-                  <div className={cx('btnReact')} onClick={() => dispatch(showChat())}>
+                  <div className={cx('btnReact')} onClick={handleComment}>
                     <FaRegComment size={20} />
                     <span>{commentByBlog?.length}</span>
                   </div>

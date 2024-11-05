@@ -45,10 +45,10 @@ function App() {
           <Route path="/new-post" element={<NewPost />} />
           <Route path="/" element={<Content />}>
             <Route path="/" element={<SidebarContent />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<DetailBlog />} />
-            </Route>
+
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<DetailBlog />} />
+
             <Route path="/course/:id" element={<CourseInfoDescription />} />
           </Route>
         </Route>

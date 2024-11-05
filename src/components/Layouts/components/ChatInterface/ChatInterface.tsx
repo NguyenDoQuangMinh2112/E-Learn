@@ -8,9 +8,7 @@ import { useSelector } from 'react-redux'
 import Comment from './Comment/Comment'
 import { blogSelector } from '~/redux/blog/blogSelector'
 import CommentField from './CommentField/CommentField'
-import { useEffect } from 'react'
-import { fetchCommentByBlog } from '~/redux/blog/blogAction'
-import { useParams } from 'react-router-dom'
+
 import { AppDispatch } from '~/redux/store'
 const cx = classNames.bind(styles)
 
@@ -18,11 +16,7 @@ const ChatInterface = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { commentByBlog } = useSelector(blogSelector)
   const parentComments = commentByBlog?.filter((comment) => comment.parent === null)
-  const { id } = useParams()
 
-  useEffect(() => {
-    dispatch(fetchCommentByBlog(String(id)))
-  }, [])
   return (
     <div className={cx('wrapper')}>
       <div className={cx('overlay')}></div>

@@ -23,7 +23,7 @@ export interface Comment {
   _destroy: boolean
 }
 export interface Blog {
-  _id: number
+  _id: string
   title: string
   banner: string
   des: string
