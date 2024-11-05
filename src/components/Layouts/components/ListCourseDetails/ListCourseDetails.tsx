@@ -13,7 +13,7 @@ const ListCourseDetails = ({ datas, activeLesson }: ListCourseDetailsProps) => {
   return (
     <div className={cx('body')}>
       {datas?.chapters?.map((c) => (
-        <IntroduceLesson chapter={c} activeLesson={activeLesson} />
+        <IntroduceLesson chapter={c} activeLesson={activeLesson} key={c._id} />
       ))}
     </div>
   )

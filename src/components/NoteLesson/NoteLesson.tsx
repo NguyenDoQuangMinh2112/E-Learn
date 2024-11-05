@@ -11,26 +11,33 @@ import { MdEdit } from 'react-icons/md'
 import { MdDeleteOutline } from 'react-icons/md'
 
 import noNoteYet from '~/assets/images/noNoteYet.svg'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import 'draft-js/dist/Draft.css'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/store'
+import { AppDispatch, RootState } from '~/redux/store'
 
 import { Editor, EditorState } from 'react-draft-wysiwyg'
 import { EditorState as DraftEditorState, ContentState } from 'draft-js'
 import { toast } from 'react-toastify'
+import { fetchNoteLessonByLessonID } from '~/redux/noteLesson/noteLessonAction'
+import { courseSelector } from '~/redux/course/courseSelector'
+import { authSelector } from '~/redux/auth/authSelectors'
 
 const cx = classNames.bind(styles)
 
 const NoteLesson = ({ noteLessonRef }: any) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const noNote = false
   let editorStateS = EditorState?.createEmpty()
   const [editorState, setEditorState] = useState(editorStateS)
 
-  const { myNotes } = useSelector((state: RootState) => state.noteLesson)
+  const { myNoteLessons } = useSelector((state: RootState) => state.noteLesson)
+
+  const {activeLesson} = useSelector(courseSelector)  
+  const {userInfo} = useSelector(authSelector)
+
   const [edit, setEdit] = useState<boolean>(false)
-  const [idNote, setIdNote] = useState<number>(0)
+  const [idNote, setIdNote] = useState<string>()
   const onEditorStateChange = (editorStateS: EditorState) => {
     setEditorState(editorStateS)
   }
@@ -39,13 +46,20 @@ const NoteLesson = ({ noteLessonRef }: any) => {
     setEdit(false)
     setEditorState(EditorState?.createEmpty())
   }
-  const handleUpdateNote = (idNote: number) => {
+  const handleUpdateNote = (idNote: string) => {
     const contentState = editorState?.getCurrentContent()?.getPlainText()
     setEdit(false)
     setEditorState(EditorState?.createEmpty())
     dispatch(updateNoteLesson({ id: idNote, content: contentState }))
     toast.success('Update note lesson successfully!')
   }
+
+  useEffect(()=>{
+   if(userInfo){
+    const lessonId = activeLesson?._id
+    dispatch(fetchNoteLessonByLessonID(String(lessonId)))
+   }
+  },[])
   return (
     <div className={cx('wrapper')}>
       <div className={cx('overlay')}></div>
@@ -67,20 +81,20 @@ const NoteLesson = ({ noteLessonRef }: any) => {
             </div>
           ) : (
             <ul className={cx('listNote')}>
-              {myNotes?.map((note) => (
-                <li key={note.id}>
+              {myNoteLessons?.map((note) => (
+                <li key={note._id}>
                   <div className={cx('itemHead')}>
                     <div className={cx('noteTime')}>{note?.time}</div>
                     <div className={cx('titleWrap')}>
-                      <div className={cx('title')}>{note?.title}</div>
-                      <div className={cx('trackTitle')}>Giới thiệu</div>
+                      <div className={cx('title')}>{note?.lesson_id.title}</div>
+                      <div className={cx('trackTitle')}>{note?.chapter_id.title}</div>
                     </div>
                     <div className={cx('noteActions')}>
                       <Button
                         className={cx('a')}
                         onClick={() => {
                           setEdit(true)
-                          setIdNote(note.id)
+                          setIdNote(note._id)
                           if (note.content && typeof note.content === 'string') {
                             const contentState = ContentState?.createFromText(note.content)
                             if (contentState) {
@@ -102,7 +116,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                     </div>
                   </div>
                   <div className={cx('content')}>
-                    {edit && note.id === idNote ? (
+                    {edit && note._id === idNote ? (
                       <>
                         <Editor
                           editorState={editorState}
@@ -139,7 +153,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                           <Button className={cx('cancle')} onClick={handleCancleNoteLesson}>
                             HỦY BỎ{' '}
                           </Button>
-                          <Button className={cx('addNote_btn')} onClick={() => handleUpdateNote(note.id)}>
+                          <Button className={cx('addNote_btn')} onClick={() => handleUpdateNote(note._id)}>
                             CẬP NHẬT{' '}
                           </Button>
                         </div>

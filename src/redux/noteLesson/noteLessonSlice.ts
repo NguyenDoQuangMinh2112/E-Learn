@@ -1,13 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { fetchNoteLessonByLessonID } from './noteLessonAction'
+import { NoteLesson } from '~/interfaces/noteLesson'
 
 interface NoteLessonState {
   isOpenNoteLesson: boolean
+  loading:boolean
   isOpenChat: boolean
+  error: string | null
+  myNoteLessons:NoteLesson[] | null
   myNotes: Array<{ id: number; title: string; content: string; time: string }>
 }
 const initialState: NoteLessonState = {
   isOpenNoteLesson: false,
   isOpenChat: false,
+  loading:false,
+  myNoteLessons:null,
+  error:null,
   myNotes: [
     { id: 1, title: 'Lời khuyên trước khóa học', content: 'Note 1', time: '00:01' },
     { id: 2, title: 'Lời khuyên trước khóa học 2', content: 'Note 2', time: '00:02' },
@@ -45,6 +53,21 @@ const noteLessonSlice = createSlice({
         }
       }
     }
+  },
+  extraReducers:(builder)=>{
+    builder
+    .addCase(fetchNoteLessonByLessonID.pending, (state) => {
+      state.loading = true
+    })
+    .addCase(fetchNoteLessonByLessonID.fulfilled, (state, action: PayloadAction<NoteLesson[]>) => {
+      state.loading = false
+      state.myNoteLessons = action.payload
+    })
+
+    .addCase(fetchNoteLessonByLessonID.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.error.message || 'An error occurred.'
+    })
   }
 })
 

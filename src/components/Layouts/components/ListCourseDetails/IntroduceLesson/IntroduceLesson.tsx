@@ -22,7 +22,7 @@ const IntroduceLesson = ({ chapter, activeLesson }: IntroduceLessonProps) => {
         <span className={cx('icon')}>{toggle ? <FaChevronUp /> : <FaChevronDown />}</span>
       </div>
       {chapter?.lessons?.map((l) => (
-        <LessonItem toggle={toggle} lesson={l} isActive={activeLesson?._id === l._id} />
+        <LessonItem toggle={toggle} lesson={l} isActive={activeLesson?._id === l._id} key={l._id}/>
       ))}
     </>
   )
