@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
 
 import { addCommentAPI } from '~/apis/comment/comment'
+import { updateCommentByBlog } from '~/redux/blog/blogSlice'
 
 const cx = classNames.bind(styles)
 
@@ -71,6 +72,7 @@ const CommentField = ({
       const res = await addCommentAPI(payload)
       if (res.statusCode === 201) {
         setComment({ text: '', parent: null })
+        dispatch(updateCommentByBlog({ avatar_default: userInfo.avatar_url, ...res.data }))
         setIsHideComment(false)
       }
     } catch (error) {

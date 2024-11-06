@@ -14,6 +14,7 @@ export interface Comment {
     fullName: string
     avatar_url: string
   }
+  avatar_default?: string
   parent?: string
   createdAt: string
   children: any[]

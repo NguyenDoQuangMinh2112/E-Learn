@@ -62,7 +62,7 @@ const DetailBlog = () => {
           blogId: blogDetail?._id,
           isLiked: isLikeBlog
         }
-        await reactionBlogAPI(payload).then(({ data }) => console.log(data))
+        await reactionBlogAPI(payload)
       }
     } else {
       dispatch(showPopup('login'))
@@ -73,11 +73,11 @@ const DetailBlog = () => {
     if (userInfo) {
       const fetchIsLikedData = async () => {
         try {
-          const payload = {
-            blogId: blogDetail?._id as string
-          }
+          const payload = { blogId: id as string }
+
+          console.log('🚀 ~ fetchIsLikedData ~ payload:', payload)
           const res = await checkLikedByUserAPI(payload)
-          console.log('🚀 ~ fetchIsLikedData ~ res:', res)
+
           if (res.statusCode === 200) {
             setIsLikeBlog(Boolean(res.data))
           }
@@ -85,6 +85,7 @@ const DetailBlog = () => {
           console.error('Error fetching data:', error)
         }
       }
+
       fetchIsLikedData()
     }
   }, [])

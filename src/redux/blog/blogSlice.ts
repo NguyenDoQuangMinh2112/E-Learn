@@ -31,6 +31,10 @@ const blogSlice = createSlice({
         ...state.blogDetail,
         ...action.payload
       }
+    },
+
+    updateCommentByBlog: (state, action) => {
+      state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
     }
   },
   extraReducers(builder) {
@@ -75,5 +79,5 @@ const blogSlice = createSlice({
   }
 })
 
-export const { toggleShowRepplyForm, updateBlog } = blogSlice.actions
+export const { toggleShowRepplyForm, updateBlog, updateCommentByBlog } = blogSlice.actions
 export default blogSlice.reducer
