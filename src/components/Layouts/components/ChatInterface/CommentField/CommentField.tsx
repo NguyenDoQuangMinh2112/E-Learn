@@ -31,7 +31,7 @@ const CommentField = ({
   const [isHideComment, setIsHideComment] = useState<boolean>(false)
   const [comment, setComment] = useState({
     text: '',
-    parent: null // dùng để lưu ID của comment cha nếu có
+    parent: null
   })
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -46,9 +46,7 @@ const CommentField = ({
   const handleCancelComment = () => {
     setIsHideComment(false)
     setComment({ text: '', parent: null })
-    if (setIsReplyVisible) {
-      setIsReplyVisible(false)
-    }
+    setIsReplyVisible && setIsReplyVisible(false)
   }
 
   const handleAddNewComment = async () => {
@@ -59,21 +57,42 @@ const CommentField = ({
       }
 
       if (!comment.text) {
-        // Thông báo lỗi nếu comment rỗng
         return alert('Comment cannot be empty.')
       }
       const payload = {
         blog_id: id,
         blog_author: userInfo._id,
         comment: comment.text,
-        parent: parentId || null // Gán ID của comment cha
+        parent: parentId || null
       }
+
+      // const obj = {
+      //   blog_author: userInfo._id,
+      //   blog_id: id,
+      //   children: [],
+      //   comment: comment.text,
+      //   commented_by: 'dsadasdas',
+      //   createdAt: '2024-11-05T14:46:30.870Z',
+      //   isReply: false,
+      //   parent: parentId,
+      //   replies: [],
+      //   updatedAt: null,
+      //   _destroy: false,
+      //   _id: '672a2fc63ff029aef9c54839'
+      // }
+      // dispatch(updateCommentByBlog({ avatar_default: userInfo.avatar_url, ...obj }))
+      // setComment({ text: '', parent: null })
+      // setIsHideComment(false)
+      // if(setIsReplyVisible){
+      //   setIsReplyVisible(false)
+      // }
 
       const res = await addCommentAPI(payload)
       if (res.statusCode === 201) {
         setComment({ text: '', parent: null })
         dispatch(updateCommentByBlog({ avatar_default: userInfo.avatar_url, ...res.data }))
         setIsHideComment(false)
+        setIsReplyVisible && setIsReplyVisible(false)
       }
     } catch (error) {
       console.log(error)

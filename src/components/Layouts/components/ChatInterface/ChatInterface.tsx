@@ -15,7 +15,6 @@ const cx = classNames.bind(styles)
 const ChatInterface = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { commentByBlog } = useSelector(blogSelector)
-  console.log('🚀 ~ ChatInterface ~ commentByBlog:', commentByBlog)
   const parentComments = commentByBlog?.filter((comment) => comment.parent === null)
 
   return (

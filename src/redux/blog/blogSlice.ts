@@ -34,7 +34,14 @@ const blogSlice = createSlice({
     },
 
     updateCommentByBlog: (state, action) => {
-      state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
+      if (action.payload.parent === null) {
+        state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
+      } else {
+        const findComment = state.commentByBlog?.find(cmt=> cmt._id === action.payload.parent)
+        findComment?.replies?.push(action.payload)
+        findComment?.children?.push(action.payload._id)
+        state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
+      }
     }
   },
   extraReducers(builder) {

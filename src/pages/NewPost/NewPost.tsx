@@ -16,6 +16,7 @@ import Tag from '~/components/Tag'
 import { createBlogAPI } from '~/apis/blogs'
 import { authSelector } from '~/redux/auth/authSelectors'
 import { toast } from 'react-toastify'
+import Spinner from '~/components/Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
@@ -29,6 +30,7 @@ interface EditorChangeEvent {
 
 const NewPost = () => {
   const { type, isOpenPopup } = useSelector(popupSelector)
+  console.log("🚀 ~ NewPost ~ type:", type)
   const { userInfo } = useSelector(authSelector)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
@@ -38,6 +40,7 @@ const NewPost = () => {
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
   const [content, setContent] = useState<string>('')
   const [des, setDes] = useState<string | undefined>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   let tagLimit: number = 10
 
@@ -85,10 +88,29 @@ const NewPost = () => {
   const handleEditorChange = ({ text }: EditorChangeEvent) => {
     setContent(text)
   }
-
+  console.log(!!title);
+  
   // Created new board
   const handleCreateNewPost = async () => {
     try {
+      // validation
+
+      if(!title){
+        alert('Title not be empty!')
+        return
+      }
+      if(!des){
+        alert('Title not be empty!')
+        return
+      }
+
+      if(des?.length > 20){
+        alert('Description can not greater 20 characters.')
+        return
+      }
+      
+
+
       const htmlContent = mdParser.render(content)
       const formData = new FormData()
       formData.append('title', title || '')
@@ -97,8 +119,10 @@ const NewPost = () => {
       tags.forEach((tag: string) => formData.append('tags[]', tag))
       formData.append('author', userInfo?._id || '')
       if (fileInputRef.current && fileInputRef.current.files?.[0]) {
-        formData.append('banner', fileInputRef.current.files[0]) // Thêm file banner
+        formData.append('banner', fileInputRef.current.files[0]) 
       }
+
+      setIsLoading(true)
       const res = await createBlogAPI(formData)
 
       if (res.statusCode === 201) {
@@ -106,7 +130,8 @@ const NewPost = () => {
         setDes('')
         setTitle('')
         setSelectedFile('')
-
+        closeModal()
+        setIsLoading(false)
         toast.success(res?.message)
       }
     } catch (error) {
@@ -164,6 +189,7 @@ const NewPost = () => {
                           <div className={cx('storyBook')}>
                             <div className={cx('lable')}>
                               <span>Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì.</span>
+                              <span className={cx('watch-out')}>Luu y: <p> Su dung Enter, tab, hoac ',' tren ban phim de them tag.</p>.</span>
                             </div>
                             <div className={cx('select')}>
                               {tags?.map((tag: any) => (
@@ -179,7 +205,7 @@ const NewPost = () => {
 
                             <div className={cx('actions')}>
                               <Button className={cx('createPostBtn')} onClick={handleCreateNewPost}>
-                                Xuất bản ngay
+                                {isLoading ? <Spinner color='#fff' /> : 'Xuất bản ngay'}
                               </Button>
                             </div>
                           </div>

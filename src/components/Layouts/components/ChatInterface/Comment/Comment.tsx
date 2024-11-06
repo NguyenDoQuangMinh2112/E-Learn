@@ -16,10 +16,9 @@ interface CommentProps {
 const Comment = ({ commentData, commentsList }: CommentProps) => {
   const { commented_by } = commentData
   const [isReplyVisible, setIsReplyVisible] = useState(false)
-
-  const childrenComments = commentData.children
-    .map((childId) => {
-      // Tìm đối tượng bình luận từ ID trong commentsList
+  
+  const childrenComments = commentData?.children
+    ?.map((childId) => {
       return commentsList?.find((comment) => comment._id === childId)
     })
     .filter(Boolean)
@@ -52,9 +51,9 @@ const Comment = ({ commentData, commentsList }: CommentProps) => {
       {isReplyVisible && (
         <CommentField isReplyForm={true} setIsReplyVisible={setIsReplyVisible} parentId={commentData._id} />
       )}
-      {childrenComments.length > 0 && (
+      {childrenComments?.length > 0 && (
         <div className={cx('childrent_cmt')}>
-          {childrenComments.map((childComment) => (
+          {childrenComments?.map((childComment) => (
             <Comment key={childComment!._id} commentData={childComment!} commentsList={commentsList} />
           ))}
         </div>
