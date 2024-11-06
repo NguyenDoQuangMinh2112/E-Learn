@@ -32,7 +32,7 @@ const Comment = ({ commentData, commentsList }: CommentProps) => {
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
         <div className={cx('userAvatar')}>
-          <img src={commented_by?.avatar_url} alt="avatar" />
+          <img src={commented_by?.avatar_url || commentData?.avatar_default} alt="avatar" />
         </div>
         <span className={cx('userName')}>{commented_by?.fullName}</span>
       </div>
