@@ -20,7 +20,10 @@ const Home = () => {
   const { isOpenChat } = useSelector(noteLessonSelector)
 
   const showFooter = location.pathname !== '/learning/title'
-  const isBlogPage = location.pathname === '/new-post'
+  const isBlogPage = location.pathname === '/new-post' || location.pathname === '/my-profile'
+  const isHidePostBtn = location.pathname === '/my-profile' ? false : isBlogPage
+  const isTransparentHeader = location.pathname === '/my-profile'
+
   useEffect(() => {
     const body = document.body
     if (isOpenPopup || isOpenChat) {
@@ -40,7 +43,7 @@ const Home = () => {
     <>
       <MetaData title="E-Lean" />
       {(isOpenPopup && type === 'login') || type === 'register' ? <Login /> : <></>}
-      <Header isHideSearch={isBlogPage} isHidePostBtn={isBlogPage} />
+      <Header isHideSearch={isBlogPage} isHidePostBtn={isHidePostBtn} isTransparentHeader={isTransparentHeader} />
       <div className={cx('wrapper')}>
         <Outlet />
       </div>

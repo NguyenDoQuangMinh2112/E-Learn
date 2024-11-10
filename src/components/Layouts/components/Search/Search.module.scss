@@ -34,18 +34,24 @@
   background: transparent;
 }
 // clear, loading button
-.clear,
-.loading {
+.clear {
   color: #7c7c7c;
   position: absolute;
   right: 15px;
   background: transparent;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
 }
+
 .loading {
+  color: #7c7c7c;
+  background: transparent;
+  transform: translateY(-50%);
+  cursor: pointer;
   animation: spinner 0.8s linear infinite;
 }
+
 // list search results
 .search-header {
   display: flex;
@@ -75,10 +81,10 @@
 
 @keyframes spinner {
   from {
-    transform: translateY(-50%) rotate(0);
+    transform: translateY(0) rotate(0);
   }
   to {
-    transform: translateY(-50%) rotate(360deg);
+    transform: translateY(0) rotate(360deg);
   }
 }
 

@@ -15,6 +15,7 @@ import Setting from './pages/Setting/Setting'
 import DetailBlog from './pages/DetailBlog/DetailBlog'
 import NewPost from './pages/NewPost/NewPost'
 import { ToastContainer } from 'react-toastify'
+import Profile from './pages/Profile/Profile'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
@@ -38,11 +39,13 @@ const ProtectedRoute = () => {
 function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer autoClose={2000} theme="colored" />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
           <Route path="/new-post" element={<NewPost />} />
+          <Route path="/post/:id/edit" element={<NewPost />} />
+          <Route path="/my-profile" element={<Profile />} />
           <Route path="/" element={<Content />}>
             <Route path="/" element={<SidebarContent />} />
 

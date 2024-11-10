@@ -6,7 +6,7 @@ import classNames from 'classnames/bind'
 import ReactPlayer from 'react-player'
 import Button from '~/components/Button/Button'
 
-import { FaPlus } from 'react-icons/fa'
+import { FiPlus } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
 import ListCourseDetails from '~/components/Layouts/components/ListCourseDetails'
 import CourseLearningHeader from '~/components/Layouts/components/CourseLearningHeader'
@@ -30,6 +30,7 @@ const CourseDetails = () => {
   const playerRef = useRef<ReactPlayer>(null)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [showPopup, setShowPopup] = useState<boolean>(false)
+  const [isPaused, setIsPaused] = useState<boolean>(false)
 
   const { courseDetail, activeLesson } = useSelector(courseSelector)
   const dispatch = useDispatch<AppDispatch>()
@@ -39,8 +40,19 @@ const CourseDetails = () => {
     setIsSidebarClosed(true)
   }
   const handleAddNote = useCallback(() => {
+    setIsPaused(true)
     setShowPopup(true)
   }, [currentTime])
+
+  const handleClosePopup = () => {
+    setShowPopup(false)
+    setIsPaused(false)
+  }
+
+  const handleCancelPopup = () => {
+    setShowPopup(false)
+    setIsPaused(false)
+  }
 
   const handleProgress = useCallback((state: { playedSeconds: number }) => {
     setCurrentTime(state.playedSeconds)
@@ -86,6 +98,7 @@ const CourseDetails = () => {
                   width="100%"
                   ref={playerRef}
                   onProgress={handleProgress}
+                  playing={!isPaused}
                   // url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
                   url={activeLesson ? activeLesson.videoUrl : 'https://www.youtube.com/watch?v=LXb3EKWsInQ'}
                 />
@@ -99,8 +112,12 @@ const CourseDetails = () => {
                 <h1 className={cx('heading')}>{activeLesson?.title}</h1>
                 <p className={cx('updated')}>Cập nhật tháng 11 năm 2022</p>
               </header>
-              <Button className={cx('add_note')} leftIcon={<FaPlus />} onClick={handleAddNote}>
-                {`Thêm ghi chú tại ${formattedCurrentTime}`}
+              <Button className={cx('add_note')} leftIcon={<FiPlus />} onClick={handleAddNote}>
+                {/* {` ${formattedCurrentTime}`} */}
+                <span style={{ fontWeight: 400 }}>
+                  Thêm ghi chú tại
+                  <span style={{ fontWeight: '600' }}> {formattedCurrentTime}</span>
+                </span>
               </Button>
             </div>
             {/* introduction */}
@@ -115,7 +132,14 @@ const CourseDetails = () => {
               </p>
             </div>
           </div>
-          {showPopup && <Note setShowPopup={setShowPopup} formattedCurrentTime={formattedCurrentTime} />}
+          {showPopup && (
+            <Note
+              setShowPopup={setShowPopup}
+              formattedCurrentTime={formattedCurrentTime}
+              onClose={handleClosePopup}
+              onCancel={handleCancelPopup}
+            />
+          )}
         </div>
         <div className={cx('right', { close: isSidebarClosed })}>
           <div className={cx('container')}>

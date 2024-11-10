@@ -15,7 +15,7 @@
   position: relative;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(.active-bg) {
     background-color: #f1f1f1;
   }
 }

@@ -75,7 +75,6 @@ const DetailBlog = () => {
         try {
           const payload = { blogId: id as string }
 
-          console.log('🚀 ~ fetchIsLikedData ~ payload:', payload)
           const res = await checkLikedByUserAPI(payload)
 
           if (res.statusCode === 200) {

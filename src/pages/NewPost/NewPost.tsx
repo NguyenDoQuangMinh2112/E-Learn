@@ -30,7 +30,7 @@ interface EditorChangeEvent {
 
 const NewPost = () => {
   const { type, isOpenPopup } = useSelector(popupSelector)
-  console.log("🚀 ~ NewPost ~ type:", type)
+  console.log('🚀 ~ NewPost ~ type:', type)
   const { userInfo } = useSelector(authSelector)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
@@ -84,33 +84,41 @@ const NewPost = () => {
   }
 
   // Markdown editor lite
-
   const handleEditorChange = ({ text }: EditorChangeEvent) => {
     setContent(text)
   }
-  console.log(!!title);
-  
+
   // Created new board
   const handleCreateNewPost = async () => {
+    if (!title || title.trim() === '') {
+      alert('Title cannot be empty!')
+      return
+    }
+    if (!des || des.trim() === '') {
+      alert('Description cannot be empty!')
+      return
+    }
+
+    if (des.length > 20) {
+      alert('Description cannot be greater than 20 characters.')
+      return
+    }
+    if (tags.length === 0) {
+      alert('Please add at least one tag!')
+      return
+    }
+
+    if (tags.length > 10) {
+      alert('You can add a maximum of 10 tags!')
+      return
+    }
+
+    const fileInput = fileInputRef.current
+    if (fileInput && fileInput.files?.length === 0) {
+      alert('Please select an image!')
+      return
+    }
     try {
-      // validation
-
-      if(!title){
-        alert('Title not be empty!')
-        return
-      }
-      if(!des){
-        alert('Title not be empty!')
-        return
-      }
-
-      if(des?.length > 20){
-        alert('Description can not greater 20 characters.')
-        return
-      }
-      
-
-
       const htmlContent = mdParser.render(content)
       const formData = new FormData()
       formData.append('title', title || '')
@@ -119,7 +127,7 @@ const NewPost = () => {
       tags.forEach((tag: string) => formData.append('tags[]', tag))
       formData.append('author', userInfo?._id || '')
       if (fileInputRef.current && fileInputRef.current.files?.[0]) {
-        formData.append('banner', fileInputRef.current.files[0]) 
+        formData.append('banner', fileInputRef.current.files[0])
       }
 
       setIsLoading(true)
@@ -189,7 +197,14 @@ const NewPost = () => {
                           <div className={cx('storyBook')}>
                             <div className={cx('lable')}>
                               <span>Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì.</span>
-                              <span className={cx('watch-out')}>Luu y: <p> Su dung Enter, tab, hoac ',' tren ban phim de them tag.</p>.</span>
+                              <span className={cx('watch-out')}>
+                                Lưu ý:{' '}
+                                <p style={{ color: '#45b613' }}>
+                                  {' '}
+                                  Sử dụng Enter, tab, hoặc ',' trên bàn phím để thêm tag.
+                                </p>
+                                .
+                              </span>
                             </div>
                             <div className={cx('select')}>
                               {tags?.map((tag: any) => (
@@ -205,7 +220,7 @@ const NewPost = () => {
 
                             <div className={cx('actions')}>
                               <Button className={cx('createPostBtn')} onClick={handleCreateNewPost}>
-                                {isLoading ? <Spinner color='#fff' /> : 'Xuất bản ngay'}
+                                {isLoading ? <Spinner color="#fff" /> : 'Xuất bản ngay'}
                               </Button>
                             </div>
                           </div>

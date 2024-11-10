@@ -36,12 +36,12 @@ export interface Course {
   description?: string
   price: number
   thumbnail: string
-  noteVideo?: any[] // Update the type if you have a specific structure for noteVideo
-  chapters?: string[] // Array of chapter ObjectIds
-  createdAt?: number // Timestamp
-  updatedAt?: number | null // Can be null if not updated
+  noteVideo?: any[]
+  chapters?: string[]
+  createdAt?: number
+  updatedAt?: number | null
   _destroy?: boolean
-  instructor: Instructor // Object containing instructor's information
+  instructor: Instructor
 }
 
 export interface CourseInfo {
@@ -58,12 +58,12 @@ export interface CourseInfo {
 }
 
 export interface LessonNote {
-  _id: string // Unique identifier for the note
-  course_id: string // Unique identifier for the course
-  chapter_id: string // Unique identifier for the chapter
-  lesson_id: string // Unique identifier for the lesson
-  time: string // Duration or timestamp of the note
-  content: string // Content of the note
-  createdAt: string // Timestamp for when the note was created
-  updatedAt: string | null // Timestamp for when the note was last updated, or null if not updated
+  _id: string
+  course_id: string
+  chapter_id: string
+  lesson_id: string
+  time: string
+  content: string
+  createdAt: string
+  updatedAt: string | null
 }

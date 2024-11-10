@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
@@ -9,13 +9,47 @@ import { FaSpinner } from 'react-icons/fa'
 
 import Tippy from '@tippyjs/react/headless'
 import PopperWrapper from '../Popper'
-import CourseItem from '../CourseItem'
+import SearchItem from '../SearchItem'
+import useDebounce from '~/hooks/useDebounce'
+import { searchAPI } from '~/apis/course'
+import { searchResultInterface } from '~/interfaces/searchResult'
 
 const cx = classNames.bind(styles)
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  console.log('🚀 ~ Search ~ isLoading:', isLoading)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [searchResult, setSearchResult] = useState<searchResultInterface | null>(null)
+
+  const debouceSearch = useDebounce({
+    value: searchValue,
+    ms: 800
+  })
+
+  useEffect(() => {
+    if (debouceSearch.trim() === '') {
+      setSearchResult(null)
+      return // Không tìm kiếm nếu giá trị là chuỗi rỗng
+    }
+    const fetchSearchAPI = async () => {
+      setIsLoading(true)
+      try {
+        const res = await searchAPI({ q: debouceSearch })
+        if (res.statusCode === 200) {
+          setSearchResult(res.data)
+        }
+      } catch (error) {
+        console.error('Error fetching search results:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchSearchAPI()
+  }, [debouceSearch])
+
   return (
     <Tippy
       visible={searchValue?.length > 0}
@@ -24,18 +58,50 @@ const Search = () => {
         <div className={cx('search-result')} tabIndex={-1} {...attrs}>
           <PopperWrapper>
             <div className={cx('search-header')}>
-              <FiSearch />
-              <span>Kết quả cho '{searchValue}'</span>
+              {isLoading ? (
+                <>
+                  <FaSpinner className={cx('loading')} />
+                  <span>Đang tìm kiếm '{searchValue}'</span>
+                </>
+              ) : (
+                <span>Kết quả tìm kiếm cho '{searchValue}'</span>
+              )}
             </div>
-            <div className={cx('search-heading')}>
-              <h5 className={cx('search-title')}>Khóa học</h5>
-              <span>Xem thêm</span>
-            </div>
-            <CourseItem />
-            <CourseItem />
-            <CourseItem />
-            <CourseItem />
-            <CourseItem />
+
+            {isLoading ? (
+              <></>
+            ) : (
+              <>
+                {searchResult && searchResult?.courses?.length > 0 && (
+                  <div>
+                    <div className={cx('search-heading')}>
+                      <h5 className={cx('search-title')}>Khóa học</h5>
+                      <span>Xem thêm</span>
+                    </div>
+                    {searchResult.courses.map((course) => (
+                      <SearchItem
+                        title={course.title}
+                        thumnails={course.thumbnail}
+                        key={course._id}
+                        courseId={course._id}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {searchResult && searchResult?.blogs?.length > 0 && (
+                  <div>
+                    <div className={cx('search-heading')}>
+                      <h5 className={cx('search-title')}>Bài viết</h5>
+                      <span>Xem thêm</span>
+                    </div>
+                    {searchResult.blogs.map((blog, index) => (
+                      <SearchItem title={blog.title} thumnails={blog.banner} key={blog._id} blogId={blog._id} />
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
           </PopperWrapper>
         </div>
       )}
@@ -52,15 +118,16 @@ const Search = () => {
           onChange={(e) => setSearchValue(e.target.value)}
         />
 
-        <button
-          className={cx('clear')}
-          onClick={() => {
-            setSearchValue(''), inputRef.current?.focus()
-          }}
-        >
-          <IoIosCloseCircle />
-        </button>
-        <FaSpinner className={cx('loading')} />
+        {searchValue && (
+          <button
+            className={cx('clear')}
+            onClick={() => {
+              setSearchValue(''), inputRef.current?.focus()
+            }}
+          >
+            <IoIosCloseCircle />
+          </button>
+        )}
       </div>
     </Tippy>
   )

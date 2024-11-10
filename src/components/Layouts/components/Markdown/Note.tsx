@@ -21,8 +21,10 @@ const cx = classNames.bind(styles)
 interface NoteProps {
   setShowPopup: (show: boolean) => void
   formattedCurrentTime: string
+  onClose: () => void
+  onCancel: () => void
 }
-const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
+const Note = ({ setShowPopup, formattedCurrentTime, onCancel }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
@@ -106,7 +108,7 @@ const Note = ({ setShowPopup, formattedCurrentTime }: NoteProps) => {
           <Button
             className={cx('cancle')}
             onClick={() => {
-              setShowPopup(false), setEditorState(EditorState.createEmpty())
+              onCancel(), setShowPopup(false), setEditorState(EditorState.createEmpty())
             }}
           >
             HỦY BỎ

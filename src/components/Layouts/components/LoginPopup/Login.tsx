@@ -13,7 +13,7 @@ import { IoChevronBackSharp } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import { hidePopup, showPopup } from '~/redux/popup/popupSlice'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/store'
+import { AppDispatch, RootState } from '~/redux/store'
 import EmailLoginForm from './EmailLoginForm'
 import SocialLoginButtons from './SocialLoginButtons'
 
@@ -21,8 +21,9 @@ const cx = classNames.bind(styles)
 
 const Login: React.FC = () => {
   const [isEmailLogin, setIsEmailLogin] = useState<boolean>(false)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const type = useSelector((state: RootState) => state.popup.type) || 'login'
+  console.log('🚀 ~ type:', type)
 
   const handleClosePopup = () => dispatch(hidePopup())
   const handleBack = () => setIsEmailLogin(false)
@@ -53,9 +54,12 @@ const Login: React.FC = () => {
 
         <main className={cx('main')}>
           {isEmailLogin ? (
-            <EmailLoginForm type={type} />
+            <EmailLoginForm type={type === 'login' || type === 'register' ? type : 'login'} />
           ) : (
-            <SocialLoginButtons type={type} onEmailLogin={handleEmailLogin} />
+            <SocialLoginButtons
+              type={type === 'login' || type === 'register' ? type : 'login'}
+              onEmailLogin={handleEmailLogin}
+            />
           )}
           <p className={cx('registerOrLogin')}>
             {type === 'register' ? 'Bạn đã có tài khoản? ' : 'Bạn chưa có tài khoản? '}

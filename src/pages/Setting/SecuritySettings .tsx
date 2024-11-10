@@ -1,15 +1,18 @@
-import styles from './Setting.module.scss'
-import classNames from 'classnames/bind'
 import { useState } from 'react'
 
-import { FaChevronRight } from 'react-icons/fa'
-import { toast } from 'react-toastify'
-import { resetPasswordAPI } from '~/apis/auth'
+import styles from './Setting.module.scss'
+import classNames from 'classnames/bind'
+
+import { useForm } from '~/hooks'
+
 import Button from '~/components/Button'
 import FormGroup from '~/components/FormGroup'
 import Modal from '~/components/Modal/Modal'
 import Spinner from '~/components/Spinner/Spinner'
-import { useForm } from '~/hooks'
+
+import { FaChevronRight } from 'react-icons/fa'
+import { resetPasswordAPI } from '~/apis/auth'
+import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
 
@@ -38,9 +41,14 @@ const SecuritySettings = () => {
         toast.success(res.message)
         setIsLoading(false)
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      setIsLoading(false)
+      toast.error(error?.response?.data?.message)
     }
+  }
+
+  const isFormValid = (): boolean => {
+    return !!values.currentPassword && !!values.newPassword && !!values.confirmPassword
   }
 
   return (
@@ -79,7 +87,7 @@ const SecuritySettings = () => {
               type="password"
             />
           </div>
-          <Button className={cx('saveBtn')} onClick={handleUpdatePassword}>
+          <Button className={cx('saveBtn', { disable: !isFormValid() })} onClick={handleUpdatePassword}>
             {isLoading ? <Spinner /> : ' Cập nhật'}
           </Button>
         </>
@@ -99,7 +107,7 @@ const SecuritySettings = () => {
                 <FaChevronRight />
               </button>
             </div>
-            <div className={cx('info_details')}>
+            <div className={cx('info_details')} data-label="off">
               <div className={cx('wrapper1')}>
                 <h4>Xác minh 2 bước</h4>
                 <span>Đang tắt</span>

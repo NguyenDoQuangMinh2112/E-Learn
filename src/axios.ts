@@ -16,7 +16,6 @@ authorizedAxiosInstance.interceptors.request.use(
     // get accessToken from local storage
     const accessToken = localStorage.getItem('accessToken')
     if (accessToken) {
-      // Dùng Bearer => tuân thủ theo tiêu chuẩn OAuth2.0
       config.headers.Authorization = `Bearer ${accessToken}`
     }
     return config
@@ -28,11 +27,8 @@ authorizedAxiosInstance.interceptors.request.use(
 )
 let refreshTokenPromise: Promise<void> | null = null
 const dispatch = store.dispatch
-// Add a response interceptor
 authorizedAxiosInstance.interceptors.response.use(
   (response) => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response?.data
   },
   (error) => {
@@ -53,7 +49,6 @@ authorizedAxiosInstance.interceptors.response.use(
               const { accessToken } = res
               localStorage.setItem('accessToken', accessToken)
               authorizedAxiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`
-              // Lưu ý accessToken đã được update ở cookie rồi
             })
             .catch((_error) => {
               logoutAPI().then(() => {
@@ -76,10 +71,8 @@ authorizedAxiosInstance.interceptors.response.use(
     }
 
     if (error?.response?.status !== 410) {
-      toast.error(error.response?.data?.message || error?.message)
+      // toast.error(error.response?.data?.message || error?.message)
     }
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
     return Promise.reject(error)
   }
 )

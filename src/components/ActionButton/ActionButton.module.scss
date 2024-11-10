@@ -20,8 +20,8 @@
 .wrapper {
   background: var(--white);
   box-shadow: 0 -4px 32px #0003;
-  transition: all ease-in-out 0.3s;
-  animation: _fadeIn_qhx2q_1 ease 0.3s;
+  transition: all ease-in-out 0.5s;
+  animation: fade-in ease 0.3s;
   padding: 8px 0;
   min-width: 230px;
   border-radius: 10px;
@@ -44,5 +44,19 @@
     &:hover {
       background-color: #f0f0f0;
     }
+    a {
+      display: flex;
+      gap: 16px;
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

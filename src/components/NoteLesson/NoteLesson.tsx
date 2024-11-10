@@ -4,14 +4,14 @@ import styles from './NoteLesson.module.scss'
 import Button from '../Button'
 
 import { useDispatch } from 'react-redux'
-import { hideNoteLesson, updateNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
+import { deleteNoteLesson, hideNoteLesson, updateNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 
 import { IoMdClose } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
 import { MdDeleteOutline } from 'react-icons/md'
 
 import noNoteYet from '~/assets/images/noNoteYet.svg'
-import { memo, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import 'draft-js/dist/Draft.css'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '~/redux/store'
@@ -22,22 +22,23 @@ import { toast } from 'react-toastify'
 import { fetchNoteLessonByLessonID } from '~/redux/noteLesson/noteLessonAction'
 import { courseSelector } from '~/redux/course/courseSelector'
 import { authSelector } from '~/redux/auth/authSelectors'
+import { editNoteLessonAPI } from '~/apis/course'
+import Spinner from '../Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
 const NoteLesson = ({ noteLessonRef }: any) => {
-  const dispatch = useDispatch<AppDispatch>()
-  const noNote = false
   let editorStateS = EditorState?.createEmpty()
   const [editorState, setEditorState] = useState(editorStateS)
-
-  const { myNoteLessons } = useSelector((state: RootState) => state.noteLesson)
-
-  const {activeLesson} = useSelector(courseSelector)  
-  const {userInfo} = useSelector(authSelector)
-
   const [edit, setEdit] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [idNote, setIdNote] = useState<string>()
+
+  const { userInfo } = useSelector(authSelector)
+  const dispatch = useDispatch<AppDispatch>()
+  const { myNoteLessons } = useSelector((state: RootState) => state.noteLesson)
+  const { activeLesson } = useSelector(courseSelector)
+
   const onEditorStateChange = (editorStateS: EditorState) => {
     setEditorState(editorStateS)
   }
@@ -46,20 +47,34 @@ const NoteLesson = ({ noteLessonRef }: any) => {
     setEdit(false)
     setEditorState(EditorState?.createEmpty())
   }
-  const handleUpdateNote = (idNote: string) => {
-    const contentState = editorState?.getCurrentContent()?.getPlainText()
-    setEdit(false)
-    setEditorState(EditorState?.createEmpty())
-    dispatch(updateNoteLesson({ id: idNote, content: contentState }))
-    toast.success('Update note lesson successfully!')
+  const handleUpdateNote = async (idNote: string) => {
+    try {
+      setIsLoading(true)
+      const contentState = editorState?.getCurrentContent()?.getPlainText()
+      setEdit(false)
+      setEditorState(EditorState?.createEmpty())
+      dispatch(updateNoteLesson({ _id: idNote, content: contentState }))
+      const res = await editNoteLessonAPI(idNote, { content: contentState })
+      if (res.statusCode === 200) {
+        setIsLoading(false)
+        toast.success('Update note lesson successfully!')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  useEffect(()=>{
-   if(userInfo){
-    const lessonId = activeLesson?._id
-    dispatch(fetchNoteLessonByLessonID(String(lessonId)))
-   }
-  },[])
+  const handleRemoveNoteLesson = useCallback((id: string) => {
+    dispatch(deleteNoteLesson({ id }))
+    toast.success('Xóa ghi chú thành công!')
+  }, [])
+
+  useEffect(() => {
+    if (userInfo) {
+      const lessonId = activeLesson?._id
+      dispatch(fetchNoteLessonByLessonID(String(lessonId)))
+    }
+  }, [])
   return (
     <div className={cx('wrapper')}>
       <div className={cx('overlay')}></div>
@@ -73,7 +88,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
           <header>
             <h2>Ghi chú của tôi</h2>
           </header>
-          {!!noNote ? (
+          {myNoteLessons && !myNoteLessons?.length ? (
             <div className={cx('noResult')}>
               <img src={noNoteYet} alt="note-result" />
               <div className={cx('heading')}>Bạn chưa có ghi chú nào</div>
@@ -110,7 +125,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                       >
                         <MdEdit size={20} color="#b8b6b6" className={cx('icon')} />
                       </Button>
-                      <Button>
+                      <Button onClick={() => handleRemoveNoteLesson(note._id)}>
                         <MdDeleteOutline size={20} color="#b8b6b6" className={cx('icon')} />
                       </Button>
                     </div>
@@ -154,7 +169,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
                             HỦY BỎ{' '}
                           </Button>
                           <Button className={cx('addNote_btn')} onClick={() => handleUpdateNote(note._id)}>
-                            CẬP NHẬT{' '}
+                            {isLoading ? <Spinner color="#fff" /> : ' CẬP NHẬT'}
                           </Button>
                         </div>
                       </>

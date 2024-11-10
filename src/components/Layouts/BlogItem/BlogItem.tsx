@@ -6,6 +6,7 @@ import ActionButton from '~/components/ActionButton/ActionButton'
 import { Blog } from '~/interfaces/blog'
 import { checkLengthOfWords, getLastTwoNames } from '~/utils/helper'
 import { FaCheckCircle } from 'react-icons/fa'
+
 import adminSignature from '~/assets/images/admin.svg'
 import { memo } from 'react'
 
@@ -32,7 +33,7 @@ const BlogItem = ({ data }: blogProps) => {
           <span>{getLastTwoNames(data?.author.fullName)}</span>
           {data.author?.role === 'admin' && <FaCheckCircle className={cx('icon')} />}
         </div>
-        <ActionButton />
+        <ActionButton blogId={data._id} />
       </div>
       <div className={cx('body')}>
         <div className={cx('info')}>
@@ -50,7 +51,7 @@ const BlogItem = ({ data }: blogProps) => {
             <span className={cx('dot')}>.</span>6 ngày trước
           </div>
         </div>
-        <div className={cx('thumb')}>
+        <div className={cx('thumb', 'd-xl-none')}>
           <a href="">
             <img src={data.banner} alt="thumb" />
           </a>

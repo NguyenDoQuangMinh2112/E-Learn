@@ -10,6 +10,7 @@ import { FaUser } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { MdLogout } from 'react-icons/md'
 import { MdOutlineNoteAlt } from 'react-icons/md'
+import { IoNotifications } from 'react-icons/io5'
 
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
@@ -23,7 +24,8 @@ const cx = classNames.bind(styles)
 const userMenu = [
   {
     icon: <FaUser />,
-    title: 'View profile'
+    title: 'View profile',
+    to: '/my-profile'
   },
   {
     icon: <MdOutlineNoteAlt />,
@@ -44,14 +46,18 @@ const userMenu = [
 interface headerProps {
   isHideSearch?: boolean
   isHidePostBtn?: boolean
+  isTransparentHeader?: boolean
 }
-const Header = ({ isHideSearch = false, isHidePostBtn = false }: headerProps) => {
+const Header = ({ isHideSearch = false, isHidePostBtn = false, isTransparentHeader = false }: headerProps) => {
   const { userInfo } = useSelector(authSelector)
   const { isOpenChat } = useSelector(noteLessonSelector)
   const dispatch = useDispatch()
 
   return (
-    <header className={cx('wrapper')} style={{ zIndex: `${isOpenChat ? 0 : 10}` }}>
+    <header
+      className={cx('wrapper', { transparent: isTransparentHeader })}
+      style={{ zIndex: `${isOpenChat ? 0 : 10}` }}
+    >
       {/* left */}
       <div className={cx('header_left')}>
         <NavLink to="/">
@@ -71,6 +77,10 @@ const Header = ({ isHideSearch = false, isHidePostBtn = false }: headerProps) =>
             XUẤT BẢN
           </Button>
         )}
+
+        <div className={cx('notification')}>
+          <IoNotifications />
+        </div>
 
         {userInfo ? (
           <Menu items={userMenu}>

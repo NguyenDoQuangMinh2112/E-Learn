@@ -26,6 +26,7 @@ const CommentField = ({
   setIsReplyVisible?: (v: boolean) => void
   parentId?: string
 }) => {
+  console.log('🚀 ~ isReplyForm:', isReplyForm)
   const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch<AppDispatch>()
   const [isHideComment, setIsHideComment] = useState<boolean>(false)
@@ -38,10 +39,10 @@ const CommentField = ({
   const { id } = useParams()
 
   useEffect(() => {
-    if (isHideComment && textAreaRef.current) {
-      textAreaRef.current.focus()
+    if ((isHideComment && textAreaRef.current) || isReplyForm) {
+      textAreaRef?.current?.focus()
     }
-  }, [isHideComment])
+  }, [isHideComment, isReplyForm])
 
   const handleCancelComment = () => {
     setIsHideComment(false)

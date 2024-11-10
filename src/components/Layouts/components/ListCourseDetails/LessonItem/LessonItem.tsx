@@ -16,11 +16,8 @@ interface LessonItemProps {
 const LessonItem = ({ toggle, lesson, isActive }: LessonItemProps) => {
   const dispatch = useDispatch()
   return (
-    <div
-      className={cx('track', { active: toggle, 'active-bg': isActive })}
-      onClick={() => dispatch(setActiveLesson(lesson))}
-    >
-      <div className={cx('wrapper_track')}>
+    <div className={cx('track', { active: toggle })} onClick={() => dispatch(setActiveLesson(lesson))}>
+      <div className={cx('wrapper_track', { 'active-bg': isActive })}>
         <div className={cx('info')}>
           <h3 className={cx('info_title')}>
             {lesson.order}. {lesson.title}

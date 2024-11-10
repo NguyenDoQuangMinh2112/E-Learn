@@ -31,15 +31,16 @@ export interface Blog {
   content: string[]
   tags?: string[]
   author: {
+    _id: string
     fullName: string
     avatar_url: string
     role: 'admin' | 'student' | 'teacher'
   }
   activity: BlogActivity
-  comments?: Comment[] // Array of Object IDs
+  comments?: Comment[]
   draft?: boolean
   views: number
-  createdAt: number // Timestamp
-  updatedAt: number | null // Timestamp or null
+  createdAt: number
+  updatedAt: number | null
   _destroy?: boolean
 }

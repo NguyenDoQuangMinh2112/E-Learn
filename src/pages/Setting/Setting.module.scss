@@ -101,7 +101,7 @@
   padding: 0 16px;
   transition: background-color 0.1s;
 
-  &:hover {
+  &:hover:not([data-label='Tên người dùng']):not([data-label='off']) {
     cursor: pointer;
     background: #0000000d;
   }

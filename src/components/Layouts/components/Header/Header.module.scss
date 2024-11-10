@@ -10,6 +10,11 @@
   left: 0;
   right: 0;
   z-index: 10;
+
+  &.transparent {
+    background: transparent;
+    box-shadow: none;
+  }
 }
 
 .header_left {
@@ -32,6 +37,16 @@
   flex: 1;
   align-items: center;
   justify-content: flex-end;
+}
+.notification {
+  font-size: 22px;
+  padding: 10px;
+  color: #707070;
+  cursor: pointer;
+
+  &:hover {
+    color: black;
+  }
 }
 .fallbackAvatar {
   font-size: 3.2px;

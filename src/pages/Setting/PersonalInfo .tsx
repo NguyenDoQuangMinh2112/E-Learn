@@ -39,6 +39,7 @@ const PersonalInfo = () => {
   const closeModal = () => {
     setModalOpen(false)
     setCurrentDetail(null)
+    setSelectedFile(null)
   }
 
   const handleSave = async () => {
@@ -92,7 +93,7 @@ const PersonalInfo = () => {
           setSelectedFile(null)
           setFiles(null)
           setIsLoading(false)
-
+          closeModal()
           toast.success('Update avatar successfully!')
         }
       } catch (error) {
@@ -162,7 +163,7 @@ const PersonalInfo = () => {
               />
               <InfoDetail
                 label="Ảnh đại diện"
-                imgSrc={selectedFile || userInfo?.avatar_url}
+                imgSrc={userInfo?.avatar_url}
                 image
                 onClick={() => openModal('Ảnh đại diện')}
               />

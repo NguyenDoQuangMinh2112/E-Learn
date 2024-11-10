@@ -19,7 +19,7 @@ const InfoDetail = ({
   onClick?: () => void
 }) => {
   return (
-    <div className={cx('info_details', { hasEmail: image })} onClick={onClick}>
+    <div data-label={label} className={cx('info_details', { hasEmail: image })} onClick={onClick}>
       <div className={cx('wrapper1', { hasEmail: image })}>
         <h4>{label}</h4>
         <span>{value}</span>

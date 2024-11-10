@@ -15,6 +15,7 @@ interface CourseItemInterface {
 const cx = classNames.bind(styles)
 
 const CourseItem = ({ data, isHide }: CourseItemInterface) => {
+  console.log('🚀 ~ CourseItem ~ data:', data)
   return (
     <div className={cx('col')} key={data._id}>
       <div className={cx('wrapper')}>

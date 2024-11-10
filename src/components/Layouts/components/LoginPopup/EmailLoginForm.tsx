@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
@@ -17,11 +17,11 @@ import Spinner from '~/components/Spinner/Spinner'
 const cx = classNames.bind(styles)
 
 interface EmailLoginForm {
-  type: 'login' | 'register'
+  type: 'login' | 'register' | 'verify' | 'forgotPassword' | 'blog'
 }
 
 const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: EmailLoginForm) => {
-  const { values, errors, handleChange, handleBlur, isLoading, setIsLoading } = useForm({
+  const { values, errors, handleChange, handleBlur, isLoading, setIsLoading, setErrors } = useForm({
     email: '',
     password: '',
     fullName: '',
@@ -73,6 +73,7 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
           email: values.email as string,
           password: values.password as string
         }
+        console.log(data)
 
         const response = await loginAPI(data)
 
@@ -107,7 +108,6 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
         setIsLoading(false)
       }
     } catch (error: any) {
-      console.error('Error during login/register:', error)
       setLoginError(error?.response?.data?.message || 'An unexpected error occurred')
     } finally {
       setIsLoading(false)
@@ -128,6 +128,19 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
       }
     }
   }
+
+  useEffect(() => {
+    if (type === 'login') {
+      values.email = ''
+      values.password = ''
+    } else {
+      values.email = ''
+      values.fullName = ''
+      values.password = ''
+    }
+    setErrors({})
+  }, [type])
+
   return (
     <form onSubmit={handleSubmit}>
       <div className={cx('content')}>

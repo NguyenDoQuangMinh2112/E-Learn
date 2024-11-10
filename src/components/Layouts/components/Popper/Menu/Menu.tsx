@@ -15,7 +15,6 @@ const cx = classNames.bind(styles)
 
 type MenuProps = {
   children: ReactElement
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any
 }
 const Menu = ({ children, items = [] }: MenuProps): ReactElement => {
@@ -40,7 +39,9 @@ const Menu = ({ children, items = [] }: MenuProps): ReactElement => {
                 }}
               >
                 <img className={cx('avatar')} src={userInfo?.avatar_url} alt="avatar" />
-                {userInfo?.role === 'admin' && <img src={adminSignature} alt="" className={cx('adminSignature')} />}
+                {userInfo?.role === 'admin' && (
+                  <img src={adminSignature} alt="admin-signature" className={cx('adminSignature')} />
+                )}
               </div>
               <div className={cx('userMenu_info')}>
                 <span className={cx('userMenu_name')}>{userInfo?.fullName}</span>
