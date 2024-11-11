@@ -4,7 +4,6 @@
   cursor: pointer;
   font-size: 1.4rem;
   font-weight: 600;
-  // margin-right: 16px;
   padding: 8px;
 
   .title {
@@ -213,5 +212,23 @@
 
   span {
     color: white !important;
+  }
+}
+
+.mark-as-read {
+  margin-left: auto;
+  padding: 8px;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f1f1;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--primary);
   }
 }

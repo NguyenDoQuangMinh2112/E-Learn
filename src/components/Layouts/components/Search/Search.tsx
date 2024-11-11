@@ -19,7 +19,6 @@ const cx = classNames.bind(styles)
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  console.log('🚀 ~ Search ~ isLoading:', isLoading)
   const inputRef = useRef<HTMLInputElement>(null)
   const [searchResult, setSearchResult] = useState<searchResultInterface | null>(null)
 
@@ -31,7 +30,7 @@ const Search = () => {
   useEffect(() => {
     if (debouceSearch.trim() === '') {
       setSearchResult(null)
-      return // Không tìm kiếm nếu giá trị là chuỗi rỗng
+      return
     }
     const fetchSearchAPI = async () => {
       setIsLoading(true)
@@ -78,7 +77,7 @@ const Search = () => {
                       <h5 className={cx('search-title')}>Khóa học</h5>
                       <span>Xem thêm</span>
                     </div>
-                    {searchResult.courses.map((course) => (
+                    {searchResult?.courses?.map((course) => (
                       <SearchItem
                         title={course.title}
                         thumnails={course.thumbnail}
@@ -95,9 +94,12 @@ const Search = () => {
                       <h5 className={cx('search-title')}>Bài viết</h5>
                       <span>Xem thêm</span>
                     </div>
-                    {searchResult.blogs.map((blog, index) => (
-                      <SearchItem title={blog.title} thumnails={blog.banner} key={blog._id} blogId={blog._id} />
-                    ))}
+                    {searchResult?.blogs?.map(
+                      (blog) =>
+                        blog && (
+                          <SearchItem title={blog.title} thumnails={blog.banner} key={blog._id} blogId={blog._id} />
+                        )
+                    )}
                   </div>
                 )}
               </>

@@ -10,7 +10,6 @@ import { FaUser } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { MdLogout } from 'react-icons/md'
 import { MdOutlineNoteAlt } from 'react-icons/md'
-import { IoNotifications } from 'react-icons/io5'
 
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
@@ -18,6 +17,7 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
+import Notification from '../Notification/Notification'
 
 const cx = classNames.bind(styles)
 
@@ -47,8 +47,14 @@ interface headerProps {
   isHideSearch?: boolean
   isHidePostBtn?: boolean
   isTransparentHeader?: boolean
+  isHideNotification?: boolean
 }
-const Header = ({ isHideSearch = false, isHidePostBtn = false, isTransparentHeader = false }: headerProps) => {
+const Header = ({
+  isHideSearch = false,
+  isHidePostBtn = false,
+  isTransparentHeader = false,
+  isHideNotification = false
+}: headerProps) => {
   const { userInfo } = useSelector(authSelector)
   const { isOpenChat } = useSelector(noteLessonSelector)
   const dispatch = useDispatch()
@@ -77,10 +83,9 @@ const Header = ({ isHideSearch = false, isHidePostBtn = false, isTransparentHead
             XUẤT BẢN
           </Button>
         )}
-
-        <div className={cx('notification')}>
-          <IoNotifications />
-        </div>
+        {/* Notification UI */}
+        {!isHideNotification && <Notification />}
+        {/* End */}
 
         {userInfo ? (
           <Menu items={userMenu}>
