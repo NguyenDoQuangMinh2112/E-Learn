@@ -14,6 +14,7 @@ import { showPopup } from '~/redux/popup/popupSlice'
 
 import { addCommentAPI } from '~/apis/comment/comment'
 import { updateCommentByBlog } from '~/redux/blog/blogSlice'
+import { blogSelector } from '~/redux/blog/blogSelector'
 
 const cx = classNames.bind(styles)
 
@@ -26,8 +27,8 @@ const CommentField = ({
   setIsReplyVisible?: (v: boolean) => void
   parentId?: string
 }) => {
-  console.log('🚀 ~ isReplyForm:', isReplyForm)
   const { userInfo } = useSelector(authSelector)
+  const { blogDetail } = useSelector(blogSelector)
   const dispatch = useDispatch<AppDispatch>()
   const [isHideComment, setIsHideComment] = useState<boolean>(false)
   const [comment, setComment] = useState({
@@ -62,36 +63,14 @@ const CommentField = ({
       }
       const payload = {
         blog_id: id,
-        blog_author: userInfo._id,
-        comment: comment.text,
+        blog_author: blogDetail?.author?._id,
+        comment: comment?.text,
         parent: parentId || null
       }
-
-      // const obj = {
-      //   blog_author: userInfo._id,
-      //   blog_id: id,
-      //   children: [],
-      //   comment: comment.text,
-      //   commented_by: 'dsadasdas',
-      //   createdAt: '2024-11-05T14:46:30.870Z',
-      //   isReply: false,
-      //   parent: parentId,
-      //   replies: [],
-      //   updatedAt: null,
-      //   _destroy: false,
-      //   _id: '672a2fc63ff029aef9c54839'
-      // }
-      // dispatch(updateCommentByBlog({ avatar_default: userInfo.avatar_url, ...obj }))
-      // setComment({ text: '', parent: null })
-      // setIsHideComment(false)
-      // if(setIsReplyVisible){
-      //   setIsReplyVisible(false)
-      // }
-
       const res = await addCommentAPI(payload)
       if (res.statusCode === 201) {
         setComment({ text: '', parent: null })
-        dispatch(updateCommentByBlog({ avatar_default: userInfo.avatar_url, ...res.data }))
+        dispatch(updateCommentByBlog({ avatar_default: userInfo?.avatar_url, ...res.data }))
         setIsHideComment(false)
         setIsReplyVisible && setIsReplyVisible(false)
       }

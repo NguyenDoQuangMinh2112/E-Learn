@@ -4,6 +4,7 @@ import noteLessonReducer from './noteLesson/noteLessonSlice'
 import authReducer from './auth/authSlice'
 import blogReducer from './blog/blogSlice'
 import courseReducer from './course/courseSlice'
+import socketReducer from './socket/socketSlice'
 
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
@@ -25,6 +26,7 @@ const store = configureStore({
     noteLesson: noteLessonReducer,
     blog: blogReducer,
     course: courseReducer,
+    socket: socketReducer,
     auth: persistReducer<ReturnType<typeof authReducer>>(userConfig, authReducer)
   },
 

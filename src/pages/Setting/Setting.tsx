@@ -39,7 +39,7 @@ const Setting = () => {
               <nav className={cx('nav')}>
                 {sideBarSettingAcountPage?.map((sidebar) => (
                   <Button
-                    // to={sidebar.path}
+                    key={sidebar.id}
                     classNameTitle={cx('title')}
                     classNameIcon={cx('icon')}
                     leftIcon={sidebar.icons}

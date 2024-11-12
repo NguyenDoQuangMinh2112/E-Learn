@@ -102,7 +102,7 @@ const DetailBlog = () => {
           <div className={cx('row')}>
             <div className={cx('col col-2 col-xxxl-3 col-xxl-2 d-lg-none offset-1 offset-xxxl-0 offset-xxl-0')}>
               <div className={cx('aside')}>
-                <h4>{getLastTwoNames(String(blogDetail?.author.fullName))}</h4>
+                <h4>{getLastTwoNames(String(blogDetail?.author?.fullName))}</h4>
                 <p className={cx('des')}>{blogDetail?.des}</p>
                 <hr />
                 <div className={cx('actions')}>
@@ -126,19 +126,19 @@ const DetailBlog = () => {
                       className={cx('userMenu_avatar')}
                       style={{
                         background: `${
-                          blogDetail?.author.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'
+                          blogDetail?.author?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'
                         }`
                       }}
                     >
-                      <img src={blogDetail?.author.avatar_url} alt="author" />
-                      {blogDetail?.author.role === 'admin' && (
+                      <img src={blogDetail?.author?.avatar_url} alt="author" />
+                      {blogDetail?.author?.role === 'admin' && (
                         <img src={adminSignature} alt="" className={cx('adminSignature')} />
                       )}
                     </div>
                     <div className={cx('info')}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                        <h4>{getLastTwoNames(String(blogDetail?.author.fullName))}</h4>
-                        {blogDetail?.author.role === 'admin' && <FaCheckCircle className={cx('icon')} />}
+                        <h4>{getLastTwoNames(String(blogDetail?.author?.fullName))}</h4>
+                        {blogDetail?.author?.role === 'admin' && <FaCheckCircle className={cx('icon')} />}
                       </div>
                       <p className={cx('time')}>
                         7 ngày trước <span className={cx('dot')}>.</span> 6 phút đọc
