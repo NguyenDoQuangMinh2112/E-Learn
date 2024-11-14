@@ -9,7 +9,6 @@ interface PasswordStrengthBarProps {
 }
 
 const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({ strength }) => {
-  console.log('🚀 ~ strength:', strength)
   const getBarColor = (index: number) => {
     if (index < strength) {
       if (strength >= 4) return 'strong'

@@ -30,7 +30,6 @@ interface EditorChangeEvent {
 
 const NewPost = () => {
   const { type, isOpenPopup } = useSelector(popupSelector)
-  console.log('🚀 ~ NewPost ~ type:', type)
   const { userInfo } = useSelector(authSelector)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()

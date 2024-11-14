@@ -26,8 +26,7 @@ const authSlice = createSlice({
         ...action.payload
       }
     }
-  },
-  extraReducers: (builder) => {}
+  }
 })
 
 // Xuất các action và reducer

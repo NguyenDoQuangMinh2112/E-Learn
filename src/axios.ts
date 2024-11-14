@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { logoutAPI, refreshTokenAPI } from './apis/auth'
-import { toast } from 'react-toastify'
 import { logout } from './redux/auth'
 import { showPopup } from './redux/popup/popupSlice'
 import { store } from './redux/store'

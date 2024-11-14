@@ -73,7 +73,6 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: Emai
           email: values.email as string,
           password: values.password as string
         }
-        console.log(data)
 
         const response = await loginAPI(data)
 
