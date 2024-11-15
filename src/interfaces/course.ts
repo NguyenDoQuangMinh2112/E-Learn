@@ -18,6 +18,16 @@ export interface Lesson {
   updatedAt: number | null
   _destroy: boolean
 }
+export interface Exercises {
+  _id: string
+  chapterId: string
+  title: string
+  questions: string[]
+  description: string
+  createdAt: number
+  updatedAt: number | null
+  _destroy: boolean
+}
 
 export interface Chapter {
   _id: string
@@ -25,6 +35,7 @@ export interface Chapter {
   courseId: string
   order: number
   lessons: Lesson[]
+  exercises?: Exercises[]
   createdAt: number
   updatedAt: number | null
   _destroy: boolean
@@ -49,7 +60,6 @@ export interface CourseInfo {
   title: string
   description: string
   price: number
-  noteVideo: string[]
   chapters: Chapter[]
   createdAt: number
   updatedAt: number | null

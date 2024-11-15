@@ -16,6 +16,7 @@ import DetailBlog from './pages/DetailBlog/DetailBlog'
 import NewPost from './pages/NewPost/NewPost'
 import { ToastContainer } from 'react-toastify'
 import Profile from './pages/Profile/Profile'
+import Exercise from './components/Layouts/components/Exercise/Exercise'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
@@ -57,6 +58,7 @@ function App() {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/course/learning/:id" element={<CourseDetails />} />
+          <Route path="/course/learning/exercise/:id" element={<Exercise />} />
         </Route>
 
         <Route path="/setting" element={<Setting />} />

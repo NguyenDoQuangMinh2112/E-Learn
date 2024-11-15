@@ -18,6 +18,8 @@ import { AppDispatch } from '~/redux/store'
 import { fetchDetailCourse } from '~/redux/course/courseAction'
 import { useParams } from 'react-router-dom'
 import { setActiveLesson } from '~/redux/course/courseSlice'
+import { popupSelector } from '~/redux/popup/popup.selector'
+import Exercise from '~/components/Layouts/components/Exercise/Exercise'
 
 const cx = classNames.bind(styles)
 interface Note {
@@ -26,15 +28,17 @@ interface Note {
 }
 
 const CourseDetails = () => {
-  const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false)
+  const { id } = useParams()
   const playerRef = useRef<ReactPlayer>(null)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const [isPaused, setIsPaused] = useState<boolean>(false)
 
   const { courseDetail, activeLesson } = useSelector(courseSelector)
-  const dispatch = useDispatch<AppDispatch>()
-  const { id } = useParams()
+  const { type } = useSelector(popupSelector)
 
   const handleCloseMenuLesson = () => {
     setIsSidebarClosed(true)
@@ -70,7 +74,6 @@ const CourseDetails = () => {
   const formattedCurrentTime = useMemo(() => formatTime(currentTime), [currentTime, formatTime])
 
   useEffect(() => {
-    // fetchGetCourseInfoDescriptionAPI()
     dispatch(fetchDetailCourse(String(id)))
   }, [])
 
@@ -82,56 +85,62 @@ const CourseDetails = () => {
       }
     }
   }, [courseDetail])
+
   return (
     <>
       <CourseLearningHeader />
       <div className={cx('wrapper')}>
         <div className={cx('left')}>
           {/* video */}
-          <div className={cx('wrapper_video')}>
-            <div className={cx('learning-center')}>
-              <div className={cx('container1')}>
-                <ReactPlayer
-                  className={cx('react-player')}
-                  controls
-                  height="100%"
-                  width="100%"
-                  ref={playerRef}
-                  onProgress={handleProgress}
-                  playing={!isPaused}
-                  // url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                  url={activeLesson ? activeLesson.videoUrl : 'https://www.youtube.com/watch?v=LXb3EKWsInQ'}
-                />
+          {type === 'exercise' ? (
+            <Exercise />
+          ) : (
+            <>
+              <div className={cx('wrapper_video')}>
+                <div className={cx('learning-center')}>
+                  <div className={cx('container1')}>
+                    <ReactPlayer
+                      className={cx('react-player')}
+                      controls
+                      height="100%"
+                      width="100%"
+                      ref={playerRef}
+                      onProgress={handleProgress}
+                      playing={!isPaused}
+                      url={activeLesson ? activeLesson.videoUrl : 'https://www.youtube.com/watch?v=LXb3EKWsInQ'}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          {/* video */}
-          <div className={cx('wrapper_content')}>
-            <div className={cx('content_top')}>
-              <header className={cx('wrapper')}>
-                <h1 className={cx('heading')}>{activeLesson?.title}</h1>
-                <p className={cx('updated')}>Cập nhật tháng 11 năm 2022</p>
-              </header>
-              <Button className={cx('add_note')} leftIcon={<FiPlus />} onClick={handleAddNote}>
-                {/* {` ${formattedCurrentTime}`} */}
-                <span style={{ fontWeight: 400 }}>
-                  Thêm ghi chú tại
-                  <span style={{ fontWeight: '600' }}> {formattedCurrentTime}</span>
-                </span>
-              </Button>
-            </div>
-            {/* introduction */}
-            <div className={cx('introduction')}>
-              <h2>Giới thiệu</h2>
-              <div dangerouslySetInnerHTML={{ __html: activeLesson?.description! }} />
+              {/* video */}
+              <div className={cx('wrapper_content')}>
+                <div className={cx('content_top')}>
+                  <header className={cx('wrapper')}>
+                    <h1 className={cx('heading')}>{activeLesson?.title}</h1>
+                    <p className={cx('updated')}>Cập nhật tháng 11 năm 2022</p>
+                  </header>
+                  <Button className={cx('add_note')} leftIcon={<FiPlus />} onClick={handleAddNote}>
+                    {/* {` ${formattedCurrentTime}`} */}
+                    <span style={{ fontWeight: 400 }}>
+                      Thêm ghi chú tại
+                      <span style={{ fontWeight: '600' }}> {formattedCurrentTime}</span>
+                    </span>
+                  </Button>
+                </div>
+                {/* introduction */}
+                <div className={cx('introduction')}>
+                  <h2>Giới thiệu</h2>
+                  <div dangerouslySetInnerHTML={{ __html: activeLesson?.description! }} />
 
-              <p>
-                Đây là một khóa học tuyệt vời. Nội dung có vẻ rất kỹ lưỡng và toàn diện. Tôi thích cách tất cả các khái
-                niệm và cấu hình được thể hiện rõ ràng trong GNS3. Ngoài ra còn có rất nhiều ví dụ khắc phục sự cố và
-                ứng dụng trong thế giới thực. Tôi đặc biệt thích những simlets thực tế.
-              </p>
-            </div>
-          </div>
+                  <p>
+                    Đây là một khóa học tuyệt vời. Nội dung có vẻ rất kỹ lưỡng và toàn diện. Tôi thích cách tất cả các
+                    khái niệm và cấu hình được thể hiện rõ ràng trong GNS3. Ngoài ra còn có rất nhiều ví dụ khắc phục sự
+                    cố và ứng dụng trong thế giới thực. Tôi đặc biệt thích những simlets thực tế.
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
           {showPopup && (
             <Note
               setShowPopup={setShowPopup}
