@@ -32,8 +32,8 @@ const IntroduceLesson = ({ chapter, activeLesson }: IntroduceLessonProps) => {
         />
       ))}
 
-      {chapter.exercises?.map((e: Exercises) => (
-        <LessonItem isActive={activeLesson?._id === e._id} toggle={toggle} data={e} title={e.title} key={e._id} />
+      {chapter?.exercises?.map((ex: Exercises) => (
+        <LessonItem isActive={activeLesson?._id === ex._id} toggle={toggle} data={ex} title={ex.title} key={ex._id} />
       ))}
     </>
   )

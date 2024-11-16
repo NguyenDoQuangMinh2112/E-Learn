@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import styles from './Exercise.module.scss'
 import classNames from 'classnames/bind'
 import Button from '~/components/Button'
@@ -8,48 +8,54 @@ import confetti from 'canvas-confetti'
 const cx = classNames.bind(styles)
 
 const Exercise = () => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
-  const [result, setResult] = useState<string | null>(null)
-  const [errorAnswer, setErrorAnswer] = useState<boolean>(false)
+  const [state, setState] = useState({
+    isSubmitted: false,
+    selectedAnswer: null as string | null,
+    result: null as string | null,
+    errorAnswer: false
+  })
 
   const questionData = {
     quizId: '60b8d6f9f1f25a3d485d42b1',
     question: 'Câu hỏi số 1: 1 + 1 = ?',
     options: ['1', '2', '3', '4'],
     correct_answer: '2',
-    explain: '1 cộng 1 bằng 2.',
-    createdAt: 1609459200000,
-    updatedAt: 1609462800000,
-    _destroy: false
+    explain: '1 cộng 1 bằng 2.'
   }
 
-  const handleConfetti = () => {
+  const handleConfetti = useCallback(() => {
     confetti({
       particleCount: 200,
       spread: 70,
       origin: { x: 0.5, y: 0.5 }
     })
-  }
+  }, [])
 
-  const handleSubmit = () => {
-    setIsSubmitted(true)
-    if (selectedAnswer === questionData.correct_answer) {
-      setResult('Congratulations, you answered correctly! 🎉')
-      setErrorAnswer(false)
-      handleConfetti()
-    } else {
-      setResult('Incorrect 😞')
-      setErrorAnswer(true)
-    }
-  }
+  const handleSubmit = useCallback(() => {
+    setState((prevState) => {
+      const isCorrect = prevState.selectedAnswer === questionData.correct_answer
+      if (isCorrect) {
+        handleConfetti()
+      }
+      return {
+        ...prevState,
+        isSubmitted: true,
+        result: isCorrect ? 'Congratulations, you answered correctly! 🎉' : 'Incorrect 😞',
+        errorAnswer: !isCorrect
+      }
+    })
+  }, [handleConfetti])
 
   const handleSelectAnswer = (answer: string) => {
-    setSelectedAnswer(answer)
-    setResult(null)
-    setIsSubmitted(false)
-    setErrorAnswer(false)
+    setState({
+      isSubmitted: false,
+      selectedAnswer: answer,
+      result: null,
+      errorAnswer: false
+    })
   }
+
+  const { selectedAnswer, isSubmitted, result, errorAnswer } = state
 
   return (
     <div className={cx('wrapper')}>
@@ -59,10 +65,12 @@ const Exercise = () => {
           Description: <span>Test your knowledge of basic JavaScript concepts</span>.
         </p>
       </div>
+
       <div className={cx('question')}>
         <h3>Question:</h3>
         <p>{questionData.question}</p>
       </div>
+
       <div className={cx('container')}>
         {questionData.options.map((option, index) => (
           <Answer
@@ -76,12 +84,11 @@ const Exercise = () => {
         ))}
 
         <div className={cx('btnSubmit')}>
-          <Button className={cx('createPostBtn', { disable: selectedAnswer === null })} onClick={handleSubmit}>
+          <Button className={cx('submitAnswer', { disable: selectedAnswer === null })} onClick={handleSubmit}>
             Submit
           </Button>
         </div>
 
-        {/* Hiển thị kết quả sau khi nộp */}
         {isSubmitted && (
           <div className={cx('result')}>
             <p>{result}</p>
