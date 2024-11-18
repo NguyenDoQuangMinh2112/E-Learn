@@ -1,0 +1,83 @@
+.wrapper {
+  width: 900px;
+  max-width: 80%;
+  height: calc(100vh - var(--course-learning-header-height));
+  padding-top: 80px;
+  margin: 0 auto;
+}
+.content {
+  text-align: center;
+
+  &__title {
+    margin-bottom: 10px;
+  }
+}
+.question {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+.des {
+  font-weight: 700;
+
+  span {
+    font-weight: 300;
+  }
+}
+.btnSubmit {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+}
+.submitAnswer {
+  display: inline-block;
+  min-width: 148px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #5ebbff;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    color: var(--white) !important;
+  }
+}
+.addNote_btn {
+  display: inline-block;
+  min-width: 148px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #5ebbff;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    color: var(--white) !important;
+  }
+}

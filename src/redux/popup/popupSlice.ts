@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type PopupType = 'register' | 'login' | 'verify' | 'forgotPassword' | 'blog' | null
+type PopupType = 'register' | 'login' | 'verify' | 'forgotPassword' | 'blog' | 'exercise' | null
 interface PopupState {
   isOpenPopup: boolean
   type: PopupType

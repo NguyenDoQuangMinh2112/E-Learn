@@ -4,7 +4,7 @@ import classNames from 'classnames/bind'
 import LessonItem from '../LessonItem/LessonItem'
 
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
-import { Chapter, Lesson } from '~/interfaces/course'
+import { Chapter, Exercises, Lesson } from '~/interfaces/course'
 const cx = classNames.bind(styles)
 interface IntroduceLessonProps {
   chapter: Chapter
@@ -22,7 +22,18 @@ const IntroduceLesson = ({ chapter, activeLesson }: IntroduceLessonProps) => {
         <span className={cx('icon')}>{toggle ? <FaChevronUp /> : <FaChevronDown />}</span>
       </div>
       {chapter?.lessons?.map((l) => (
-        <LessonItem toggle={toggle} lesson={l} isActive={activeLesson?._id === l._id} key={l._id}/>
+        <LessonItem
+          toggle={toggle}
+          data={l}
+          title={l.title}
+          order={l.order}
+          isActive={activeLesson?._id === l._id}
+          key={l._id}
+        />
+      ))}
+
+      {chapter?.exercises?.map((ex: Exercises) => (
+        <LessonItem isActive={activeLesson?._id === ex._id} toggle={toggle} data={ex} title={ex.title} key={ex._id} />
       ))}
     </>
   )
