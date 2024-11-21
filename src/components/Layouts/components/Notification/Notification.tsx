@@ -4,14 +4,18 @@ import styles from './Notification.module.scss'
 import Tippy from '@tippyjs/react/headless'
 
 import { IoNotifications } from 'react-icons/io5'
+
 import PopperWrapper from '../Popper'
 import Button from '~/components/Button'
 import ItemNotification from './ItemNotification'
+
 import { useCallback, useEffect, useState } from 'react'
 import { NotificationInterface } from '~/interfaces/notification'
-import { getNotificationByUserIdAPI } from '~/apis/notification'
+import { getNotificationByUserIdAPI, markAllNotificationAPI } from '~/apis/notification'
+
 import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
+
 const cx = classNames.bind(styles)
 
 const Notification = () => {
@@ -30,18 +34,36 @@ const Notification = () => {
     }
   }, [])
 
-  const handleMarkAllAsRead = useCallback(() => {
+  const handleMarkAllAsRead = useCallback(async () => {
     if (notifications) {
       const updatedNotifications = notifications.map((notification) => ({
         ...notification,
         seen: true
       }))
       setNotifications(updatedNotifications)
+      await markAllNotificationAPI()
     }
   }, [notifications])
 
+  const handleMarkAsSeen = useCallback(
+    (notificationId: string) => {
+      if (notifications) {
+        const updatedNotifications = notifications.map((notification) => {
+          if (notification._id === notificationId) {
+            return { ...notification, seen: true }
+          }
+          return notification
+        })
+        setNotifications(updatedNotifications)
+      }
+    },
+    [notifications]
+  )
+
   useEffect(() => {
-    fetchNotificationsApi()
+    if (userInfo) {
+      fetchNotificationsApi()
+    }
 
     return () => {
       socket?.off('newNotification')
@@ -51,6 +73,7 @@ const Notification = () => {
   useEffect(() => {
     if (socket) {
       socket.on('newNotification', (notification: any) => {
+        console.log('🚀 ~ socket.on ~ notification:', notification)
         setNotifications((prev) => {
           return [notification, ...(prev || [])]
         })
@@ -83,7 +106,7 @@ const Notification = () => {
 
               <div className={cx('notification__content')}>
                 {notifications?.map((notification) => (
-                  <ItemNotification data={notification} key={notification._id} />
+                  <ItemNotification data={notification} key={notification._id} onMarkAsSeen={handleMarkAsSeen} />
                 ))}
               </div>
             </ul>
@@ -95,8 +118,8 @@ const Notification = () => {
         {userInfo && (
           <div className={cx('notification__icon')}>
             <IoNotifications />
-            {notifications?.length && (
-              <div className={cx('count')}>{notifications?.filter((not) => !not?.seen)?.length}</div>
+            {notifications && notifications?.filter((not) => !not?.seen).length > 0 && (
+              <div className={cx('count')}>{notifications?.filter((not) => !not?.seen).length}</div>
             )}
           </div>
         )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import classNames from 'classnames/bind'
 import styles from './DetailBlog.module.scss'
@@ -29,21 +29,17 @@ import { updateBlog } from '~/redux/blog/blogSlice'
 const cx = classNames.bind(styles)
 
 const DetailBlog = () => {
-  const { id } = useParams()
-  const [isLikeBlog, setIsLikeBlog] = useState<boolean>(false)
-  const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch<AppDispatch>()
+  const { id } = useParams()
+  const { userInfo } = useSelector(authSelector)
   const { blogDetail, commentByBlog } = useSelector(blogSelector)
+
+  const [isLikeBlog, setIsLikeBlog] = useState<boolean>(false)
+
   let total_likes = blogDetail?.activity?.total_likes ?? 0
 
   const { isOpenChat } = useSelector(noteLessonSelector)
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchDetailBlog(id))
-      dispatch(fetchCommentByBlog(String(id)))
-    }
-  }, [id])
   const handleComment = () => {
     if (userInfo) {
       dispatch(showChat())
@@ -51,7 +47,7 @@ const DetailBlog = () => {
       dispatch(showPopup('login'))
     }
   }
-  const handleLikeBlog = async () => {
+  const handleLikeBlog = useCallback(async () => {
     if (userInfo) {
       if (blogDetail) {
         setIsLikeBlog((prev) => !prev)
@@ -67,10 +63,17 @@ const DetailBlog = () => {
     } else {
       dispatch(showPopup('login'))
     }
-  }
+  }, [blogDetail])
 
   useEffect(() => {
-    if (userInfo) {
+    if (id) {
+      dispatch(fetchDetailBlog(id))
+      dispatch(fetchCommentByBlog(String(id)))
+    }
+  }, [id, dispatch])
+
+  useEffect(() => {
+    if (userInfo && id) {
       const fetchIsLikedData = async () => {
         try {
           const payload = { blogId: id as string }
@@ -87,7 +90,7 @@ const DetailBlog = () => {
 
       fetchIsLikedData()
     }
-  }, [])
+  }, [userInfo, id])
 
   if (!blogDetail) {
     return <div>Loading...</div>
@@ -125,14 +128,15 @@ const DetailBlog = () => {
                     <div
                       className={cx('userMenu_avatar')}
                       style={{
-                        background: `${
-                          blogDetail?.author?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'
-                        }`
+                        background:
+                          blogDetail?.author?.role === 'admin' && userInfo
+                            ? 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'
+                            : ''
                       }}
                     >
-                      <img src={blogDetail?.author?.avatar_url} alt="author" />
+                      <img src={blogDetail?.author?.avatar_url} alt="author" loading="lazy" />
                       {blogDetail?.author?.role === 'admin' && (
-                        <img src={adminSignature} alt="" className={cx('adminSignature')} />
+                        <img src={adminSignature} alt="" className={cx('adminSignature')} loading="lazy" />
                       )}
                     </div>
                     <div className={cx('info')}>

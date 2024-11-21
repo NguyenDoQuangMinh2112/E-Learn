@@ -19,7 +19,7 @@ const CourseItem = ({ data, isHide }: CourseItemInterface) => {
     <div className={cx('col')} key={data._id}>
       <div className={cx('wrapper')}>
         <NavLink className={cx('link')} to={`/course/${data._id}`}>
-          <img src={data.thumbnail} alt="CourseItem" />
+          <img src={data.thumbnail} alt="CourseItem" loading="lazy" />
         </NavLink>
         <div className={cx('content')}>
           <h3 className={cx('title')}>
@@ -33,7 +33,7 @@ const CourseItem = ({ data, isHide }: CourseItemInterface) => {
           <div className={cx('details')}>
             <div className={cx('moreInfo')}>
               <div className={cx('teacher')}>
-                <img className={cx('images')} src={data?.instructor?.avatar_url} alt="logo" />
+                <img className={cx('images')} src={data?.instructor?.avatar_url} alt="logo" loading="lazy" />
               </div>
               <span className={cx('name')}>{getLastTwoNames(data?.instructor?.fullName)}</span>
             </div>

@@ -1,28 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CourseInfo, Lesson } from '~/interfaces/course'
-import { fetchDetailCourse } from './courseAction'
+import { Chapter, CourseInfo } from '~/interfaces/course'
+import { fetchChapters, fetchDetailCourse } from './courseAction'
 
 interface CourseState {
   courseDetail: CourseInfo | null
   loading: boolean
   error: string | null
-  activeLesson: Lesson | null
+  chapters: Chapter[] | null
 }
 const initialState: CourseState = {
   courseDetail: null,
   loading: false,
   error: null,
-  activeLesson: null
+  chapters: null
 }
 
 const courseSlice = createSlice({
   name: 'courseSlice',
   initialState,
-  reducers: {
-    setActiveLesson: (state, action: PayloadAction<Lesson>) => {
-      state.activeLesson = action.payload
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchDetailCourse.pending, (state) => {
@@ -37,8 +33,20 @@ const courseSlice = createSlice({
         state.loading = false
         state.error = action.error.message || 'An error occurred.'
       })
+      .addCase(fetchChapters.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchChapters.fulfilled, (state, action) => {
+        state.loading = false
+        state.chapters = action.payload
+      })
+
+      .addCase(fetchChapters.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'An error occurred.'
+      })
   }
 })
 
-export const { setActiveLesson } = courseSlice.actions
+export const {} = courseSlice.actions
 export default courseSlice.reducer

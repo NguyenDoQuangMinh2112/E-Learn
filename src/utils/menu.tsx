@@ -11,15 +11,15 @@ export const sideBarMenu: SideBarMenuItem[] = [
   },
   {
     id: 2,
-    icons: <FaRoad />,
-    text: 'Lộ Trình',
-    path: '/roadmap'
-  },
-  {
-    id: 3,
     icons: <FaRegNewspaper />,
     text: 'Bài viết',
     path: '/blog'
+  },
+  {
+    id: 3,
+    icons: <FaRoad />,
+    text: 'Teach on Elearn',
+    path: '/teach-on-elearn'
   }
 ]
 

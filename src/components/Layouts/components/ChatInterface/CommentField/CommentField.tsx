@@ -82,7 +82,7 @@ const CommentField = ({
   return (
     <div className={cx('wrapper', { repply: isReplyForm })}>
       <div className={cx('user')}>
-        <img src={userInfo?.avatar_url} alt="avatar" className={cx('avatar')} />
+        <img src={userInfo?.avatar_url} alt="avatar" className={cx('avatar')} loading="lazy" />
       </div>
       <div className={cx('comment')}>
         {isHideComment || isReplyForm ? (

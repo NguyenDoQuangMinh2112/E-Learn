@@ -27,7 +27,7 @@ const BlogItem = ({ data }: blogProps) => {
               background: `${data.author?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'}`
             }}
           >
-            <img className={cx('avatar')} src={data.author.avatar_url} alt="avatar" />
+            <img className={cx('avatar')} src={data.author.avatar_url} alt="avatar" loading="lazy" />
             {data.author?.role === 'admin' && <img src={adminSignature} alt="" className={cx('adminSignature')} />}
           </div>
           <span>{getLastTwoNames(data?.author.fullName)}</span>
@@ -53,7 +53,7 @@ const BlogItem = ({ data }: blogProps) => {
         </div>
         <div className={cx('thumb', 'd-xl-none')}>
           <a href="">
-            <img src={data.banner} alt="thumb" />
+            <img src={data.banner} alt="thumb" loading="lazy" />
           </a>
         </div>
       </div>

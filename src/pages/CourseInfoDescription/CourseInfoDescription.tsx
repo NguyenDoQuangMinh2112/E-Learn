@@ -33,7 +33,6 @@ const CourseInfoDescription = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    // fetchGetCourseInfoDescriptionAPI()
     dispatch(fetchDetailCourse(String(id)))
   }, [])
 
@@ -201,7 +200,7 @@ const CourseInfoDescription = () => {
               </div>
               <div className={cx('info-button')}>
                 <Button className={cx('btn-enroll')} onClick={handleEnrollCourse}>
-                  Mua khóa học
+                  Enroll course
                 </Button>
               </div>
             </div>

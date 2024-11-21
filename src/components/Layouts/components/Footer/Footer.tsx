@@ -15,7 +15,7 @@ const Footer = () => {
       <div className={cx('container')}>
         <div className={cx('row')}>
           <div className={cx('footer-col')}>
-            <img src={logo} alt="logo" className={cx('logo')} />
+            <img src={logo} alt="logo" className={cx('logo')} loading="lazy" />
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus enim voluptatem molestiae esse</p>
           </div>
           <div className={cx('footer-col')}>

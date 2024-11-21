@@ -16,7 +16,7 @@ interface CommentProps {
 const Comment = ({ commentData, commentsList }: CommentProps) => {
   const { commented_by } = commentData
   const [isReplyVisible, setIsReplyVisible] = useState(false)
-  
+
   const childrenComments = commentData?.children
     ?.map((childId) => {
       return commentsList?.find((comment) => comment._id === childId)
@@ -31,7 +31,7 @@ const Comment = ({ commentData, commentsList }: CommentProps) => {
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
         <div className={cx('userAvatar')}>
-          <img src={commented_by?.avatar_url || commentData?.avatar_default} alt="avatar" />
+          <img src={commented_by?.avatar_url || commentData?.avatar_default} alt="avatar" loading="lazy" />
         </div>
         <span className={cx('userName')}>{commented_by?.fullName}</span>
       </div>

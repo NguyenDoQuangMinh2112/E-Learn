@@ -38,9 +38,9 @@ const Menu = ({ children, items = [] }: MenuProps): ReactElement => {
                   background: `${userInfo?.role === 'admin' && 'linear-gradient(180deg, #ffd900, #b45264 93.68%)'}`
                 }}
               >
-                <img className={cx('avatar')} src={userInfo?.avatar_url} alt="avatar" />
+                <img className={cx('avatar')} src={userInfo?.avatar_url} alt="avatar" loading="lazy" />
                 {userInfo?.role === 'admin' && (
-                  <img src={adminSignature} alt="admin-signature" className={cx('adminSignature')} />
+                  <img src={adminSignature} alt="admin-signature" className={cx('adminSignature')} loading="lazy" />
                 )}
               </div>
               <div className={cx('userMenu_info')}>

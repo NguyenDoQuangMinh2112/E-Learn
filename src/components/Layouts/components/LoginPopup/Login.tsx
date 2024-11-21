@@ -39,7 +39,7 @@ const Login: React.FC = () => {
         </Button>
         <header className={cx('heading-top')}>
           <a href="">
-            <img src={logo} alt="E-Learn Logo" />
+            <img src={logo} alt="E-Learn Logo" loading="lazy" />
           </a>
           <h1 className={cx('heading-title')}>{type === 'register' ? 'Đăng ký' : 'Đăng nhập'} tài khoản E-Learn</h1>
           <p className={cx('warning')}>

@@ -26,19 +26,11 @@ const ProtectedRoute = () => {
   const { userInfo } = useSelector(authSelector)
   if (!userInfo) {
     dispatch(showPopup('login'))
-    return <Navigate to="/" replace />
+    return <Navigate to="/" replace={true} />
   }
 
   return <Outlet />
 }
-
-// const UnAuthorizedRoute = () => {
-//   const { userInfo } = useSelector(authSelector)
-//   if (userInfo) {
-//     return <Navigate to="/" />
-//   }
-//   return <Outlet />
-// }
 
 function App() {
   return (
@@ -47,24 +39,23 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route path="/new-post" element={<NewPost />} />
-          <Route path="/post/:id/edit" element={<NewPost />} />
-          <Route path="/my-profile" element={<Profile />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/new-post" element={<NewPost />} />
+            <Route path="/post/:id/edit" element={<NewPost />} />
+            <Route path="/my-profile" element={<Profile />} />
+          </Route>
           <Route path="/" element={<Content />}>
             <Route path="/" element={<SidebarContent />} />
-
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<DetailBlog />} />
-
             <Route path="/course/:id" element={<CourseInfoDescription />} />
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/course/learning/:id" element={<CourseDetails />} />
           <Route path="/course/learning/exercise/:id" element={<Exercise />} />
+          <Route path="/setting" element={<Setting />} />
         </Route>
-
-        <Route path="/setting" element={<Setting />} />
       </Routes>
     </>
   )

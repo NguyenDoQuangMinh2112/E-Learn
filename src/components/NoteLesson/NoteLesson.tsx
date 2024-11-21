@@ -1,43 +1,45 @@
-import classNames from 'classnames/bind'
-import styles from './NoteLesson.module.scss'
-
-import Button from '../Button'
-
-import { useDispatch } from 'react-redux'
-import { deleteNoteLesson, hideNoteLesson, updateNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
-
-import { IoMdClose } from 'react-icons/io'
-import { MdEdit } from 'react-icons/md'
-import { MdDeleteOutline } from 'react-icons/md'
-
-import noNoteYet from '~/assets/images/noNoteYet.svg'
 import { memo, useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IoMdClose } from 'react-icons/io'
+import { MdEdit, MdDeleteOutline } from 'react-icons/md'
 import 'draft-js/dist/Draft.css'
-import { useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '~/redux/store'
-
 import { Editor, EditorState } from 'react-draft-wysiwyg'
 import { EditorState as DraftEditorState, ContentState } from 'draft-js'
 import { toast } from 'react-toastify'
-import { fetchNoteLessonByLessonID } from '~/redux/noteLesson/noteLessonAction'
-import { courseSelector } from '~/redux/course/courseSelector'
+import { useSearchParams } from 'react-router-dom'
+
+import { AppDispatch, RootState } from '~/redux/store'
 import { authSelector } from '~/redux/auth/authSelectors'
-import { editNoteLessonAPI } from '~/apis/course'
+
+import Button from '../Button'
 import Spinner from '../Spinner/Spinner'
+
+import { deleteNoteLesson, hideNoteLesson, setSelectedTime, updateNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
+import { fetchNoteLessonByLessonID } from '~/redux/noteLesson/noteLessonAction'
+
+import noNoteYet from '~/assets/images/noNoteYet.svg'
+
+import { convertTimeToSeconds } from '~/utils/helper'
+
+import classNames from 'classnames/bind'
+import styles from './NoteLesson.module.scss'
+
+import { editNoteLessonAPI } from '~/apis/course'
 
 const cx = classNames.bind(styles)
 
-const NoteLesson = ({ noteLessonRef }: any) => {
+const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivElement> }) => {
   let editorStateS = EditorState?.createEmpty()
   const [editorState, setEditorState] = useState(editorStateS)
   const [edit, setEdit] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [idNote, setIdNote] = useState<string>()
+  const [searchParams] = useSearchParams()
+  const endCodedId = atob(String(searchParams.get('id')))
 
   const { userInfo } = useSelector(authSelector)
   const dispatch = useDispatch<AppDispatch>()
   const { myNoteLessons } = useSelector((state: RootState) => state.noteLesson)
-  const { activeLesson } = useSelector(courseSelector)
 
   const onEditorStateChange = (editorStateS: EditorState) => {
     setEditorState(editorStateS)
@@ -69,12 +71,20 @@ const NoteLesson = ({ noteLessonRef }: any) => {
     toast.success('Xóa ghi chú thành công!')
   }, [])
 
+  const handleSelectTime = useCallback(
+    (time: string) => {
+      const seconds = convertTimeToSeconds(time)
+      dispatch(setSelectedTime(seconds))
+      dispatch(hideNoteLesson())
+    },
+    [dispatch]
+  )
+
   useEffect(() => {
     if (userInfo) {
-      const lessonId = activeLesson?._id
-      dispatch(fetchNoteLessonByLessonID(String(lessonId)))
+      dispatch(fetchNoteLessonByLessonID(String(endCodedId)))
     }
-  }, [])
+  }, [endCodedId])
   return (
     <div className={cx('wrapper')}>
       <div className={cx('overlay')}></div>
@@ -90,7 +100,7 @@ const NoteLesson = ({ noteLessonRef }: any) => {
           </header>
           {myNoteLessons && !myNoteLessons?.length ? (
             <div className={cx('noResult')}>
-              <img src={noNoteYet} alt="note-result" />
+              <img src={noNoteYet} alt="note-result" loading="lazy" />
               <div className={cx('heading')}>Bạn chưa có ghi chú nào</div>
               <div className={cx('des')}>Hãy ghi chép để nhớ những gì bạn đã học!</div>
             </div>
@@ -99,7 +109,9 @@ const NoteLesson = ({ noteLessonRef }: any) => {
               {myNoteLessons?.map((note) => (
                 <li key={note._id}>
                   <div className={cx('itemHead')}>
-                    <div className={cx('noteTime')}>{note?.time}</div>
+                    <div className={cx('noteTime')} onClick={() => handleSelectTime(note?.time)}>
+                      {note?.time}
+                    </div>
                     <div className={cx('titleWrap')}>
                       <div className={cx('title')}>{note?.lesson_id.title}</div>
                       <div className={cx('trackTitle')}>{note?.chapter_id.title}</div>
