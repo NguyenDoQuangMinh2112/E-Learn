@@ -20,7 +20,7 @@ interface EmailLoginForm {
   type: 'login' | 'register' | 'verify' | 'forgotPassword' | 'blog'
 }
 
-const EmailLoginForm: React.FC<{ type: 'login' | 'register' }> = ({ type }: EmailLoginForm) => {
+const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }> = ({ type }: EmailLoginForm) => {
   const { values, errors, handleChange, handleBlur, isLoading, setIsLoading, setErrors } = useForm({
     email: '',
     password: '',

@@ -43,6 +43,10 @@
     color: var(--primary);
     animation: shake 0.5s ease-in-out;
   }
+
+  &.disabled {
+    background: #16182329;
+  }
 }
 .error {
   margin: 8px 0 8px 8px;
@@ -58,7 +62,7 @@
 
   // Không áp dụng kiểu focus-within khi có lỗi
   &:focus-within {
-    border-color: var(--invalid-color); // Màu đường viền khi có lỗi và đang focus
+    border-color: var(--invalid-color);
   }
 }
 // handle send code interface
@@ -76,6 +80,12 @@
   background: #f05123 linear-gradient(to right bottom, #ff8f26, #f05123);
   color: #fff;
   cursor: pointer;
+
+  &.disabled {
+    color: #958484;
+    background: #ccc;
+    cursor: not-allowed;
+  }
 }
 
 @keyframes shake {

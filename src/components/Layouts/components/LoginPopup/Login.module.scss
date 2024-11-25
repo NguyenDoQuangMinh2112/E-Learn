@@ -69,7 +69,7 @@
   font-weight: 700;
   line-height: 1.4;
   margin: 12px 0;
-  color: var(--black-color);
+  color: var(--black);
 }
 .warning {
   width: min(400px, 90%);
@@ -130,6 +130,7 @@
   font-size: 1.4rem;
   font-weight: 600;
   text-decoration: underline;
+  cursor: pointer;
 }
 .rules {
   margin-left: auto;
@@ -156,6 +157,11 @@
     width: 15px;
     height: 15px;
   }
+}
+
+.forgotPassword_form {
+  max-width: 360px;
+  margin: 0 auto;
 }
 
 .login-btn {
@@ -232,6 +238,19 @@
   color: #1bd68f;
   font-weight: 900;
   font-style: italic;
+}
+.noticeMessage {
+  margin-top: 10px;
+  font-weight: 900;
+  font-style: italic;
+
+  &.success {
+    color: #4caf50;
+  }
+
+  &.error {
+    color: #d9534f;
+  }
 }
 @keyframes fadeIn {
   from {

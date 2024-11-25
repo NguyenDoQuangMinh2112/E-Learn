@@ -11,7 +11,7 @@ import Modal from '~/components/Modal/Modal'
 import Spinner from '~/components/Spinner/Spinner'
 
 import { FaChevronRight } from 'react-icons/fa'
-import { resetPasswordAPI } from '~/apis/auth'
+import { changePasswordAPI } from '~/apis/auth'
 import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
@@ -36,7 +36,7 @@ const SecuritySettings = () => {
     }
     try {
       setIsLoading(true)
-      const res = await resetPasswordAPI(data)
+      const res = await changePasswordAPI(data)
       if (res.statusCode === 201) {
         toast.success(res.message)
         setIsLoading(false)
