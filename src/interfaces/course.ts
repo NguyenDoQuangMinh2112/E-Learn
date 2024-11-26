@@ -65,7 +65,7 @@ export interface CourseInfo {
   createdAt: number
   updatedAt: number | null
   _destroy: boolean
-  instructor: Instructor
+  instructor_id: Instructor
 }
 
 export interface LessonNote {

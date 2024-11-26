@@ -9,10 +9,9 @@ import { GiTeacher } from 'react-icons/gi'
 import { GoClockFill } from 'react-icons/go'
 import { PiVideoLight } from 'react-icons/pi'
 import { GrCertificate } from 'react-icons/gr'
-import { IoMdCode } from 'react-icons/io'
-import { formatPrice } from '~/utils/helper'
+import { formatPrice, getLastTwoNames } from '~/utils/helper'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
@@ -35,6 +34,10 @@ const CourseInfoDescription = () => {
 
   const { id } = useParams()
 
+  const totalLessons = useMemo(() => {
+    return courseDetail?.chapters.reduce((total, chapter) => total + chapter.lessons.length, 0)
+  }, [courseDetail])
+
   useEffect(() => {
     dispatch(fetchDetailCourse(String(id)))
   }, [])
@@ -45,23 +48,13 @@ const CourseInfoDescription = () => {
       return
     }
 
-    const selectedPaymentMethod = document.querySelector('input[name="option"]:checked')?.id
-    if (!selectedPaymentMethod) {
-      alert('Please select a payment method.')
-      return
-    }
+    const stripe = await loadStripe(
+      'pk_test_51QOy93G32ujZNpUiwFZIfOxVo8R4TKP1B8LED3PFKCpinXB4BEV1Dwt0nduUtuZmQwkb3KcTAQ9NfaSItgcbEH7S00YprpRAq5'
+    )
 
-    if (selectedPaymentMethod === 'stripe') {
-      const stripe = await loadStripe(
-        'pk_test_51QOy93G32ujZNpUiwFZIfOxVo8R4TKP1B8LED3PFKCpinXB4BEV1Dwt0nduUtuZmQwkb3KcTAQ9NfaSItgcbEH7S00YprpRAq5'
-      )
+    const res = await createPaymentSessionAPI({ course: courseDetail, userId: userInfo._id })
 
-      const res = await createPaymentSessionAPI({ course: courseDetail, userId: userInfo._id })
-
-      const result = stripe?.redirectToCheckout({ sessionId: res.id })
-    } else {
-      console.log('paypal')
-    }
+    stripe?.redirectToCheckout({ sessionId: res.id })
   }
   return (
     <>
@@ -73,10 +66,7 @@ const CourseInfoDescription = () => {
               <div>
                 {' '}
                 <h1>{courseDetail?.title}</h1>
-                <div className={cx('text-content')}>
-                  Học Javascript cơ bản phù hợp cho người chưa từng học lập trình. Với hơn 100 bài học và có bài tập
-                  thực hành sau mỗi bài học.
-                </div>
+                <div className={cx('text-content')}>{courseDetail?.description}</div>
               </div>
               <div className={cx('topic_list')}>
                 <h2 className={cx('topic_heading')}>Bạn sẽ học được gì?</h2>
@@ -177,7 +167,7 @@ const CourseInfoDescription = () => {
           <div className={cx('col col-3 col-xxxxxl-4 ')}>
             <div className={cx('sidebar-widget')}>
               <div className={cx('info-price')}>
-                <span className={cx('price')}>{`${formatPrice(1200000)} đ`} </span>
+                <span className={cx('price')}>{`${formatPrice(Number(courseDetail?.price))} đ`} </span>
               </div>
               <div className={cx('info-list')}>
                 <ul>
@@ -186,7 +176,7 @@ const CourseInfoDescription = () => {
                       <GiTeacher />
                       <strong>Người dạy</strong>
                     </span>
-                    <span>Quang Minh</span>
+                    <span>{getLastTwoNames(String(courseDetail?.instructor_id?.fullName))}</span>
                   </li>
                   <li>
                     <span className={cx('group')}>
@@ -202,15 +192,9 @@ const CourseInfoDescription = () => {
                       <PiVideoLight />
                       <strong> Bài giảng</strong>
                     </span>
-                    <span>29</span>
+                    <span>{totalLessons}</span>
                   </li>
-                  <li>
-                    <span className={cx('group')}>
-                      <IoMdCode />
-                      <strong>Ngôn ngữ</strong>
-                    </span>
-                    <span>Javascript</span>
-                  </li>
+
                   <li>
                     <span className={cx('group')}>
                       <GrCertificate />
@@ -221,21 +205,9 @@ const CourseInfoDescription = () => {
                 </ul>
               </div>
 
-              <div className={cx('payment-method')}>
-                {' '}
-                <label htmlFor="stripe">
-                  {' '}
-                  <input type="radio" id="stripe" name="option" /> Enroll with stripe{' '}
-                </label>{' '}
-                <label htmlFor="paypal">
-                  {' '}
-                  <input type="radio" id="paypal" name="option" /> Enroll with paypal{' '}
-                </label>{' '}
-              </div>
-
               <div className={cx('info-button')}>
                 <Button className={cx('btn-enroll')} onClick={handleEnrollCourse}>
-                  Enroll course
+                  Payment with Stripe
                 </Button>
               </div>
             </div>

@@ -89,7 +89,6 @@
 }
 
 .sidebar-widget {
-  // background-color: #ebfffd;
   padding: 30px 30px 40px;
   border: 1px solid rgba(48, 146, 85, 0.2);
   border-radius: 10px;
@@ -100,7 +99,7 @@
   .price {
     font-size: 30px;
     font-weight: 700;
-    color: #309255;
+    color: #f15a0b;
     display: block;
   }
 }
@@ -125,26 +124,13 @@
     }
   }
 }
-.payment-method {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 20px;
 
-  label {
-    display: flex;
-    white-space: nowrap;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 8px;
-  }
-}
 .info-button {
   text-align: center;
   margin-top: 40px;
 
   .btn-enroll {
-    width: 130px;
+    max-width: 180px;
     height: 45px;
     text-align: center;
     border: 1px solid rgba(48, 146, 85, 0.2);
@@ -152,7 +138,7 @@
     font-size: 15px;
     font-weight: 500;
 
-    background-color: #26c976;
+    background-color: #fc7a24;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
     span {
