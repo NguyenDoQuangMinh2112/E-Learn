@@ -67,9 +67,15 @@ const Exercise = () => {
   useEffect(() => {
     if (decodedId) {
       const fetchDetailExercices = async () => {
-        const res = await getDetailExerciseAPI(decodedId)
-        if (res.statusCode === 200) {
-          setQuestionData(res.data)
+        try {
+          const res = await getDetailExerciseAPI(decodedId)
+          if (res.statusCode === 200) {
+            setQuestionData(res.data)
+          } else {
+            console.error('Error fetching data:', res)
+          }
+        } catch (error) {
+          console.error('API request failed:', error)
         }
       }
       fetchDetailExercices()
@@ -89,11 +95,11 @@ const Exercise = () => {
 
       <div className={cx('question')}>
         <h3>Question: </h3>
-        <p> {questionData?.questions[0].question}</p>
+        <p> {questionData?.questions[0]?.question}</p>
       </div>
 
       <div className={cx('container')}>
-        {questionData?.questions[0]?.options.map((option, index) => (
+        {questionData?.questions[0]?.options?.map((option, index) => (
           <Answer
             key={index}
             title={option}

@@ -34,14 +34,14 @@ const Notification = () => {
     }
   }, [])
 
-  const handleMarkAllAsRead = useCallback(async () => {
+  const handleMarkAllAsRead = useCallback(() => {
     if (notifications) {
       const updatedNotifications = notifications.map((notification) => ({
         ...notification,
         seen: true
       }))
       setNotifications(updatedNotifications)
-      await markAllNotificationAPI()
+      markAllNotificationAPI()
     }
   }, [notifications])
 

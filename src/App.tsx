@@ -20,6 +20,8 @@ import DetailBlog from './pages/DetailBlog/DetailBlog'
 import NewPost from './pages/NewPost/NewPost'
 import Profile from './pages/Profile/Profile'
 import Exercise from './components/Layouts/components/Exercise/Exercise'
+import Success from './pages/Success/Success'
+import Cancel from './pages/Cancel/Cancel'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
@@ -55,6 +57,8 @@ function App() {
           <Route path="/course/learning/:id" element={<CourseDetails />} />
           <Route path="/course/learning/exercise/:id" element={<Exercise />} />
           <Route path="/setting" element={<Setting />} />
+          <Route path="/enroll/:id/success" element={<Success />} />
+          <Route path="/enroll/:id/cancel" element={<Cancel />} />
         </Route>
       </Routes>
     </>

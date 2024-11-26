@@ -125,6 +125,20 @@
     }
   }
 }
+.payment-method {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  label {
+    display: flex;
+    white-space: nowrap;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+  }
+}
 .info-button {
   text-align: center;
   margin-top: 40px;

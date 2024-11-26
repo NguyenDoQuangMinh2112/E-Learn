@@ -60,6 +60,7 @@ export interface CourseInfo {
   title: string
   description: string
   price: number
+  thumbnail: string
   chapters: Chapter[]
   createdAt: number
   updatedAt: number | null

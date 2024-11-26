@@ -2,9 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 
 const useDecodedId = () => {
   const [searchParams] = useSearchParams()
-  const encodedId = searchParams.get('id')
-  const decodedId = encodedId ? atob(encodedId) : null
-  return decodedId
+  return searchParams.get('id') ? atob(String(searchParams.get('id'))) : null
 }
 
 export default useDecodedId

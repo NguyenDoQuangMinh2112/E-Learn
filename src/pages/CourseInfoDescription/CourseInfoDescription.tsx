@@ -23,6 +23,9 @@ import { fetchDetailCourse } from '~/redux/course/courseAction'
 import { AppDispatch } from '~/redux/store'
 import { courseSelector } from '~/redux/course/courseSelector'
 
+import { loadStripe } from '@stripe/stripe-js'
+import { createPaymentSessionAPI } from '~/apis/enroll'
+
 const cx = classNames.bind(styles)
 
 const CourseInfoDescription = () => {
@@ -36,9 +39,28 @@ const CourseInfoDescription = () => {
     dispatch(fetchDetailCourse(String(id)))
   }, [])
 
-  const handleEnrollCourse = () => {
+  const handleEnrollCourse = async () => {
     if (!userInfo) {
       dispatch(showPopup('login'))
+      return
+    }
+
+    const selectedPaymentMethod = document.querySelector('input[name="option"]:checked')?.id
+    if (!selectedPaymentMethod) {
+      alert('Please select a payment method.')
+      return
+    }
+
+    if (selectedPaymentMethod === 'stripe') {
+      const stripe = await loadStripe(
+        'pk_test_51QOy93G32ujZNpUiwFZIfOxVo8R4TKP1B8LED3PFKCpinXB4BEV1Dwt0nduUtuZmQwkb3KcTAQ9NfaSItgcbEH7S00YprpRAq5'
+      )
+
+      const res = await createPaymentSessionAPI({ course: courseDetail, userId: userInfo._id })
+
+      const result = stripe?.redirectToCheckout({ sessionId: res.id })
+    } else {
+      console.log('paypal')
     }
   }
   return (
@@ -198,6 +220,19 @@ const CourseInfoDescription = () => {
                   </li>
                 </ul>
               </div>
+
+              <div className={cx('payment-method')}>
+                {' '}
+                <label htmlFor="stripe">
+                  {' '}
+                  <input type="radio" id="stripe" name="option" /> Enroll with stripe{' '}
+                </label>{' '}
+                <label htmlFor="paypal">
+                  {' '}
+                  <input type="radio" id="paypal" name="option" /> Enroll with paypal{' '}
+                </label>{' '}
+              </div>
+
               <div className={cx('info-button')}>
                 <Button className={cx('btn-enroll')} onClick={handleEnrollCourse}>
                   Enroll course
