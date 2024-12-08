@@ -1,19 +1,33 @@
+import { useEffect } from 'react'
+
 import styles from './ListCourseDetails.module.scss'
 import classNames from 'classnames/bind'
-import IntroduceLesson from './IntroduceLesson/IntroduceLesson'
-import { CourseInfo, Lesson } from '~/interfaces/course'
+
+import Chapter from './Chapter'
+
+import { useParams } from 'react-router-dom'
+
+import { useDispatch } from 'react-redux'
+import { fetchChapters } from '~/redux/course/courseAction'
+import { AppDispatch } from '~/redux/store'
+import { useSelector } from 'react-redux'
+import { courseSelector } from '~/redux/course/courseSelector'
+
 const cx = classNames.bind(styles)
 
-interface ListCourseDetailsProps {
-  datas?: CourseInfo | null
-  activeLesson: Lesson | null
-}
+const ListCourseDetails = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { chapters } = useSelector(courseSelector)
+  const { id } = useParams()
 
-const ListCourseDetails = ({ datas, activeLesson }: ListCourseDetailsProps) => {
+  useEffect(() => {
+    dispatch(fetchChapters(String(id)))
+  }, [])
+
   return (
     <div className={cx('body')}>
-      {datas?.chapters?.map((c) => (
-        <IntroduceLesson chapter={c} activeLesson={activeLesson} key={c._id} />
+      {chapters?.map((chapter) => (
+        <Chapter data={chapter} key={chapter._id} />
       ))}
     </div>
   )

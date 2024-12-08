@@ -122,7 +122,12 @@ const PersonalInfo = () => {
           <div className={cx('wcp')}>
             <input type="file" id="avatar" hidden onChange={handleFileChange} />
             <label htmlFor="avatar" className={cx('wp_avt')}>
-              <img src={selectedFile || userInfo?.avatar_url} alt="avatar" className={cx('avatar_change')} />
+              <img
+                src={selectedFile || userInfo?.avatar_url}
+                alt="avatar"
+                className={cx('avatar_change')}
+                loading="lazy"
+              />
             </label>
             <label htmlFor={`${!selectedFile && 'avatar'}`} className={cx('addNew')} onClick={handleUpdateAvatar}>
               {!selectedFile ? (

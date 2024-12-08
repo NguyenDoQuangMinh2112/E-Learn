@@ -1,19 +1,41 @@
+import { memo } from 'react'
+
 import classNames from 'classnames/bind'
 import styles from './Notification.module.scss'
-import { NotificationInterface } from '~/interfaces/notification'
+
 import moment from 'moment'
+
+import { NotificationInterface } from '~/interfaces/notification'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '~/redux/store'
+import { showChat } from '~/redux/noteLesson/noteLessonSlice'
+import { markAsSeenNotificationAPI } from '~/apis/notification'
 
 const cx = classNames.bind(styles)
 
 interface ItemNotificationInterface {
   data: NotificationInterface
+  onMarkAsSeen: (notificationId: string) => void
 }
-const ItemNotification = ({ data }: ItemNotificationInterface) => {
+const ItemNotification = ({ data, onMarkAsSeen }: ItemNotificationInterface) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleClickNotification = async (type: 'comment' | 'like' | 'reply') => {
+    onMarkAsSeen(data._id)
+    navigate(`/blog/${data.blog._id}`)
+    await markAsSeenNotificationAPI(data._id)
+    if (type === 'comment' || type === 'reply') {
+      dispatch(showChat())
+    }
+  }
+
   return (
-    <div className={cx('notification', { no_seen: !data?.seen })}>
+    <div className={cx('notification', { no_seen: !data?.seen })} onClick={() => handleClickNotification(data?.type)}>
       <div className={cx('notification__avatar')}>
         <div className={cx('avatar')}>
-          <img src={data?.user?.avatar_url} alt="avatar" />
+          <img src={data?.user?.avatar_url} alt="avatar" loading="lazy" />
         </div>
       </div>
       <div className={cx('notification__message')}>
@@ -41,4 +63,4 @@ const ItemNotification = ({ data }: ItemNotificationInterface) => {
   )
 }
 
-export default ItemNotification
+export default memo(ItemNotification)

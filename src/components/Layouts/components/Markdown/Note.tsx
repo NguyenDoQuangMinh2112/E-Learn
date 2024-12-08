@@ -7,12 +7,8 @@ import { Editor } from 'react-draft-wysiwyg'
 
 import { useState } from 'react'
 import { EditorState } from 'draft-js'
-import { useDispatch } from 'react-redux'
-import { createNewNoteLesson } from '~/redux/noteLesson/noteLessonSlice'
 import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { courseSelector } from '~/redux/course/courseSelector'
 import { addNoteLessonAPI } from '~/apis/course'
 import Spinner from '~/components/Spinner/Spinner'
 
@@ -23,12 +19,13 @@ interface NoteProps {
   formattedCurrentTime: string
   onClose: () => void
   onCancel: () => void
+  chapter_id: string
+  lesson_id: string
 }
-const Note = ({ setShowPopup, formattedCurrentTime, onCancel }: NoteProps) => {
+const Note = ({ setShowPopup, formattedCurrentTime, onCancel, chapter_id, lesson_id }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const [isLoading, setIsLoading] = useState(false)
-  const dispatch = useDispatch()
-  const { activeLesson } = useSelector(courseSelector)
+
   const { id } = useParams()
 
   const onEditorStateChange = (newState: EditorState) => {
@@ -49,16 +46,16 @@ const Note = ({ setShowPopup, formattedCurrentTime, onCancel }: NoteProps) => {
     const timeSave = formattedCurrentTime
     const payload = {
       course_id: id as string,
-      chapter_id: activeLesson?.chapter_id as string,
-      lesson_id: activeLesson?._id as string,
+      chapter_id,
+      lesson_id,
       time: timeSave as string,
       content: value as string
     }
+
     try {
       setIsLoading(true)
       const res = await addNoteLessonAPI(payload)
       if (res.statusCode === 201) {
-        dispatch(createNewNoteLesson({ id: 1, title: 'Loi khuyen truoc khoa hoc', content: value, time: timeSave }))
         setShowPopup(false)
         toast.success(res.message)
         setIsLoading(false)

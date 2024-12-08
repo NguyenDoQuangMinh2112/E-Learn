@@ -67,7 +67,7 @@ const Header = ({
       {/* left */}
       <div className={cx('header_left')}>
         <NavLink to="/">
-          <img className={cx('logo')} src={logo} alt="Logo" />
+          <img className={cx('logo')} src={logo} alt="Logo" loading="lazy" />
         </NavLink>
       </div>
       {/* end left */}
@@ -90,7 +90,7 @@ const Header = ({
         {userInfo ? (
           <Menu items={userMenu}>
             <div className={cx('fallbackAvatar')}>
-              <img className={cx('avatar')} src={userInfo.avatar_url} alt="avatar" />
+              <img className={cx('avatar')} src={userInfo.avatar_url} alt="avatar" loading="lazy" />
             </div>
           </Menu>
         ) : (

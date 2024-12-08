@@ -35,3 +35,17 @@ export const checkLengthOfWords = (html: string, number: number) => {
     return text
   }
 }
+
+export const convertTimeToSeconds = (time: string): number => {
+  const parts = time.split(':').map(Number)
+  if (parts.length === 2) {
+    // mm:ss
+    const [minutes, seconds] = parts
+    return minutes * 60 + seconds
+  } else if (parts.length === 3) {
+    // hh:mm:ss
+    const [hours, minutes, seconds] = parts
+    return hours * 3600 + minutes * 60 + seconds
+  }
+  return 0
+}

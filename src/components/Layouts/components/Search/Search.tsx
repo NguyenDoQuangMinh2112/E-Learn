@@ -83,6 +83,7 @@ const Search = () => {
                         thumnails={course.thumbnail}
                         key={course._id}
                         courseId={course._id}
+                        setSearchValue={setSearchValue}
                       />
                     ))}
                   </div>
@@ -97,7 +98,13 @@ const Search = () => {
                     {searchResult?.blogs?.map(
                       (blog) =>
                         blog && (
-                          <SearchItem title={blog.title} thumnails={blog.banner} key={blog._id} blogId={blog._id} />
+                          <SearchItem
+                            title={blog.title}
+                            thumnails={blog.banner}
+                            key={blog._id}
+                            blogId={blog._id}
+                            setSearchValue={setSearchValue}
+                          />
                         )
                     )}
                   </div>

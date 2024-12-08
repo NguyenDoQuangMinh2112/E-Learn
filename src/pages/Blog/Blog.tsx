@@ -1,12 +1,13 @@
 import classNames from 'classnames/bind'
 import styles from './Blog.module.scss'
-import BlogItem from '~/components/Layouts/BlogItem/BlogItem'
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { AppDispatch, RootState } from '~/redux/store'
 import { useDispatch } from 'react-redux'
 import { fetBlogs } from '~/redux/blog/blogAction'
+
+const LazyBlogItem = React.lazy(() => import('~/components/Layouts/BlogItem/BlogItem'))
 
 const cx = classNames.bind(styles)
 
@@ -15,8 +16,6 @@ const Blog = () => {
   const { blogs } = useSelector((state: RootState) => state.blog)
 
   useEffect(() => {
-    // call api get all blogs here
-
     dispatch(fetBlogs())
   }, [])
   return (
@@ -32,11 +31,13 @@ const Blog = () => {
         <div className={cx('row')}>
           <div className={cx('col col-9 col-xxl-8 col-lg-12')}>
             <div className={cx('left')}>
-              <ul>
-                {blogs?.map((blog) => (
-                  <BlogItem data={blog} key={blog._id} />
-                ))}
-              </ul>
+              <Suspense fallback="Loading...">
+                <ul>
+                  {blogs?.map((blog) => (
+                    <LazyBlogItem data={blog} key={blog._id} />
+                  ))}
+                </ul>
+              </Suspense>
             </div>
           </div>
           <div className={cx('col col-3 col-xxl-8 col-lg-12')}>

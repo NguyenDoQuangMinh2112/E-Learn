@@ -17,6 +17,7 @@ interface AccordionProps {
 
 const Accordion = ({ data }: AccordionProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
+
   return (
     <div className={cx('container')}>
       <div className={cx('wrapper')} onClick={() => setToggle(!toggle)}>
@@ -30,8 +31,8 @@ const Accordion = ({ data }: AccordionProps) => {
       </div>
       {/* content */}
       <div className={cx('content', { active: toggle })}>
-        {data?.lessons?.map((lesson) => (
-          <LessonItem data={lesson} />
+        {data?.lessons?.map((lesson, index) => (
+          <LessonItem data={lesson} key={index} />
         ))}
       </div>
     </div>

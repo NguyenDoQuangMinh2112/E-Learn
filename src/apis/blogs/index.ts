@@ -31,3 +31,7 @@ export const checkLikedByUserAPI = async (payload: {
 }): Promise<ApiResponse<{ statusCode: number; data: number }>> => {
   return await authorizedAxiosInstance.post(`${API_ROOT}/v1/blog/isliked-by-user`, payload)
 }
+
+export const editBlogApi = async (id: string, payload: any): Promise<ApiResponse<Blog>> => {
+  return await authorizedAxiosInstance.put(`${API_ROOT}/v1/blog/${id}`, payload)
+}

@@ -215,6 +215,24 @@
   }
 }
 
+.saveBtn {
+  padding: 10px 20px;
+  background: #1d86f2;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &:hover {
+    background: #3e93e8;
+  }
+
+  .title {
+    color: #fff;
+    text-transform: uppercase;
+  }
+}
+
 .mark-as-read {
   margin-left: auto;
   padding: 8px;

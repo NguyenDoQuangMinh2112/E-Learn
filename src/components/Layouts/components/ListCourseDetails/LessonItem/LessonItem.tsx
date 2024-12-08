@@ -1,48 +1,42 @@
 import styles from './LessonItem.module.scss'
 import classNames from 'classnames/bind'
-import { useEffect } from 'react'
 import { FaCirclePlay } from 'react-icons/fa6'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { MdQuiz } from 'react-icons/md'
-
-import { useDispatch } from 'react-redux'
-import { Exercises } from '~/interfaces/course'
-import { Lesson } from '~/interfaces/noteLesson'
-import { setActiveLesson } from '~/redux/course/courseSlice'
-import { showPopup } from '~/redux/popup/popupSlice'
+import { useNavigate } from 'react-router-dom'
+import useDecodedId from '~/hooks/useDecodedId'
 
 const cx = classNames.bind(styles)
-type LessonOrExercise = Lesson | Exercises
-// Đổi `data` thành một generic
-interface LessonItemProps<T extends LessonOrExercise> {
+interface LessonItemProps {
   toggle: boolean
-  isActive: boolean
-  title?: string
+  title: string
   order?: number
-  data?: T
+  id: string
+  type: 'lesson' | 'exercises'
 }
 
-const LessonItem = <T extends LessonOrExercise>({ toggle, title, order, data, isActive }: LessonItemProps<T>) => {
-  const dispatch = useDispatch()
+const LessonItem = ({ toggle, title, order, type, id }: LessonItemProps) => {
+  const navigate = useNavigate()
+  const decodedIdUrl = btoa(id)
 
-  const handleNavigate = () => {
-    if (data.questions) {
-      dispatch(showPopup('exercise'))
-    } else {
-      dispatch(setActiveLesson(data))
-    }
+  const decodeId = useDecodedId()
+
+  const isActive = id === decodeId
+
+  const handleClickLesson = () => {
+    navigate(`/course/learning/66b2111e02402496c308a935?id=${decodedIdUrl}&type=${type}`)
   }
 
   return (
-    <div className={cx('track', { active: toggle })} onClick={handleNavigate}>
-      <div className={cx('wrapper_track', { 'active-bg': isActive })}>
+    <div className={cx('track', { active: toggle })}>
+      <div className={cx('wrapper_track', { 'active-bg': isActive })} onClick={handleClickLesson}>
         <div className={cx('info')}>
           <h3 className={cx('info_title')}>
             {order}. {title}
           </h3>
           <p className={cx('info_desc')}>
-            {'questions' in (data || {}) ? (
-              <MdQuiz />
+            {type === 'exercises' ? (
+              <MdQuiz size={16} />
             ) : (
               <>
                 <FaCirclePlay />

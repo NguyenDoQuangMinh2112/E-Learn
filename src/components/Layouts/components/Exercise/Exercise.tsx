@@ -1,27 +1,35 @@
-import { useState, useCallback } from 'react'
-import styles from './Exercise.module.scss'
+import { useState, useCallback, useEffect } from 'react'
+
 import classNames from 'classnames/bind'
+import styles from './Exercise.module.scss'
+
 import Button from '~/components/Button'
 import Answer from './Answer/Answer'
+import useDecodedId from '~/hooks/useDecodedId'
 import confetti from 'canvas-confetti'
+
+import { getDetailExerciseAPI } from '~/apis/chapter'
+import { Quiz } from '~/interfaces/exercise'
 
 const cx = classNames.bind(styles)
 
+type State = {
+  isSubmitted: boolean
+  selectedAnswer: string | null
+  result: string | null
+  errorAnswer: boolean
+}
 const Exercise = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     isSubmitted: false,
     selectedAnswer: null as string | null,
     result: null as string | null,
     errorAnswer: false
   })
 
-  const questionData = {
-    quizId: '60b8d6f9f1f25a3d485d42b1',
-    question: 'Câu hỏi số 1: 1 + 1 = ?',
-    options: ['1', '2', '3', '4'],
-    correct_answer: '2',
-    explain: '1 cộng 1 bằng 2.'
-  }
+  const decodedId = useDecodedId()
+
+  const [questionData, setQuestionData] = useState<Quiz | null>(null)
 
   const handleConfetti = useCallback(() => {
     confetti({
@@ -33,7 +41,8 @@ const Exercise = () => {
 
   const handleSubmit = useCallback(() => {
     setState((prevState) => {
-      const isCorrect = prevState.selectedAnswer === questionData.correct_answer
+      const isCorrect = prevState.selectedAnswer === questionData?.questions[0]?.correct_answer
+
       if (isCorrect) {
         handleConfetti()
       }
@@ -44,7 +53,7 @@ const Exercise = () => {
         errorAnswer: !isCorrect
       }
     })
-  }, [handleConfetti])
+  }, [handleConfetti, questionData])
 
   const handleSelectAnswer = (answer: string) => {
     setState({
@@ -55,30 +64,50 @@ const Exercise = () => {
     })
   }
 
+  useEffect(() => {
+    if (decodedId) {
+      const fetchDetailExercices = async () => {
+        try {
+          const res = await getDetailExerciseAPI(decodedId)
+          if (res.statusCode === 200) {
+            setQuestionData(res.data)
+          } else {
+            console.error('Error fetching data:', res)
+          }
+        } catch (error) {
+          console.error('API request failed:', error)
+        }
+      }
+      fetchDetailExercices()
+    }
+  }, [decodedId])
+
   const { selectedAnswer, isSubmitted, result, errorAnswer } = state
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('content')}>
-        <h2 className={cx('content__title')}>Topic: Ôn lại kiến thức về Promise #2</h2>
+        <h2 className={cx('content__title')}>Topic: {questionData?.title}</h2>
         <p className={cx('des')}>
-          Description: <span>Test your knowledge of basic JavaScript concepts</span>.
+          Description: <span>{questionData?.description}</span>.
         </p>
       </div>
 
       <div className={cx('question')}>
-        <h3>Question:</h3>
-        <p>{questionData.question}</p>
+        <h3>Question: </h3>
+        <p> {questionData?.questions[0]?.question}</p>
       </div>
 
       <div className={cx('container')}>
-        {questionData.options.map((option, index) => (
+        {questionData?.questions[0]?.options?.map((option, index) => (
           <Answer
             key={index}
             title={option}
             isSelected={selectedAnswer === option}
             isError={errorAnswer && selectedAnswer === option}
-            isCorrect={isSubmitted && selectedAnswer === option && selectedAnswer === questionData.correct_answer}
+            isCorrect={
+              isSubmitted && selectedAnswer === option && selectedAnswer === questionData.questions[0].correct_answer
+            }
             onClick={() => handleSelectAnswer(option)}
           />
         ))}
@@ -95,7 +124,7 @@ const Exercise = () => {
             {result === 'Incorrect 😞' && (
               <div className={cx('explanation')}>
                 <p>
-                  <strong>Explanation:</strong> {questionData.explain}
+                  <strong>Explanation:</strong> {questionData?.questions[0]?.explain}
                 </p>
               </div>
             )}

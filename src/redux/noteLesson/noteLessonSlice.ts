@@ -8,7 +8,7 @@ interface NoteLessonState {
   isOpenChat: boolean
   error: string | null
   myNoteLessons: NoteLesson[] | null
-  myNotes: Array<{ id: number; title: string; content: string; time: string }>
+  selectedTime: number | null
 }
 const initialState: NoteLessonState = {
   isOpenNoteLesson: false,
@@ -16,17 +16,16 @@ const initialState: NoteLessonState = {
   loading: false,
   myNoteLessons: null,
   error: null,
-  myNotes: [
-    { id: 1, title: 'Lời khuyên trước khóa học', content: 'Note 1', time: '00:01' },
-    { id: 2, title: 'Lời khuyên trước khóa học 2', content: 'Note 2', time: '00:02' },
-    { id: 3, title: 'Lời khuyên trước khóa học 3', content: 'Note 3', time: '00:03' }
-  ]
+  selectedTime: null
 }
 
 const noteLessonSlice = createSlice({
   name: 'noteLesson',
   initialState,
   reducers: {
+    setSelectedTime(state, action: PayloadAction<number>) {
+      state.selectedTime = action.payload
+    },
     showNoteLesson: (state) => {
       state.isOpenNoteLesson = true
     },
@@ -39,10 +38,6 @@ const noteLessonSlice = createSlice({
     hideChat: (state) => {
       state.isOpenChat = false
     },
-    createNewNoteLesson: (state, action) => {
-      const { id, title, content, time } = action.payload
-      state.myNotes.push({ id: id, title: title, content: content, time: time })
-    },
     deleteNoteLesson(state, action) {
       const { id } = action.payload
       state.myNoteLessons = state.myNoteLessons?.filter((note) => note._id !== id) || []
@@ -54,7 +49,6 @@ const noteLessonSlice = createSlice({
         const noteIndex = state.myNoteLessons.findIndex((note) => note._id === _id)
 
         if (noteIndex !== -1) {
-          // Update the note content if found
           state.myNoteLessons[noteIndex] = {
             ...state.myNoteLessons[noteIndex],
             content: content
@@ -81,9 +75,9 @@ const noteLessonSlice = createSlice({
 })
 
 export const {
+  setSelectedTime,
   showNoteLesson,
   hideNoteLesson,
-  createNewNoteLesson,
   showChat,
   hideChat,
   updateNoteLesson,

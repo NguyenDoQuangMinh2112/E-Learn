@@ -11,6 +11,9 @@ interface FormValues {
   currentPassword?: string
   newPassword?: string
   confirmPassword?: string
+  emailForgot?: string
+  newPasswordReset?: string
+  confirmPasswordReset?: string
 }
 
 interface FormErrors {
@@ -21,6 +24,9 @@ interface FormErrors {
   currentPassword?: string
   newPassword?: string
   confirmPassword?: string
+  emailForgot?: string
+  newPasswordReset?: string
+  confirmPasswordReset?: string
 }
 const useForm = (initialValues: FormValues) => {
   const type = useSelector((state: RootState) => state.popup.type) || 'login'

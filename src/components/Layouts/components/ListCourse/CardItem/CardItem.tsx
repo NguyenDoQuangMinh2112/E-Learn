@@ -19,7 +19,7 @@ const CardItem = ({ data, isHide }: ContentItemProps) => {
     <div className={cx('col')}>
       <div className={cx('wrapper')}>
         <NavLink to={`/blog/${data?._id}`} className={cx('link')}>
-          <img src={data.banner} alt="blogItem" />
+          <img src={data.banner} alt="blogItem" loading="lazy" />
         </NavLink>
         <div className={cx('content')}>
           <h3 className={cx('title')}>
@@ -33,7 +33,7 @@ const CardItem = ({ data, isHide }: ContentItemProps) => {
           <div className={cx('details')}>
             <div className={cx('moreInfo')}>
               <div className={cx('teacher')}>
-                <img className={cx('images')} src={data?.author.avatar_url} alt="logo" />
+                <img className={cx('images')} src={data?.author.avatar_url} alt="logo" loading="lazy" />
               </div>
               <span className={cx('name')}>{getLastTwoNames(data?.author.fullName)}</span>
             </div>

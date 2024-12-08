@@ -36,7 +36,7 @@ const CourseLearningHeader = () => {
       {/* left */}
       <div className={cx('header_left')}>
         <NavLink to="/">
-          <img className={cx('logo')} src={logo} alt="Logo" />
+          <img className={cx('logo')} src={logo} alt="Logo" loading="lazy" />
         </NavLink>
       </div>
       {/* end left */}

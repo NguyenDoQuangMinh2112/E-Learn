@@ -21,8 +21,11 @@ interface FormGroupProps {
   status?: 'login' | 'register' | 'verify'
   isHide?: boolean
   isDisabledInputCode?: boolean
+  isDisabledBtn?: boolean
   showSendCode?: boolean
   isLoading?: boolean
+  disabled?: boolean
+  textValue?: string
 }
 
 const FormGroup: React.FC<FormGroupProps> = ({
@@ -38,7 +41,10 @@ const FormGroup: React.FC<FormGroupProps> = ({
   status,
   isHide = false,
   isDisabledInputCode,
-  isLoading
+  isDisabledBtn,
+  isLoading,
+  disabled = false,
+  textValue = 'Xác thực'
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
@@ -60,18 +66,19 @@ const FormGroup: React.FC<FormGroupProps> = ({
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
+          value={value || ''}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={disabled}
         />
         {isHide && (
-          <div className={cx('right-btn')} onClick={onClick}>
+          <div className={cx('right-btn', { disabled: isDisabledBtn })} onClick={onClick}>
             {isLoading ? (
               <span>
                 <Spinner color="#fff" />
               </span>
             ) : (
-              <span>Xác thực</span>
+              <span>{textValue}</span>
             )}
           </div>
         )}

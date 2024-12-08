@@ -37,11 +37,17 @@ const blogSlice = createSlice({
       if (action.payload.parent === null) {
         state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
       } else {
-        const findComment = state.commentByBlog?.find(cmt=> cmt._id === action.payload.parent)
+        const findComment = state.commentByBlog?.find((cmt) => cmt._id === action.payload.parent)
         findComment?.replies?.push(action.payload)
         findComment?.children?.push(action.payload._id)
         state.commentByBlog = state.commentByBlog ? [action.payload, ...state.commentByBlog] : [action.payload]
       }
+    },
+
+    deleteBlog: (state, action) => {
+      const idBlog = action.payload
+
+      state.blogs = state.blogs.filter((blog) => blog._id !== idBlog)
     }
   },
   extraReducers(builder) {
@@ -86,5 +92,5 @@ const blogSlice = createSlice({
   }
 })
 
-export const { toggleShowRepplyForm, updateBlog, updateCommentByBlog } = blogSlice.actions
+export const { toggleShowRepplyForm, updateBlog, updateCommentByBlog, deleteBlog } = blogSlice.actions
 export default blogSlice.reducer
