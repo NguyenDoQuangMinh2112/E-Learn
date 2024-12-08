@@ -13,6 +13,7 @@ import { login } from '~/redux/auth'
 import { hidePopup, showPopup } from '~/redux/popup/popupSlice'
 import { useForm } from '~/hooks'
 import Spinner from '~/components/Spinner/Spinner'
+import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
 
@@ -116,13 +117,17 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
   const handleSendCodeToVeryfiAccount = async () => {
     if (values.code) {
       setIsSendingCode(true)
-      const res = await verifyAPI(values.code)
+      try {
+        const res = await verifyAPI(values.code)
 
-      if (res.statusCode === 201) {
-        setIsSendingCode(false)
-        dispatch(showPopup('login'))
-        setIsShowVerifyCode(false)
-      } else {
+        if (res.statusCode === 201) {
+          dispatch(showPopup('login'))
+          setIsShowVerifyCode(false)
+          toast.success(res.message)
+        }
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message)
+      } finally {
         setIsSendingCode(false)
       }
     }

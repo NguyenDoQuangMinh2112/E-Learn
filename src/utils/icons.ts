@@ -2,12 +2,14 @@ import { IoHome, IoShield } from 'react-icons/io5'
 import { FaRoad } from 'react-icons/fa6'
 import { FaRegNewspaper } from 'react-icons/fa6'
 import { FaUserCog } from 'react-icons/fa'
+import { GrContact } from 'react-icons/gr'
 type IconComponents = {
   IoHome: React.ElementType
   FaRoad: React.ElementType
   FaRegNewspaper: React.ElementType
   IoShield: React.ElementType
   FaUserCog: React.ElementType
+  GrContact: React.ElementType
 }
 
 const icons: IconComponents = {
@@ -15,6 +17,7 @@ const icons: IconComponents = {
   FaRoad,
   FaRegNewspaper,
   IoShield,
-  FaUserCog
+  FaUserCog,
+  GrContact
 }
 export default icons

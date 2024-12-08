@@ -7,12 +7,14 @@ interface CourseState {
   loading: boolean
   error: string | null
   chapters: Chapter[] | null
+  isEnroll: boolean | null
 }
 const initialState: CourseState = {
   courseDetail: null,
   loading: false,
   error: null,
-  chapters: null
+  chapters: null,
+  isEnroll: null
 }
 
 const courseSlice = createSlice({
@@ -40,7 +42,6 @@ const courseSlice = createSlice({
         state.loading = false
         state.chapters = action.payload
       })
-
       .addCase(fetchChapters.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message || 'An error occurred.'

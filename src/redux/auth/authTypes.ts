@@ -7,6 +7,8 @@ export interface User {
   isLocked: boolean
   avatar_url: string
   _destroy: boolean
+  createdAt: number
+  updatedAt: number
 }
 
 export interface AuthState {

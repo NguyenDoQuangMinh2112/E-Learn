@@ -1,7 +1,7 @@
 import { SideBarMenuItem } from '~/interfaces/menu'
 import icons from './icons'
 
-const { IoHome, FaRoad, FaRegNewspaper, FaUserCog, IoShield } = icons
+const { IoHome, GrContact, FaRegNewspaper, FaUserCog, IoShield } = icons
 export const sideBarMenu: SideBarMenuItem[] = [
   {
     id: 1,
@@ -17,9 +17,9 @@ export const sideBarMenu: SideBarMenuItem[] = [
   },
   {
     id: 3,
-    icons: <FaRoad />,
-    text: 'Teach on Elearn',
-    path: '/teach-on-elearn'
+    icons: <GrContact />,
+    text: 'Contact',
+    path: '/contact'
   }
 ]
 
@@ -27,13 +27,11 @@ export const sideBarSettingAcountPage = [
   {
     id: 1,
     text: 'Thông tin cá nhân',
-    // path: '/setting/account',
     icons: <FaUserCog size="20" />
   },
   {
     id: 2,
     text: 'Mật khẩu và bảo mật',
-    // path: '/setting/account/management',
     icons: <IoShield />
   }
 ]

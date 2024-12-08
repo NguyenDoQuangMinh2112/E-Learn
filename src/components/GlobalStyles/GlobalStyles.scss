@@ -225,6 +225,11 @@ body {
   cursor: not-allowed;
   pointer-events: none;
 }
+.isCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 // Mobile: width < 740px
 // Tablet: width >= 740px and width < 1024px
 // Pc: width >= 1024px

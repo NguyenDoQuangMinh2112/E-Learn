@@ -1,0 +1,49 @@
+.wrapper {
+}
+
+.reason {
+  padding: 50px 30px;
+
+  &__title {
+    line-height: 1.15;
+    font-size: 30px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .des {
+      max-width: 34rem;
+      text-align: center;
+    }
+  }
+
+  &__img {
+    width: 100px;
+    height: 100px;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Contact
+.container {
+  display: flex;
+}
+
+.title {
+  margin: 20px 0;
+}

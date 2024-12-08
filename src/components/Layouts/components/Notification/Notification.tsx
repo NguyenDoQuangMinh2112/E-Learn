@@ -73,7 +73,6 @@ const Notification = () => {
   useEffect(() => {
     if (socket) {
       socket.on('newNotification', (notification: any) => {
-        console.log('🚀 ~ socket.on ~ notification:', notification)
         setNotifications((prev) => {
           return [notification, ...(prev || [])]
         })

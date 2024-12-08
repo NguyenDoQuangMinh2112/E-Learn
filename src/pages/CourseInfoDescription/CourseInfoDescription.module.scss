@@ -40,7 +40,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  li {
+  li,
+  p {
     position: relative;
     flex-basis: 50%;
     margin-top: 12px;

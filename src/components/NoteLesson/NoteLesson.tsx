@@ -67,8 +67,11 @@ const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivE
   }
 
   const handleRemoveNoteLesson = useCallback((id: string) => {
-    dispatch(deleteNoteLesson({ id }))
-    toast.success('Xóa ghi chú thành công!')
+    const isConfirmed = window.confirm('Are you sure you want to delete this blog?')
+    if (isConfirmed) {
+      dispatch(deleteNoteLesson({ id }))
+      toast.success('Xóa ghi chú thành công!')
+    }
   }, [])
 
   const handleSelectTime = useCallback(

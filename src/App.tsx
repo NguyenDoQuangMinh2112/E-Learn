@@ -22,9 +22,12 @@ import Profile from './pages/Profile/Profile'
 import Exercise from './components/Layouts/components/Exercise/Exercise'
 import Success from './pages/Success/Success'
 import Cancel from './pages/Cancel/Cancel'
+import EditBlog from './pages/EditBlog/EditBlog'
+import Contact from './pages/Contact/Contact'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
+
   const { userInfo } = useSelector(authSelector)
   if (!userInfo) {
     dispatch(showPopup('login'))
@@ -43,7 +46,7 @@ function App() {
         <Route path="/" element={<Home />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/new-post" element={<NewPost />} />
-            <Route path="/post/:id/edit" element={<NewPost />} />
+            <Route path="/post/:id/edit" element={<EditBlog />} />
             <Route path="/my-profile" element={<Profile />} />
           </Route>
           <Route path="/" element={<Content />}>
@@ -51,6 +54,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<DetailBlog />} />
             <Route path="/course/:id" element={<CourseInfoDescription />} />
+            <Route path="/contact" element={<Contact />} />
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>

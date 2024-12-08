@@ -11,7 +11,7 @@ import { PiVideoLight } from 'react-icons/pi'
 import { GrCertificate } from 'react-icons/gr'
 import { formatPrice, getLastTwoNames } from '~/utils/helper'
 import { useParams } from 'react-router-dom'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
@@ -24,13 +24,23 @@ import { courseSelector } from '~/redux/course/courseSelector'
 
 import { loadStripe } from '@stripe/stripe-js'
 import { createPaymentSessionAPI } from '~/apis/enroll'
+import Spinner from '~/components/Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
 const CourseInfoDescription = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { courseDetail } = useSelector(courseSelector)
+  const requiredList = courseDetail?.required[0]
+    ?.split('<p>')
+    .filter((item) => item.trim() !== '')
+    .map((item) => {
+      return item.replace('</p>', '').trim()
+    })
+
   const { userInfo } = useSelector(authSelector)
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const { id } = useParams()
 
@@ -48,13 +58,18 @@ const CourseInfoDescription = () => {
       return
     }
 
-    const stripe = await loadStripe(
-      'pk_test_51QOy93G32ujZNpUiwFZIfOxVo8R4TKP1B8LED3PFKCpinXB4BEV1Dwt0nduUtuZmQwkb3KcTAQ9NfaSItgcbEH7S00YprpRAq5'
-    )
-
-    const res = await createPaymentSessionAPI({ course: courseDetail, userId: userInfo._id })
-
-    stripe?.redirectToCheckout({ sessionId: res.id })
+    try {
+      const stripe = await loadStripe(
+        'pk_test_51QOy93G32ujZNpUiwFZIfOxVo8R4TKP1B8LED3PFKCpinXB4BEV1Dwt0nduUtuZmQwkb3KcTAQ9NfaSItgcbEH7S00YprpRAq5'
+      )
+      setIsLoading(true)
+      const res = await createPaymentSessionAPI({ course: courseDetail, userId: userInfo._id })
+      stripe?.redirectToCheckout({ sessionId: res.id })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
     <>
@@ -71,46 +86,12 @@ const CourseInfoDescription = () => {
               <div className={cx('topic_list')}>
                 <h2 className={cx('topic_heading')}>Bạn sẽ học được gì?</h2>
                 <ul className={cx('list')}>
-                  <li>
-                    <FaCheck />
-                    Hiểu chi tiết về các khái niệm cơ bản trong JS
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Tự tin khi phỏng vấn với kiến thức vững chắc
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Nắm chắc các tính năng trong phiên bản ES6
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Ghi nhớ các khái niệm nhờ bài tập trắc nghiệm
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Các bài thực hành như Tabs, Music Player
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Xây dựng được website đầu tiên kết hợp với JS
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Có nền tảng để học các thư viện và framework JS
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Thành thạo DOM APIs để tương tác với trang web
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Nâng cao tư duy với các bài kiểm tra với testcases
-                  </li>
-                  <li>
-                    <FaCheck />
-                    Nhận chứng chỉ khóa học do F8 cấp
-                  </li>
+                  {requiredList?.map((item, index) => (
+                    <li key={index}>
+                      <FaCheck />
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className={cx('curriculumOfCourse')}>
@@ -206,8 +187,8 @@ const CourseInfoDescription = () => {
               </div>
 
               <div className={cx('info-button')}>
-                <Button className={cx('btn-enroll')} onClick={handleEnrollCourse}>
-                  Payment with Stripe
+                <Button className={cx('btn-enroll', { disable: isLoading })} onClick={handleEnrollCourse}>
+                  {isLoading ? <Spinner color="#fff" /> : 'Payment with Stripe'}
                 </Button>
               </div>
             </div>

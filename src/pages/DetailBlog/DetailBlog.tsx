@@ -150,7 +150,7 @@ const DetailBlog = () => {
                     </div>
                   </div>
                   <div className={cx('wrp')}>
-                    <ActionButton place="right" />
+                    <ActionButton place="right" blogId={blogDetail._id} />
                   </div>
                 </div>
                 <div className={cx('box')}>

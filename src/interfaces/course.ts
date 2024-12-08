@@ -62,6 +62,7 @@ export interface CourseInfo {
   price: number
   thumbnail: string
   chapters: Chapter[]
+  required: string[]
   createdAt: number
   updatedAt: number | null
   _destroy: boolean
@@ -77,4 +78,27 @@ export interface LessonNote {
   content: string
   createdAt: string
   updatedAt: string | null
+}
+
+export interface UserEnrollCourse {
+  _id: string
+  courseId: [
+    {
+      _id: string
+      title: string
+      description?: string
+      price: number
+      thumbnail: string
+      chapters?: string[]
+      createdAt?: number
+      updatedAt?: number | null
+      _destroy?: boolean
+      instructor_id: string
+    }
+  ]
+  userId: string
+  payment_id: string
+  createdAt: number
+  updatedAt: number | null
+  _destroy: boolean
 }

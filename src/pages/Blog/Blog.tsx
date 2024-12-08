@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind'
 import styles from './Blog.module.scss'
-// import BlogItem from '~/components/Layouts/BlogItem/BlogItem'
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
 import React, { Suspense, useEffect } from 'react'
@@ -17,8 +16,6 @@ const Blog = () => {
   const { blogs } = useSelector((state: RootState) => state.blog)
 
   useEffect(() => {
-    // call api get all blogs here
-
     dispatch(fetBlogs())
   }, [])
   return (

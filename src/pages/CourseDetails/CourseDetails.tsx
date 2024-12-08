@@ -15,7 +15,7 @@ import ListCourseDetails from '~/components/Layouts/components/ListCourseDetails
 import { FiPlus } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
 
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { getDetailLessonAPI } from '~/apis/lesson'
 
@@ -24,6 +24,8 @@ import { useSelector } from 'react-redux'
 import { courseSelector } from '~/redux/course/courseSelector'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 import MetaData from '~/components/MetaData'
+import { checkUserEnrollAPI } from '~/apis/enroll'
+import Spinner from '~/components/Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 interface Note {
@@ -37,13 +39,14 @@ const CourseDetails = () => {
   const { selectedTime } = useSelector(noteLessonSelector)
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { id } = useParams()
 
   const [isSidebarClosed, setIsSidebarClosed] = useState<boolean>(false)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const [isPaused, setIsPaused] = useState<boolean>(false)
   const [detailLesson, setDetailLesson] = useState<Lesson | null>(null)
-  console.log('🚀 ~ CourseDetails ~ detailLesson:', detailLesson)
+  const [isEnrolled, setIsEnrolled] = useState<boolean>(false)
 
   const endCodedId = atob(String(searchParams.get('id')))
 
@@ -87,6 +90,21 @@ const CourseDetails = () => {
       setDetailLesson(res.data)
     }
   }
+
+  useEffect(() => {
+    const checkEnrollment = async () => {
+      const response = await checkUserEnrollAPI(String(id))
+
+      if (!response) {
+        navigate('/')
+      } else {
+        setIsEnrolled(true)
+      }
+    }
+
+    checkEnrollment()
+  }, [id, navigate])
+
   useEffect(() => {
     if (searchParams.get('type') === 'lesson') {
       fetchLessonDetails()
@@ -108,6 +126,14 @@ const CourseDetails = () => {
       playerRef.current.seekTo(selectedTime)
     }
   }, [selectedTime])
+
+  if (!isEnrolled) {
+    return (
+      <div style={{ height: '100vh' }} className={cx('isCenter')}>
+        <Spinner />
+      </div>
+    )
+  }
 
   return (
     <>
