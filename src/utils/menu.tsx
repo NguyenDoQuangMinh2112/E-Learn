@@ -13,7 +13,7 @@ export const sideBarMenu: SideBarMenuItem[] = [
     id: 2,
     icons: <FaRegNewspaper />,
     text: 'Bài viết',
-    path: '/blog'
+    path: '/blog?page=1'
   },
   {
     id: 3,

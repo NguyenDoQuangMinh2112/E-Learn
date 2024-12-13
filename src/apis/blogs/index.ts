@@ -7,8 +7,9 @@ export const createBlogAPI = async (data: any): Promise<ApiResponse<Blog[]>> => 
   return await authorizedAxiosInstance.post(`${API_ROOT}/v1/blog/create`, data)
 }
 
-export const getAllBlogAPI = async (): Promise<ApiResponse<Blog[]>> => {
-  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/blog/`)
+export const getAllBlogAPI = async (limit?: number, page?: number): Promise<ApiResponse<Blog[]>> => {
+  const queryParams = limit !== undefined && page !== undefined ? `?limit=${limit}&page=${page}` : ''
+  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/blog/${queryParams}`)
 }
 
 export const getDetailBlogAPI = async (id: string): Promise<ApiResponse<Blog>> => {

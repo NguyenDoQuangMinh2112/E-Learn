@@ -1,15 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import * as apis from '~/apis/blogs'
+import { PaginationInfo } from '~/interfaces/ApiResponse'
 import { Blog, Comment } from '~/interfaces/blog'
 
-// Api get all courses
-export const fetBlogs = createAsyncThunk<Blog[], void>('blogs/fetBlogs', async () => {
-  const response = await apis.getAllBlogAPI()
-  if (response.statusCode !== 200) {
-    throw new Error('Failed to fetch blogs.')
-  } else {
-    return response.data
+// Api get all blogs
+export const fetBlogs = createAsyncThunk<
+  { blogs: Blog[]; pagination?: PaginationInfo },
+  { limit?: number; page?: number }
+>('blogs/fetBlogs', async ({ limit, page }, thunkAPI) => {
+  try {
+    // Gọi API với logic phù hợp
+    const response = await apis.getAllBlogAPI(limit, page)
+    if (response.statusCode !== 200) {
+      return thunkAPI.rejectWithValue('Failed to fetch blogs.')
+    }
+    return { blogs: response.data, pagination: response.pagination }
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message || 'An error occurred.')
   }
 })
 

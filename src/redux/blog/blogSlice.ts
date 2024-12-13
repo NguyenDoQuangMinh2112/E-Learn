@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetBlogs, fetchCommentByBlog, fetchDetailBlog } from './blogAction'
 import { Blog, Comment } from '~/interfaces/blog'
+import { PaginationInfo } from '~/interfaces/ApiResponse'
 
 interface CourseState {
   blogs: Blog[]
+  pagination: PaginationInfo | null
   blogDetail: Blog | null
   loading: boolean
   error: string | null
@@ -16,7 +18,8 @@ const initialState: CourseState = {
   loading: false,
   error: null,
   isShowReplyForm: false,
-  commentByBlog: null
+  commentByBlog: null,
+  pagination: null
 }
 
 const blogSlice = createSlice({
@@ -55,22 +58,22 @@ const blogSlice = createSlice({
       .addCase(fetBlogs.pending, (state) => {
         state.loading = true
       })
-      .addCase(fetBlogs.fulfilled, (state, action: PayloadAction<Blog[]>) => {
+      .addCase(fetBlogs.fulfilled, (state, action) => {
         state.loading = false
-        state.blogs = action.payload
+        state.blogs = action.payload.blogs
+        state.pagination = action.payload.pagination || null
       })
-
       .addCase(fetBlogs.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message || 'An error occurred.'
+        state.error = action.payload as string
       })
       .addCase(fetchDetailBlog.pending, (state) => {
         state.loading = true
-        state.error = null // Reset error khi bắt đầu fetch detail
+        state.error = null
       })
       .addCase(fetchDetailBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false
-        state.blogDetail = action.payload // Lưu chi tiết blog
+        state.blogDetail = action.payload
       })
       .addCase(fetchDetailBlog.rejected, (state, action) => {
         state.loading = false

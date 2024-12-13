@@ -49,3 +49,9 @@ export const convertTimeToSeconds = (time: string): number => {
   }
   return 0
 }
+
+export const generateRange = (start: number, end: number) => {
+  const length = end + 1 - start
+
+  return Array.from({ length }, (_, id) => id + start)
+}

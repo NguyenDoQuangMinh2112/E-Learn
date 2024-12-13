@@ -1,9 +1,17 @@
+export interface PaginationInfo {
+  currentPage: number
+  totalBlogs: number
+  totalPages: number
+  pageSize: number
+}
+
 export interface ApiResponse<T> {
   statusCode: number
   message?: string
   accessToken?: string
   refreshToken?: string
   data: T
+  pagination: PaginationInfo
 }
 
 export interface User {

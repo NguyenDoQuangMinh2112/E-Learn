@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination .disabledContent {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pagination .activePagination {
+  background-color: #ff3d01;
+  color: #fff;
+  pointer-events: none;
+}
+
+.pageBox {
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pagination .pageBox:hover {
+  background-color: rgba(80, 2, 189, 0.04);
+}

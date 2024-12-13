@@ -38,7 +38,14 @@ const Chapter = ({ data }: ChapterProps) => {
 
       {/* Render exercise */}
       {data?.exercises?.map((exercise) => (
-        <LessonItem toggle={toggle} title={exercise.title} id={exercise._id} type="exercises" key={exercise._id} />
+        <LessonItem
+          toggle={toggle}
+          title={exercise.title}
+          id={exercise._id}
+          order={exercise.order}
+          type="exercises"
+          key={exercise._id}
+        />
       ))}
       {/* End */}
     </>

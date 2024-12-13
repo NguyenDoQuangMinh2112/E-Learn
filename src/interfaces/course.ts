@@ -24,6 +24,7 @@ export interface Exercises {
   title: string
   questions: string[]
   description: string
+  order?: number
   createdAt: number
   updatedAt: number | null
   _destroy: boolean

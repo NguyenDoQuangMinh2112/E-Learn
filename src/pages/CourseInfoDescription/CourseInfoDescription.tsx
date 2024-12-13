@@ -31,12 +31,14 @@ const cx = classNames.bind(styles)
 const CourseInfoDescription = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { courseDetail } = useSelector(courseSelector)
-  const requiredList = courseDetail?.required[0]
-    ?.split('<p>')
-    .filter((item) => item.trim() !== '')
-    .map((item) => {
-      return item.replace('</p>', '').trim()
-    })
+  const requiredList =
+    courseDetail?.required &&
+    courseDetail?.required[0]
+      ?.split('<p>')
+      .filter((item) => item.trim() !== '')
+      .map((item) => {
+        return item.replace('</p>', '').trim()
+      })
 
   const { userInfo } = useSelector(authSelector)
 

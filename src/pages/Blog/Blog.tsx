@@ -3,9 +3,12 @@ import styles from './Blog.module.scss'
 import MetaData from '~/components/MetaData'
 import { useSelector } from 'react-redux'
 import React, { Suspense, useEffect } from 'react'
-import { AppDispatch, RootState } from '~/redux/store'
+import { AppDispatch } from '~/redux/store'
 import { useDispatch } from 'react-redux'
 import { fetBlogs } from '~/redux/blog/blogAction'
+import Paginations from '~/components/Pagination/Pagination'
+import { blogSelector } from '~/redux/blog/blogSelector'
+import { useSearchParams } from 'react-router-dom'
 
 const LazyBlogItem = React.lazy(() => import('~/components/Layouts/BlogItem/BlogItem'))
 
@@ -13,11 +16,17 @@ const cx = classNames.bind(styles)
 
 const Blog = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { blogs } = useSelector((state: RootState) => state.blog)
+  const { blogs, pagination } = useSelector(blogSelector)
+  const [params] = useSearchParams()
+  const page = Number(params.get('page')) || 1
+  const handlePageChange = (page: number) => {
+    dispatch(fetBlogs({ limit: 2, page }))
+  }
 
   useEffect(() => {
-    dispatch(fetBlogs())
-  }, [])
+    dispatch(fetBlogs({ limit: 2, page }))
+  }, [dispatch])
+
   return (
     <>
       <MetaData title="Danh sách bài viết" />
@@ -38,6 +47,16 @@ const Blog = () => {
                   ))}
                 </ul>
               </Suspense>
+            </div>
+
+            <div className={cx('pagination')}>
+              {pagination && (
+                <Paginations
+                  totalItems={pagination.totalBlogs}
+                  itemsPerPage={pagination.pageSize}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </div>
           </div>
           <div className={cx('col col-3 col-xxl-8 col-lg-12')}>

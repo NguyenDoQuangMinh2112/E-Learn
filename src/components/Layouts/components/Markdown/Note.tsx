@@ -11,6 +11,8 @@ import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import { addNoteLessonAPI } from '~/apis/course'
 import Spinner from '~/components/Spinner/Spinner'
+import { useSelector } from 'react-redux'
+import { authSelector } from '~/redux/auth/authSelectors'
 
 const cx = classNames.bind(styles)
 
@@ -25,6 +27,7 @@ interface NoteProps {
 const Note = ({ setShowPopup, formattedCurrentTime, onCancel, chapter_id, lesson_id }: NoteProps) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const [isLoading, setIsLoading] = useState(false)
+  const { userInfo } = useSelector(authSelector)
 
   const { id } = useParams()
 
@@ -49,7 +52,8 @@ const Note = ({ setShowPopup, formattedCurrentTime, onCancel, chapter_id, lesson
       chapter_id,
       lesson_id,
       time: timeSave as string,
-      content: value as string
+      content: value as string,
+      user_id: userInfo?._id
     }
 
     try {
@@ -60,8 +64,10 @@ const Note = ({ setShowPopup, formattedCurrentTime, onCancel, chapter_id, lesson
         toast.success(res.message)
         setIsLoading(false)
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      toast.error(error.response?.data?.message)
+    } finally {
+      setIsLoading(false)
     }
   }
   return (

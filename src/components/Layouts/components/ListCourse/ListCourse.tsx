@@ -28,7 +28,7 @@ const ListCourse = () => {
 
   useEffect(() => {
     fetchAllCoourses()
-    dispatch(fetBlogs())
+    dispatch(fetBlogs({}))
   }, [])
 
   return (
