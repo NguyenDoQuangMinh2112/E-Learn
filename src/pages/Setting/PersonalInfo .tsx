@@ -103,8 +103,8 @@ const PersonalInfo = () => {
   }
   return (
     <>
-      <Modal isOpen={isModalOpen} title={`Cập nhật ${currentDetail}`} onClose={closeModal} widthSize="small">
-        {currentDetail !== 'Ảnh đại diện' ? (
+      <Modal isOpen={isModalOpen} title={`Update ${currentDetail}`} onClose={closeModal} widthSize="small">
+        {currentDetail !== 'Avatar' ? (
           <>
             <div className={cx('formGroup')}>
               <FormGroup
@@ -115,7 +115,7 @@ const PersonalInfo = () => {
               />
             </div>
             <Button onClick={handleSave} className={cx('saveBtn')} disabled={isLoading}>
-              {isLoading ? <Spinner color="#fff" /> : 'Lưu lại'}
+              {isLoading ? <Spinner color="#fff" /> : 'Save'}
             </Button>
           </>
         ) : (
@@ -151,27 +151,22 @@ const PersonalInfo = () => {
         )}
       </Modal>
       <main className={cx('wrapper_info')}>
-        <h1 className={cx('title')}>Thông tin cá nhân</h1>
-        <p className={cx('des')}>Quản lí thông tin cá nhân của bạn</p>
+        <h1 className={cx('title')}>Personal information</h1>
+        <p className={cx('des')}>Manage your personal information</p>
         <div className={cx('inner')}>
           <section className={cx('info')}>
             <div className={cx('header')}>
-              <h2>Thông tin cơ bản</h2>
-              <p className={cx('des')}>Quản lý tên hiển thị, tên người dùng, bio và avatar của bạn.</p>
+              <h2>Basic information</h2>
+              <p className={cx('des')}>Manage your display name, username, bio, and avatar.</p>
             </div>
             <div className={cx('info_content')}>
-              <InfoDetail label="Họ và tên" value={userInfo?.fullName} onClick={() => openModal('Họ và tên')} />
+              <InfoDetail label="Full name" value={userInfo?.fullName} onClick={() => openModal('Full name')} />
               <InfoDetail
-                label="Tên người dùng"
+                label="Username"
                 value={convertName(String(userInfo?.fullName))}
-                onClick={() => openModal('Tên người dùng')}
+                onClick={() => openModal('Username')}
               />
-              <InfoDetail
-                label="Ảnh đại diện"
-                imgSrc={userInfo?.avatar_url}
-                image
-                onClick={() => openModal('Ảnh đại diện')}
-              />
+              <InfoDetail label="Avatar" imgSrc={userInfo?.avatar_url} image onClick={() => openModal('Avatar')} />
             </div>
           </section>
         </div>

@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({ iShowHeader, isOpen, title, children, onC
             <header>
               <h2 className={cx('title')}>{title}</h2>
               <p className={cx('des')}>
-                Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và bài viết của bạn.
+                Your name will be displayed on your profile page, in comments, and in your posts.
               </p>
             </header>
           )}

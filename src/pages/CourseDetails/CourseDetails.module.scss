@@ -69,6 +69,30 @@
   line-height: 1.4;
 }
 
+.wrapperChat {
+  position: fixed;
+  right: calc(23% + 50px);
+  bottom: 50px;
+
+  .chatBtn {
+    position: relative;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--primary);
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    box-shadow: 0 0 10px #0003;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .title {
+    color: var(--primary);
+  }
+}
+
 //content
 .wrapper_content {
   padding: 0 8.5%;

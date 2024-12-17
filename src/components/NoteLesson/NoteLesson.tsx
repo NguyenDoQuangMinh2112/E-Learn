@@ -99,7 +99,7 @@ const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivE
         </div>
         <div className={cx('body')}>
           <header>
-            <h2>Ghi chú của tôi</h2>
+            <h2>My notes</h2>
           </header>
           {myNoteLessons && !myNoteLessons?.length ? (
             <div className={cx('noResult')}>
@@ -181,10 +181,10 @@ const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivE
 
                         <div className={cx('actions')}>
                           <Button className={cx('cancle')} onClick={handleCancleNoteLesson}>
-                            HỦY BỎ{' '}
+                            Cancel{' '}
                           </Button>
                           <Button className={cx('addNote_btn')} onClick={() => handleUpdateNote(note._id)}>
-                            {isLoading ? <Spinner color="#fff" /> : ' CẬP NHẬT'}
+                            {isLoading ? <Spinner color="#fff" /> : ' Update'}
                           </Button>
                         </div>
                       </>

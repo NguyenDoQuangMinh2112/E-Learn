@@ -103,11 +103,11 @@ const CommentField = ({
                 }}
               >
                 <Button className={cx('cancle')} onClick={handleCancelComment}>
-                  HỦY BỎ{' '}
+                  Cancel{' '}
                 </Button>
               </div>
               <Button className={cx('addNote_btn')} onClick={handleAddNewComment}>
-                CẬP NHẬT
+                Update
               </Button>
             </div>
           </>

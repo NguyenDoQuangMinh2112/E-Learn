@@ -49,14 +49,14 @@ const CourseLearningHeader = () => {
           classNameTitle={cx('noteTitle')}
           leftIcon={<MdOutlineStickyNote2 size={15} color="#fff" />}
         >
-          Ghi chú
+          Notes
         </Button>
         <Button
           className={cx('note')}
           classNameTitle={cx('noteTitle')}
           leftIcon={<FaRegCircleQuestion size={15} color="#fff" />}
         >
-          Hướng dẫn
+          Guide
         </Button>
       </div>
       {/* end right */}

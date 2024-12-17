@@ -14,6 +14,7 @@ import ListCourseDetails from '~/components/Layouts/components/ListCourseDetails
 
 import { FiPlus } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
+import { FaComments } from 'react-icons/fa6'
 
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
@@ -26,6 +27,7 @@ import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 import MetaData from '~/components/MetaData'
 import { checkUserEnrollAPI } from '~/apis/enroll'
 import Spinner from '~/components/Spinner/Spinner'
+import ChatBoxAI from '~/components/Layouts/components/ChatboxAI/ChatBoxAI'
 
 const cx = classNames.bind(styles)
 interface Note {
@@ -168,21 +170,21 @@ const CourseDetails = () => {
                   <header className={cx('wrapper')}>
                     <h1 className={cx('heading')}>{detailLesson?.title}</h1>
                     <p className={cx('updated')}>
-                      Cập nhật tháng {moment(detailLesson?.createdAt).format('MM')} ngày
-                      {moment(detailLesson?.createdAt).format('DD')} năm
+                      Updated in month {moment(detailLesson?.createdAt).format('MM')} on {''}
+                      {moment(detailLesson?.createdAt).format('DD')} year
                       {moment(detailLesson?.createdAt).format('YYYY')}
                     </p>
                   </header>
                   <Button className={cx('add_note')} leftIcon={<FiPlus />} onClick={handleAddNote}>
                     <span style={{ fontWeight: 400 }}>
-                      Thêm ghi chú tại
+                      Add a note at
                       <span style={{ fontWeight: '600' }}> {formattedCurrentTime}</span>
                     </span>
                   </Button>
                 </div>
                 {/* introduction */}
                 <div className={cx('introduction')}>
-                  <h2>Thông tin thêm</h2>
+                  <h2>More Information About the Lesson</h2>
                   <div dangerouslySetInnerHTML={{ __html: detailLesson?.description! }} />
                 </div>
               </div>
@@ -202,13 +204,15 @@ const CourseDetails = () => {
         <div className={cx('right', { close: isSidebarClosed })}>
           <div className={cx('container')}>
             <header className={cx('headWrapper')}>
-              <h1 className={cx('headWrapper_title')}>Nội dung khóa học</h1>
+              <h1 className={cx('headWrapper_title')}>Course Content</h1>
               <IoClose onClick={handleCloseMenuLesson} />
             </header>
             <ListCourseDetails />
           </div>
         </div>
       </div>
+
+      <ChatBoxAI />
     </>
   )
 }

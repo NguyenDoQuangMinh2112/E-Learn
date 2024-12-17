@@ -49,13 +49,13 @@ const Profile = () => {
           <div className={cx('row')}>
             <section className={cx('left')}>
               <div className={cx('content')}>
-                <h4 className={cx('title')}>Giới thiệu</h4>
+                <h4 className={cx('title')}>Introduce</h4>
                 <div className={cx('paticipation')}>
                   <div className={cx('icon')}>
                     <FaUserGroup />
                   </div>
                   <span>
-                    Thành viên của : <span style={{ fontWeight: '600' }}>E-Learn </span>{' '}
+                    Member of: <span style={{ fontWeight: '600' }}>E-Learn </span>{' '}
                     {moment(userInfo?.createdAt).fromNow()}.
                   </span>
                 </div>
@@ -63,7 +63,7 @@ const Profile = () => {
             </section>
             <section className={cx('right')}>
               <div className={cx('content')}>
-                <h4 className={cx('title')}>Các khóa học đã tham gia</h4>
+                <h4 className={cx('title')}>Courses attended</h4>
 
                 {!data?.length && (
                   <div className={cx('no-course')}>

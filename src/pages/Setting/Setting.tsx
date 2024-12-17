@@ -30,9 +30,10 @@ const Setting = () => {
                 <NavLink to="/">
                   <img src={avatar} alt="avatar" className={cx('logo_btn')} />
                 </NavLink>
-                <h2 className={cx('title')}>Cài đặt tài khoản</h2>
+                <h2 className={cx('title')}>Account settings</h2>
                 <p className={cx('des')}>
-                  Quản lý cài đặt tài khoản của bạn như thông tin cá nhân, cài đặt bảo mật, quản lý thông báo, v.v.
+                  Manage your account settings such as personal information, security settings, notification management,
+                  etc.
                 </p>
               </header>
 

@@ -80,7 +80,7 @@ const Header = ({
       <div className={cx('header_right')}>
         {isHidePostBtn && (
           <Button className={cx('createPostBtn')} onClick={() => dispatch(showPopup('blog'))}>
-            XUẤT BẢN
+            Publish
           </Button>
         )}
         {/* Notification UI */}

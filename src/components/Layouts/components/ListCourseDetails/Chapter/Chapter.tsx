@@ -14,6 +14,13 @@ interface ChapterProps {
 
 const Chapter = ({ data }: ChapterProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
+
+  // Combine and sort lessons and exercises
+  const sortedItems = [
+    ...(data?.lessons?.map((lesson) => ({ ...lesson, type: 'lesson' as const })) || []),
+    ...(data?.exercises?.map((exercise) => ({ ...exercise, type: 'exercises' as const })) || [])
+  ].sort((a, b) => Number(a.order) - Number(b.order))
+
   return (
     <>
       <div className={cx('wrapper')} onClick={() => setToggle(!toggle)}>
@@ -23,31 +30,18 @@ const Chapter = ({ data }: ChapterProps) => {
         <span className={cx('desc')}>3/3 | 07:28</span>
         <span className={cx('icon')}>{toggle ? <FaChevronUp /> : <FaChevronDown />}</span>
       </div>
-      {/* Render lesson */}
-      {data?.lessons?.map((lesson) => (
-        <LessonItem
-          toggle={toggle}
-          title={lesson.title}
-          order={lesson.order}
-          id={lesson._id}
-          type="lesson"
-          key={lesson._id}
-        />
-      ))}
-      {/* end */}
 
-      {/* Render exercise */}
-      {data?.exercises?.map((exercise) => (
+      {/* Render sorted items */}
+      {sortedItems.map((item) => (
         <LessonItem
           toggle={toggle}
-          title={exercise.title}
-          id={exercise._id}
-          order={exercise.order}
-          type="exercises"
-          key={exercise._id}
+          title={item.title}
+          order={item.order}
+          id={item._id}
+          type={item.type}
+          key={item._id}
         />
       ))}
-      {/* End */}
     </>
   )
 }

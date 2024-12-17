@@ -18,19 +18,21 @@ import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
-import { fetchDetailCourse } from '~/redux/course/courseAction'
+import { fetAllCourses, fetchDetailCourse } from '~/redux/course/courseAction'
 import { AppDispatch } from '~/redux/store'
 import { courseSelector } from '~/redux/course/courseSelector'
 
 import { loadStripe } from '@stripe/stripe-js'
 import { createPaymentSessionAPI } from '~/apis/enroll'
 import Spinner from '~/components/Spinner/Spinner'
+import { Course } from '~/interfaces/course'
+import CourseItem from '~/components/Layouts/components/ListCourse/CourseItem'
 
 const cx = classNames.bind(styles)
 
 const CourseInfoDescription = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { courseDetail } = useSelector(courseSelector)
+  const { courseDetail, listCourse } = useSelector(courseSelector)
   const requiredList =
     courseDetail?.required &&
     courseDetail?.required[0]
@@ -43,6 +45,7 @@ const CourseInfoDescription = () => {
   const { userInfo } = useSelector(authSelector)
 
   const [isLoading, setIsLoading] = useState(false)
+  const [recommendCourse, setRecommendCourse] = useState<any>([])
 
   const { id } = useParams()
 
@@ -50,9 +53,47 @@ const CourseInfoDescription = () => {
     return courseDetail?.chapters.reduce((total, chapter) => total + chapter.lessons.length, 0)
   }, [courseDetail])
 
+  const matchedCourses = listCourse?.filter((course) =>
+    recommendCourse.some((cosine: any) => cosine._id === course._id)
+  )
+
   useEffect(() => {
     dispatch(fetchDetailCourse(String(id)))
-  }, [])
+    dispatch(fetAllCourses())
+
+    if (userInfo) {
+      fetch('https://damp-bastion-99051-92c994c25ba2.herokuapp.com/sync_suggest')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to sync suggest')
+          }
+          return response.json()
+        })
+        .then(() => {
+          return fetch('https://damp-bastion-99051-92c994c25ba2.herokuapp.com/get_suggest', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              course_id: id
+            })
+          })
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to get suggest')
+          }
+          return response.json()
+        })
+        .then((getSuggestData) => {
+          setRecommendCourse(getSuggestData)
+        })
+        .catch((error) => {
+          console.error('There was an error:', error)
+        })
+    }
+  }, [id])
 
   const handleEnrollCourse = async () => {
     if (!userInfo) {
@@ -190,12 +231,30 @@ const CourseInfoDescription = () => {
 
               <div className={cx('info-button')}>
                 <Button className={cx('btn-enroll', { disable: isLoading })} onClick={handleEnrollCourse}>
-                  {isLoading ? <Spinner color="#fff" /> : 'Payment with Stripe'}
+                  {isLoading ? <Spinner color="#fff" /> : 'Checkout'}
                 </Button>
               </div>
             </div>
           </div>
         </div>
+
+        {userInfo && (
+          <div className={cx('courseRecommend')}>
+            <h2>Các khóa học liên quan</h2>
+
+            <div
+              className={cx(
+                'row row-cols-6 row-cols-xxxxxl-5 row-cols-xxxxl-4 row-cols-xl-3 row-cols-lg-2 gy-6 gx-xxl-2 gx-xl-3 gx-lg-2'
+              )}
+            >
+              {matchedCourses && matchedCourses?.length > 0 ? (
+                matchedCourses?.map((course: Course) => <CourseItem data={course} key={course._id} />)
+              ) : (
+                <Spinner />
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

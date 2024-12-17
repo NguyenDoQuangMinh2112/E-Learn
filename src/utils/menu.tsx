@@ -6,13 +6,13 @@ export const sideBarMenu: SideBarMenuItem[] = [
   {
     id: 1,
     icons: <IoHome />,
-    text: 'Trang chủ',
+    text: 'Home',
     path: '/'
   },
   {
     id: 2,
     icons: <FaRegNewspaper />,
-    text: 'Bài viết',
+    text: 'Blogs',
     path: '/blog?page=1'
   },
   {
@@ -26,12 +26,12 @@ export const sideBarMenu: SideBarMenuItem[] = [
 export const sideBarSettingAcountPage = [
   {
     id: 1,
-    text: 'Thông tin cá nhân',
+    text: 'Personal information',
     icons: <FaUserCog size="20" />
   },
   {
     id: 2,
-    text: 'Mật khẩu và bảo mật',
+    text: 'Password and security',
     icons: <IoShield />
   }
 ]

@@ -33,6 +33,7 @@
 .topic_list .topic_heading {
   font-size: 2rem;
   font-weight: 700;
+  margin-top: 20px;
 }
 .topic_list .list {
   margin-top: 4px;
@@ -94,6 +95,15 @@
   border: 1px solid rgba(48, 146, 85, 0.2);
   border-radius: 10px;
 }
+.courseRecommend {
+  margin-top: 20px;
+  width: 100%;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
 .info-price {
   text-align: center;
 

@@ -68,7 +68,7 @@ const Notification = () => {
     return () => {
       socket?.off('newNotification')
     }
-  }, [socket])
+  }, [socket, userInfo?._id])
 
   useEffect(() => {
     if (socket) {
@@ -100,8 +100,6 @@ const Notification = () => {
                   Đánh dấu đã đọc
                 </Button>
               </header>
-
-              <div className={cx('categories')}></div>
 
               <div className={cx('notification__content')}>
                 {notifications?.map((notification) => (

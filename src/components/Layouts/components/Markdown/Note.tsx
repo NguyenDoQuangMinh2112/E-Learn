@@ -114,10 +114,10 @@ const Note = ({ setShowPopup, formattedCurrentTime, onCancel, chapter_id, lesson
               onCancel(), setShowPopup(false), setEditorState(EditorState.createEmpty())
             }}
           >
-            HỦY BỎ
+            Cancel
           </Button>
           <Button className={cx('addNote_btn', { disable: isEditorEmpty() })} onClick={handleCreatNote}>
-            {isLoading ? <Spinner color="#fff" /> : 'TẠO GHI CHÚ'}
+            {isLoading ? <Spinner color="#fff" /> : 'Create note'}
           </Button>
         </div>
       </div>

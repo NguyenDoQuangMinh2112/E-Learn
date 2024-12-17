@@ -1,0 +1,121 @@
+.chatBox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+
+  .toggleBtn {
+    position: relative;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--primary);
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    box-shadow: 0 0 10px #0003;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #e4dfdd;
+    }
+  }
+
+  .title {
+    color: var(--primary);
+  }
+
+  .loading {
+    margin: 10px 0;
+    color: gray;
+    font-style: italic;
+    text-align: left;
+  }
+
+  .chatContainer {
+    width: 350px;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .header {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2rem;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+
+      .closeIcon {
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+    }
+
+    .messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+
+      .message {
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+        word-wrap: break-word;
+
+        &.user {
+          background-color: var(--primary);
+          color: #fff;
+          align-self: flex-end;
+          margin-left: auto;
+        }
+
+        &:not(.user) {
+          background-color: #e5e5ea;
+          color: #333;
+          align-self: flex-start;
+          margin-right: auto;
+        }
+      }
+    }
+
+    .inputArea {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+
+      input {
+        flex: 1;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+        outline: none;
+      }
+
+      button {
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #005bb5;
+        }
+      }
+    }
+  }
+}

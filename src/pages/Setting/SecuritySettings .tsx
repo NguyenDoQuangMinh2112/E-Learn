@@ -53,7 +53,7 @@ const SecuritySettings = () => {
 
   return (
     <>
-      <Modal isOpen={isModalOpen} title={`Đổi mật khẩu`} onClose={closeModal} widthSize="small">
+      <Modal isOpen={isModalOpen} title={`Change password`} onClose={closeModal} widthSize="small">
         <>
           <div className={cx('formGroup')}>
             <FormGroup
@@ -88,20 +88,20 @@ const SecuritySettings = () => {
             />
           </div>
           <Button className={cx('saveBtn', { disable: !isFormValid() })} onClick={handleUpdatePassword}>
-            {isLoading ? <Spinner /> : ' Cập nhật'}
+            {isLoading ? <Spinner /> : ' Update'}
           </Button>
         </>
       </Modal>
       <main className={cx('wrapper_info')}>
-        <h1 className={cx('title')}>Mật khẩu và bảo mật</h1>
-        <p className={cx('des')}>Quản lý mật khẩu và cài đặt bảo mật.</p>
+        <h1 className={cx('title')}>Password and Security</h1>
+        <p className={cx('des')}>Manage your password and security settings.</p>
 
         <div className={cx('inner')}>
           <div className={cx('info_content')}>
             <div className={cx('info_details')} onClick={() => setModalOpen(true)}>
               <div className={cx('wrapper1')}>
-                <h4>Đổi mật khẩu</h4>
-                <span>Chưa đổi mật khẩu</span>
+                <h4>Change Password</h4>
+                <span>Password not changed</span>
               </div>
               <button className={cx('right_btn')}>
                 <FaChevronRight />
@@ -109,8 +109,8 @@ const SecuritySettings = () => {
             </div>
             <div className={cx('info_details')} data-label="off">
               <div className={cx('wrapper1')}>
-                <h4>Xác minh 2 bước</h4>
-                <span>Đang tắt</span>
+                <h4>Two-Factor Authentication</h4>
+                <span>Disabled</span>
               </div>
               <button className={cx('right_btn')}>
                 <FaChevronRight />

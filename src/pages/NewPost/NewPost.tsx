@@ -158,7 +158,7 @@ const NewPost = () => {
                       <div className={cx('row')}>
                         <div className={cx('col col-6')}>
                           <div className={cx('left')}>
-                            <h3>Xem trước</h3>
+                            <h3>Preview</h3>
                             <div
                               className={cx('img')}
                               role="button"
@@ -169,17 +169,17 @@ const NewPost = () => {
                             >
                               <input type="file" hidden tabIndex={-1} ref={fileInputRef} />
                               <p style={{ opacity: `${selectedFile && 0}` }}>
-                                Ảnh đại diện hấp dẫn giúp bài viết của bạn cuốn hút hơn với độc giả.
+                                An attractive thumbnail helps make your article more engaging to readers.
                               </p>
                               <span style={{ opacity: `${selectedFile && 0}` }}>
-                                Kéo thả ảnh vào đây, hoặc bấm để chọn ảnh
+                                Drag and drop the image here, or click to select an image.
                               </span>
                             </div>
                             <input
                               className={cx('blogTitle')}
                               value={title}
                               onChange={(e: any) => setTitle(e.target.value)}
-                              placeholder="Tiêu đề khi tin được hiển thị"
+                              placeholder="Title when the post is displayed"
                               style={{ width: '100%' }}
                             />
 
@@ -187,7 +187,7 @@ const NewPost = () => {
                               className={cx('blogDes')}
                               value={des}
                               onChange={(e: any) => setDes(e.target.value)}
-                              placeholder="Mô tả khi được hiển thị"
+                              placeholder="Description when displayed"
                               style={{ width: '100%' }}
                             />
                           </div>
@@ -195,12 +195,12 @@ const NewPost = () => {
                         <div className={cx('col col-6')}>
                           <div className={cx('storyBook')}>
                             <div className={cx('lable')}>
-                              <span>Thêm tối đa 5 thẻ để độc giả biết bài viết của bạn nói về điều gì.</span>
+                              <span>Add up to 5 tags so readers know what your article is about.</span>
                               <span className={cx('watch-out')}>
-                                Lưu ý:{' '}
+                                Note:{' '}
                                 <p style={{ color: '#45b613' }}>
                                   {' '}
-                                  Sử dụng Enter, tab, hoặc ',' trên bàn phím để thêm tag.
+                                  Use Enter, Tab, or ',' on the keyboard to add tags."
                                 </p>
                                 .
                               </span>
@@ -211,7 +211,7 @@ const NewPost = () => {
                               ))}
                               <input
                                 className={cx('searchTag')}
-                                placeholder="Ví dụ: Front-end, ReactJS, UI, UX"
+                                placeholder="Example: Front-end, ReactJS, UI, UX"
                                 aria-expanded="false"
                                 onKeyDown={handleKeyDown}
                               />
@@ -219,7 +219,7 @@ const NewPost = () => {
 
                             <div className={cx('actions')}>
                               <Button className={cx('createPostBtn')} onClick={handleCreateNewPost}>
-                                {isLoading ? <Spinner color="#fff" /> : 'Xuất bản ngay'}
+                                {isLoading ? <Spinner color="#fff" /> : 'Publish now'}
                               </Button>
                             </div>
                           </div>
@@ -237,7 +237,7 @@ const NewPost = () => {
             className={cx('wrapper', 'title')}
             value={title}
             onChange={(e: any) => setTitle(e.target.value)}
-            placeholder="Tiêu đề"
+            placeholder="Title"
             style={{ width: '100%' }}
           />
           <div className={cx('text-editor')}>

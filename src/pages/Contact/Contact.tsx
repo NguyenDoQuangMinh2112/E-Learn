@@ -51,31 +51,18 @@ const Contact = () => {
         <h2 className={cx('title')}>Become an instructor today</h2>
         <div className={cx('content')}>
           <p className={cx('des')}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi molestias rerum ex optio dignissimos laborum
-            tempora nesciunt delectus provident velit dolores sint beatae, ipsam, quidem, blanditiis corporis iusto
-            placeat? Explicabo facere, rerum inventore, perferendis nobis aperiam illo natus doloribus itaque earum non
-            cupiditate ut dolorum fuga ratione at dolore aliquid. Officia itaque vero natus aspernatur, nesciunt ipsum
-            accusantium facilis ea consectetur aperiam voluptas exercitationem sunt ullam quasi saepe possimus.
-            Blanditiis maxime vitae nobis qui eaque quos voluptatibus maiores at quaerat, omnis perspiciatis neque
-            suscipit unde eius. Nihil harum cumque minus reprehenderit cum amet. Inventore deserunt cumque, ullam optio
-            iusto mollitia accusamus sed sunt reiciendis illum nam ratione tempore? Voluptate ipsam voluptatem eligendi
-            doloribus est ea eveniet minima magnam labore dolore nulla nesciunt non quisquam incidunt, et consectetur,
-            odio accusantium eaque quibusdam quis consequatur. Maiores aliquam et, obcaecati, consequuntur ut quod
-            voluptatum illo ad architecto assumenda ea officia. Minus, laborum velit.
+            Would you like to become an instructor on our website? It's easy! Simply send us an email with information
+            about your teaching experience, the subjects you'd like to teach, and why you want to join our platform as
+            an instructor.
           </p>
+          <h3 style={{ marginTop: '10px' }}>Steps to become an instructor:</h3>
+          <ul style={{ paddingLeft: '10px', marginTop: '10px' }}>
+            <li>1. Send an email to nguyendoquangminh2112@gmail.com.</li>
+            <li>2. Provide information about the field you'd like to teach and your relevant skills or knowledge.</li>
+            <li>3. Attach any documents or records that can prove your teaching experience.</li>
+          </ul>
 
-          <div className={cx('contact__info')}>
-            <h2 className={cx('title')}>Contact Information</h2>
-            <p>
-              <span>Phone:</span> +1 234 567 8900
-            </p>
-            <p>
-              <span>Email:</span> info@example.com
-            </p>
-            <p>
-              <span>Address:</span> 123 Main St, Anytown, USA
-            </p>
-          </div>
+          <span>We will review your request and contact you as soon as possible.</span>
         </div>
       </div>
     </div>
