@@ -96,10 +96,10 @@ const Header = ({
         ) : (
           <>
             <Button className={cx('btn-register')} onClick={() => dispatch(showPopup('register'))}>
-              Đăng ký
+              Register
             </Button>
             <Button className={cx('btn-login')} onClick={() => dispatch(showPopup('login'))}>
-              Đăng nhập
+              Login
             </Button>
           </>
         )}

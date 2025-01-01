@@ -1,6 +1,7 @@
 export interface PaginationInfo {
   currentPage: number
-  totalBlogs: number
+  totalBlogs?: number
+  totalCourses?: number
   totalPages: number
   pageSize: number
 }

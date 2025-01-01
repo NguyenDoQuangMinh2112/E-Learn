@@ -9,6 +9,7 @@ import { FaCheckCircle } from 'react-icons/fa'
 
 import adminSignature from '~/assets/images/admin.svg'
 import { memo } from 'react'
+import moment from 'moment'
 
 const cx = classNames.bind(styles)
 
@@ -47,8 +48,7 @@ const BlogItem = ({ data }: blogProps) => {
                 {tag}
               </a>
             ))}
-            <span>6 ngày trước</span>
-            <span className={cx('dot')}>.</span>6 ngày trước
+            <span>{moment(data?.createdAt).fromNow()}</span>
           </div>
         </div>
         <div className={cx('thumb', 'd-xl-none')}>

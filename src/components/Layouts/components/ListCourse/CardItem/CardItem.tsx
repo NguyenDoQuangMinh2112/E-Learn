@@ -54,7 +54,7 @@ const CardItem = ({ data, isHide }: ContentItemProps) => {
 
             {!!isHide && (
               <div className={cx('moreInfo')}>
-                <span className={cx('duration')}>{data.views} người đã xem</span>
+                <span className={cx('duration')}>{data.views} have viewed</span>
               </div>
             )}
           </div>

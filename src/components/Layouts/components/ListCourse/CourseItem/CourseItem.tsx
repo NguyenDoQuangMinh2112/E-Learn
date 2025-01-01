@@ -54,20 +54,6 @@ const CourseItem = ({ data, isHide }: CourseItemInterface) => {
               <span className={cx('name')}>{getLastTwoNames(data?.instructor?.fullName)}</span>
             </div>
 
-            {!isHide && (
-              <div className={cx('moreInfo', 'd-xxl-none d-sm-flex')}>
-                <FaCirclePlay />
-                <span className={cx('students')}>40</span>
-              </div>
-            )}
-
-            {!isHide && (
-              <div className={cx('moreInfo')}>
-                <GoClockFill />
-                <span className={cx('duration')}>40h</span>
-              </div>
-            )}
-
             {!!isHide && (
               <div className={cx('moreInfo')}>
                 <span className={cx('duration')}>6 người đã xem</span>

@@ -115,10 +115,10 @@ const Login: React.FC = () => {
           {isForgotPassword ? (
             <h1 style={{ color: `var(--black)` }}>Quên mật khẩu</h1>
           ) : (
-            <h1 className={cx('heading-title')}>{type === 'register' ? 'Đăng ký' : 'Đăng nhập'} tài khoản E-Learn</h1>
+            <h1 className={cx('heading-title')}>{type === 'register' ? 'Register' : 'Login'} E-Learn account.</h1>
           )}
           <p className={cx('warning')}>
-            Mỗi người nên sử dụng riêng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa.
+            Each person should use a separate account. Accounts shared by multiple people will be locked.
           </p>
           {isEmailLogin && (
             <Button leftIcon={<IoChevronBackSharp />} className={cx('back')} onClick={handleBack}>
@@ -207,15 +207,14 @@ const Login: React.FC = () => {
           )}
 
           <p className={cx('registerOrLogin')}>
-            {type === 'register' ? 'Bạn đã có tài khoản? ' : 'Bạn chưa có tài khoản? '}
-            <a onClick={handleToggleLoginType}>{type === 'register' ? 'Đăng nhập' : 'Đăng ký'}</a>
+            {type === 'register' ? 'Do you already have an account?' : 'Do not have an account?'} {''}
+            <a onClick={handleToggleLoginType}>{type === 'register' ? 'Login' : 'Register'}</a>
           </p>
           <a className={cx('forgotPassword')} onClick={() => setIsForgotPassword(true)}>
-            Quên mật khẩu?
+            Forgot password?
           </a>
           <p className={cx('rules')}>
-            Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với
-            <a href=""> điều khoản sử dụng</a> của chúng tôi.
+            By continuing to use this website, you agree to our <a href="">terms of use</a>.
           </p>
         </main>
       </div>

@@ -1,40 +1,36 @@
-import classNames from 'classnames/bind'
-import styles from './Blog.module.scss'
 import MetaData from '~/components/MetaData'
-import { useSelector } from 'react-redux'
-import React, { Suspense, useEffect } from 'react'
-import { AppDispatch } from '~/redux/store'
-import { useDispatch } from 'react-redux'
-import { fetBlogs } from '~/redux/blog/blogAction'
+import classNames from 'classnames/bind'
+import styles from './Course.module.scss'
+import { Suspense, useEffect } from 'react'
 import Paginations from '~/components/Pagination/Pagination'
-import { blogSelector } from '~/redux/blog/blogSelector'
+import { useSelector } from 'react-redux'
+import CourseItem from './CourseItem/CourseItem'
+import { courseSelector } from '~/redux/course/courseSelector'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '~/redux/store'
+import { fetchCourses } from '~/redux/course/courseAction'
 import { useSearchParams } from 'react-router-dom'
-
-const LazyBlogItem = React.lazy(() => import('~/components/Layouts/BlogItem/BlogItem'))
-
 const cx = classNames.bind(styles)
 
-const Blog = () => {
+const Course = () => {
+  const { listCourse, pagination } = useSelector(courseSelector)
   const dispatch = useDispatch<AppDispatch>()
-  const { blogs, pagination } = useSelector(blogSelector)
+
   const [params] = useSearchParams()
   const page = Number(params.get('page')) || 1
   const handlePageChange = (page: number) => {
-    dispatch(fetBlogs({ limit: 1, page }))
+    dispatch(fetchCourses({ limit: 5, page }))
   }
 
   useEffect(() => {
-    dispatch(fetBlogs({ limit: 1, page }))
-  }, [dispatch])
-
+    dispatch(fetchCourses({ limit: 5, page }))
+  }, [])
   return (
     <>
-      <MetaData title="List blogs" />
+      <MetaData title="List courses" />
+
       <div className={cx('containerTop')}>
-        <h1 className={cx('heading')}>Featured posts</h1>
-        <p className={cx('des')}>
-          A collection of blogs sharing experiences on self-learning programming online and web development techniques.
-        </p>
+        <h1 className={cx('heading')}>List courses</h1>
       </div>
       <div className={cx('containerBody')}>
         <div className={cx('row')}>
@@ -42,8 +38,8 @@ const Blog = () => {
             <div className={cx('left')}>
               <Suspense fallback="Loading...">
                 <ul>
-                  {blogs?.map((blog) => (
-                    <LazyBlogItem data={blog} key={blog._id} />
+                  {listCourse?.map((course) => (
+                    <CourseItem data={course} key={course._id} />
                   ))}
                 </ul>
               </Suspense>
@@ -52,7 +48,7 @@ const Blog = () => {
             <div className={cx('pagination')}>
               {pagination && (
                 <Paginations
-                  totalItems={Number(pagination.totalBlogs)}
+                  totalItems={Number(pagination.totalCourses)}
                   itemsPerPage={pagination.pageSize}
                   onPageChange={handlePageChange}
                 />
@@ -62,7 +58,7 @@ const Blog = () => {
           <div className={cx('col col-3 col-xxl-8 col-lg-12')}>
             <div className={cx('d-md-none')}>
               <aside className={cx('wrapper')}>
-                <h3>View posts by topic</h3>
+                <h3>View courses by topic</h3>
                 <ul className={cx('topic')}>
                   <li>
                     <a href="">Front-end / Mobile apps</a>
@@ -87,4 +83,4 @@ const Blog = () => {
   )
 }
 
-export default Blog
+export default Course

@@ -25,6 +25,7 @@ import { authSelector } from '~/redux/auth/authSelectors'
 import { checkLikedByUserAPI, reactionBlogAPI } from '~/apis/blogs'
 import { showPopup } from '~/redux/popup/popupSlice'
 import { updateBlog } from '~/redux/blog/blogSlice'
+import moment from 'moment'
 
 const cx = classNames.bind(styles)
 
@@ -33,6 +34,7 @@ const DetailBlog = () => {
   const { id } = useParams()
   const { userInfo } = useSelector(authSelector)
   const { blogDetail, commentByBlog } = useSelector(blogSelector)
+  console.log('🚀 ~ DetailBlog ~ blogDetail:', blogDetail)
 
   const [isLikeBlog, setIsLikeBlog] = useState<boolean>(false)
 
@@ -145,7 +147,8 @@ const DetailBlog = () => {
                         {blogDetail?.author?.role === 'admin' && <FaCheckCircle className={cx('icon')} />}
                       </div>
                       <p className={cx('time')}>
-                        7 ngày trước <span className={cx('dot')}>.</span> 6 phút đọc
+                        {moment(blogDetail?.createdAt).fromNow()}
+                        <span className={cx('dot')}></span>
                       </p>
                     </div>
                   </div>

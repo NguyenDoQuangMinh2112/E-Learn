@@ -24,6 +24,7 @@ import Success from './pages/Success/Success'
 import Cancel from './pages/Cancel/Cancel'
 import EditBlog from './pages/EditBlog/EditBlog'
 import Contact from './pages/Contact/Contact'
+import Course from './pages/Course/Course'
 
 const ProtectedRoute = () => {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ function App() {
           <Route path="/" element={<Content />}>
             <Route path="/" element={<SidebarContent />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/course" element={<Course />} />
             <Route path="/blog/:id" element={<DetailBlog />} />
             <Route path="/course/:id" element={<CourseInfoDescription />} />
             <Route path="/contact" element={<Contact />} />

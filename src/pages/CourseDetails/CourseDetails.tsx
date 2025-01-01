@@ -93,19 +93,19 @@ const CourseDetails = () => {
     }
   }
 
-  useEffect(() => {
-    const checkEnrollment = async () => {
-      const response = await checkUserEnrollAPI(String(id))
+  // useEffect(() => {
+  //   const checkEnrollment = async () => {
+  //     const response = await checkUserEnrollAPI(String(id))
 
-      if (!response) {
-        navigate('/')
-      } else {
-        setIsEnrolled(true)
-      }
-    }
+  //     if (!response) {
+  //       navigate('/')
+  //     } else {
+  //       setIsEnrolled(true)
+  //     }
+  //   }
 
-    checkEnrollment()
-  }, [id, navigate])
+  //   checkEnrollment()
+  // }, [id, navigate])
 
   useEffect(() => {
     if (searchParams.get('type') === 'lesson') {
@@ -129,13 +129,13 @@ const CourseDetails = () => {
     }
   }, [selectedTime])
 
-  if (!isEnrolled) {
-    return (
-      <div style={{ height: '100vh' }} className={cx('isCenter')}>
-        <Spinner />
-      </div>
-    )
-  }
+  // if (!isEnrolled) {
+  //   return (
+  //     <div style={{ height: '100vh' }} className={cx('isCenter')}>
+  //       <Spinner />
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
@@ -171,7 +171,7 @@ const CourseDetails = () => {
                     <h1 className={cx('heading')}>{detailLesson?.title}</h1>
                     <p className={cx('updated')}>
                       Updated in month {moment(detailLesson?.createdAt).format('MM')} on {''}
-                      {moment(detailLesson?.createdAt).format('DD')} year
+                      {moment(detailLesson?.createdAt).format('DD')} year {''}
                       {moment(detailLesson?.createdAt).format('YYYY')}
                     </p>
                   </header>

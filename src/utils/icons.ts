@@ -3,6 +3,7 @@ import { FaRoad } from 'react-icons/fa6'
 import { FaRegNewspaper } from 'react-icons/fa6'
 import { FaUserCog } from 'react-icons/fa'
 import { GrContact } from 'react-icons/gr'
+import { MdOutlineMenuBook } from 'react-icons/md'
 type IconComponents = {
   IoHome: React.ElementType
   FaRoad: React.ElementType
@@ -10,6 +11,7 @@ type IconComponents = {
   IoShield: React.ElementType
   FaUserCog: React.ElementType
   GrContact: React.ElementType
+  MdOutlineMenuBook: React.ElementType
 }
 
 const icons: IconComponents = {
@@ -18,6 +20,7 @@ const icons: IconComponents = {
   FaRegNewspaper,
   IoShield,
   FaUserCog,
-  GrContact
+  GrContact,
+  MdOutlineMenuBook
 }
 export default icons

@@ -19,16 +19,16 @@ const SocialLoginButtons: React.FC<{ type: 'login' | 'register'; onEmailLogin: (
 }) => (
   <div className={cx('content')}>
     <Button className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={userIcon} onClick={onEmailLogin}>
-      Sử dụng tài khoản Email
+      Use Email account
     </Button>
     <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={googleIcon}>
-      {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Google
+      {type === 'register' ? 'Register' : 'Login'} với Google
     </Button>
     <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={facebookIcon}>
-      {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Facebook
+      {type === 'register' ? 'Register' : 'Login'} với Facebook
     </Button>
     <Button to="/" className={cx('btnPopupLogin')} classNameTitle={cx('text')} svgIcon={githubIcon}>
-      {type === 'register' ? 'Đăng ký' : 'Đăng nhập'} với Github
+      {type === 'register' ? 'Register' : 'Login'} với Github
     </Button>
   </div>
 )

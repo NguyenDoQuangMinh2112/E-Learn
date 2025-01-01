@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './ChatBoxAI.module.scss'
 import classNames from 'classnames/bind'
 
@@ -13,23 +13,61 @@ const ChatBoxAI = () => {
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([])
   const [input, setInput] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [conversationId, setConversationId] = useState<string>('')
+
+  const generateRandomConversationId = () => {
+    return Math.floor(Math.random() * 1000000000).toString()
+  }
 
   const handleToggleChat = () => {
     setIsOpen(!isOpen)
+    if (!conversationId) {
+      setConversationId(generateRandomConversationId())
+    }
   }
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (input.trim() === '') return
     setMessages([...messages, { text: input, isUser: true }])
     setInput('')
     setIsLoading(true)
 
-    // Giả lập AI phản hồi
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { text: 'This is a simulated AI response.', isUser: false }])
+    try {
+      const response = await fetchChatBotAPI(conversationId, input)
+      if (response) {
+        setMessages((prev) => [...prev, { text: response, isUser: false }])
+      }
+    } catch (error) {
+      console.error('Error fetching AI response:', error)
+      setMessages((prev) => [...prev, { text: 'An error occurred. Please try again.', isUser: false }])
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
   }
+
+  const fetchChatBotAPI = async (conversationId: string, message: string) => {
+    const response = await fetch('http://13.211.75.178:8090/api/bot/stream_chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        conversation_id: conversationId,
+        message: message
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error('Error: ' + response.statusText)
+    }
+
+    const data = await response.json()
+    return data
+  }
+
+  useEffect(() => {
+    setConversationId(generateRandomConversationId())
+  }, [])
 
   return (
     <div className={cx('chatBox', { open: isOpen })}>
@@ -50,7 +88,7 @@ const ChatBoxAI = () => {
           {/* Header */}
           <header className={cx('header')}>
             <h2>AI Assistant</h2>
-            <IoClose className={cx('closeIcon')} onClick={handleToggleChat} />
+            <IoClose size={20} className={cx('closeIcon')} onClick={handleToggleChat} />
           </header>
 
           {/* Chat content */}

@@ -151,8 +151,8 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
         {type === 'register' && (
           <FormGroup
             id="fullName"
-            label="Tên của bạn"
-            placeholder="Họ và tên của bạn"
+            label="Full Name"
+            placeholder="Enter your full name"
             value={values.fullName}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -161,8 +161,8 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
         )}
         <FormGroup
           id="email"
-          label="Tên đăng nhập"
-          placeholder="Email của bạn"
+          label="Email"
+          placeholder="Your email"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -170,8 +170,8 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
         />
         <FormGroup
           id="password"
-          label="Mật khẩu"
-          placeholder="Mật khẩu"
+          label="Password"
+          placeholder="Enter your password"
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -184,7 +184,7 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
         {type === 'register' && isShowVerifyCode && (
           <FormGroup
             id="code"
-            placeholder="Nhập mã xác nhận"
+            placeholder="Enter the verification code."
             isHide={true}
             value={values.code}
             onChange={handleChange}
@@ -195,7 +195,8 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
         )}
         {type === 'register' && isShowVerifyCode && (
           <p className={cx('noticeVerify')}>
-            Bạn đã đăng ký tài khoản thành công! Vui lòng truy cập email để lấy mã xác thực để xác thực tài khoản !
+            You have successfully registered an account! Please check your email to get the verification code to verify
+            your account!
           </p>
         )}
         <Button
@@ -203,7 +204,7 @@ const EmailLoginForm: React.FC<{ type: 'login' | 'register' | 'forgotPassword' }
           className={cx('login-btn', { disable: !isFormValid() || isShowVerifyCode })}
           disabled={!isFormValid() || isShowVerifyCode}
         >
-          {isLoading ? <Spinner color="#fff" /> : type === 'register' ? 'Đăng ký' : 'Đăng nhập'}
+          {isLoading ? <Spinner color="#fff" /> : type === 'register' ? 'Register' : 'Login'}
         </Button>
       </div>
     </form>

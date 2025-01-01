@@ -51,20 +51,20 @@ const useForm = (initialValues: FormValues) => {
         [id]: undefined
       }))
     }
-    if (type === 'register' && id === 'email') {
-      if (debounceTimeout.current) {
-        clearTimeout(debounceTimeout.current)
-      }
-      debounceTimeout.current = window.setTimeout(async () => {
-        const res = await checkEmailAPI(value)
-        if (!res.isAvailable) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [id]: 'Email đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng email khác!'
-          }))
-        }
-      }, 700)
-    }
+    // if (type === 'register' && id === 'email') {
+    //   if (debounceTimeout.current) {
+    //     clearTimeout(debounceTimeout.current)
+    //   }
+    //   debounceTimeout.current = window.setTimeout(async () => {
+    //     const res = await checkEmailAPI(value)
+    //     if (!res.isAvailable) {
+    //       setErrors((prevErrors) => ({
+    //         ...prevErrors,
+    //         [id]: 'Email đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng email khác!'
+    //       }))
+    //     }
+    //   }, 700)
+    // }
   }, [])
 
   const handleBlur = useCallback((e: any) => {
@@ -72,13 +72,13 @@ const useForm = (initialValues: FormValues) => {
     if (!value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [id]: 'Trường này không được để trống'
+        [id]: 'The field cannot be left empty.'
       }))
     }
     if (id === 'fullName' && value.length < 5) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [id]: 'Tên đăng nhập phải có ít nhất 5 ký tự'
+        [id]: 'The username must be at least 5 characters long.'
       }))
     }
   }, [])

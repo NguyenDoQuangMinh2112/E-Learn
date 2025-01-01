@@ -6,7 +6,6 @@ import Button from '~/components/Button'
 
 import { FaCheck } from 'react-icons/fa6'
 import { GiTeacher } from 'react-icons/gi'
-import { GoClockFill } from 'react-icons/go'
 import { PiVideoLight } from 'react-icons/pi'
 import { GrCertificate } from 'react-icons/gr'
 import { formatPrice, getLastTwoNames } from '~/utils/helper'
@@ -18,7 +17,7 @@ import { useSelector } from 'react-redux'
 import { authSelector } from '~/redux/auth/authSelectors'
 import { useDispatch } from 'react-redux'
 import { showPopup } from '~/redux/popup/popupSlice'
-import { fetAllCourses, fetchDetailCourse } from '~/redux/course/courseAction'
+import { fetchCourses, fetchDetailCourse } from '~/redux/course/courseAction'
 import { AppDispatch } from '~/redux/store'
 import { courseSelector } from '~/redux/course/courseSelector'
 
@@ -59,7 +58,7 @@ const CourseInfoDescription = () => {
 
   useEffect(() => {
     dispatch(fetchDetailCourse(String(id)))
-    dispatch(fetAllCourses())
+    dispatch(fetchCourses({}))
 
     if (userInfo) {
       fetch('https://damp-bastion-99051-92c994c25ba2.herokuapp.com/sync_suggest')
@@ -152,9 +151,6 @@ const CourseInfoDescription = () => {
                       <strong>138</strong> bài học
                     </li>
                     <li className={cx('dot')}>•</li>
-                    <li>
-                      Thời lượng <strong>10 giờ 29 phút</strong>
-                    </li>
                   </ul>
                   <div className={cx('openMore')}>Mở tất cả</div> {/* (su dung redux de hanlde) */}
                 </div>
@@ -171,18 +167,20 @@ const CourseInfoDescription = () => {
               <ul className={cx('list', 'f-colunm')}>
                 <li>
                   <FaCheck />
-                  Máy vi tính kết nối internet (Windows, Ubuntu hoặc MacOS)
-                </li>
-                <li>
-                  <FaCheck />Ý thức tự học cao, trách nhiệm cao, kiên trì bền bỉ không ngại cái khó
+                  Computer connected to the internet (Windows, Ubuntu, or MacOS)
                 </li>
                 <li>
                   <FaCheck />
-                  Không được nóng vội, bình tĩnh học, làm bài tập sau mỗi bài học
+                  High self-learning awareness, strong sense of responsibility, persistence, and determination to
+                  overcome difficulties.
                 </li>
                 <li>
                   <FaCheck />
-                  Bạn không cần biết gì hơn nữa, trong khóa học tôi sẽ chỉ cho bạn những gì bạn cần phải biết
+                  Don't rush, study calmly, and do the exercises after each lesson.
+                </li>
+                <li>
+                  <FaCheck />
+                  You don't need to know anything more; in this course, I will show you what you need to know.
                 </li>
               </ul>
             </div>
@@ -198,18 +196,11 @@ const CourseInfoDescription = () => {
                   <li>
                     <span className={cx('group')}>
                       <GiTeacher />
-                      <strong>Người dạy</strong>
+                      <strong>Instructor</strong>
                     </span>
                     <span>{getLastTwoNames(String(courseDetail?.instructor_id?.fullName))}</span>
                   </li>
-                  <li>
-                    <span className={cx('group')}>
-                      {' '}
-                      <GoClockFill />
-                      <strong>Thời lượng</strong>
-                    </span>
-                    <span>08 hr 15 mins</span>
-                  </li>
+
                   <li>
                     <span className={cx('group')}>
                       {' '}
@@ -222,7 +213,7 @@ const CourseInfoDescription = () => {
                   <li>
                     <span className={cx('group')}>
                       <GrCertificate />
-                      <strong>Chứng chỉ</strong>
+                      <strong>Certificate</strong>
                     </span>
                     <span>Yes</span>
                   </li>
@@ -248,7 +239,7 @@ const CourseInfoDescription = () => {
               )}
             >
               {matchedCourses && matchedCourses?.length > 0 ? (
-                matchedCourses?.map((course: Course) => <CourseItem data={course} key={course._id} />)
+                matchedCourses?.slice(0, 4)?.map((course: Course) => <CourseItem data={course} key={course._id} />)
               ) : (
                 <Spinner />
               )}

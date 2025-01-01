@@ -6,8 +6,9 @@ import { NoteLesson } from '~/interfaces/noteLesson'
 import { searchResultInterface } from '~/interfaces/searchResult'
 import { API_ROOT } from '~/utils/constant'
 
-export const getAllCourseAPI = async (): Promise<ApiResponse<Course[]>> => {
-  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/course`)
+export const getAllCourseAPI = async (limit?: number, page?: number): Promise<ApiResponse<Course[]>> => {
+  const queryParams = limit !== undefined && page !== undefined ? `?limit=${limit}&page=${page}` : ''
+  return await authorizedAxiosInstance.get(`${API_ROOT}/v1/course/${queryParams}`)
 }
 
 export const getDetailCourseAPI = async (idC: string): Promise<ApiResponse<CourseInfo>> => {

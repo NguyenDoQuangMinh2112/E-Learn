@@ -60,10 +60,10 @@ const Search = () => {
               {isLoading ? (
                 <>
                   <FaSpinner className={cx('loading')} />
-                  <span>Đang tìm kiếm '{searchValue}'</span>
+                  <span>Searching '{searchValue}'</span>
                 </>
               ) : (
-                <span>Kết quả tìm kiếm cho '{searchValue}'</span>
+                <span>Search results for '{searchValue}'</span>
               )}
             </div>
 
@@ -74,8 +74,7 @@ const Search = () => {
                 {searchResult && searchResult?.courses?.length > 0 && (
                   <div>
                     <div className={cx('search-heading')}>
-                      <h5 className={cx('search-title')}>Khóa học</h5>
-                      <span>Xem thêm</span>
+                      <h5 className={cx('search-title')}>Courses</h5>
                     </div>
                     {searchResult?.courses?.map((course) => (
                       <SearchItem
@@ -92,8 +91,7 @@ const Search = () => {
                 {searchResult && searchResult?.blogs?.length > 0 && (
                   <div>
                     <div className={cx('search-heading')}>
-                      <h5 className={cx('search-title')}>Bài viết</h5>
-                      <span>Xem thêm</span>
+                      <h5 className={cx('search-title')}>Blog</h5>
                     </div>
                     {searchResult?.blogs?.map(
                       (blog) =>
@@ -121,7 +119,7 @@ const Search = () => {
         </button>
         <input
           type="text"
-          placeholder="Tìm kiếm khóa học, bài viết,..."
+          placeholder="Search courses, blogs,..."
           ref={inputRef}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}

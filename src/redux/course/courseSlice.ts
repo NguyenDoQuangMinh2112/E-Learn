@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Chapter, Course, CourseInfo } from '~/interfaces/course'
-import { fetAllCourses, fetchChapters, fetchDetailCourse } from './courseAction'
+import { fetchCourses, fetchChapters, fetchDetailCourse } from './courseAction'
+import { PaginationInfo } from '~/interfaces/ApiResponse'
 
 interface CourseState {
   courseDetail: CourseInfo | null
@@ -9,6 +10,7 @@ interface CourseState {
   chapters: Chapter[] | null
   isEnroll: boolean | null
   listCourse: Course[] | null
+  pagination: PaginationInfo | null
 }
 const initialState: CourseState = {
   courseDetail: null,
@@ -16,7 +18,8 @@ const initialState: CourseState = {
   error: null,
   chapters: null,
   isEnroll: null,
-  listCourse: null
+  listCourse: null,
+  pagination: null
 }
 
 const courseSlice = createSlice({
@@ -36,14 +39,15 @@ const courseSlice = createSlice({
         state.loading = false
         state.error = action.error.message || 'An error occurred.'
       })
-      .addCase(fetAllCourses.pending, (state) => {
+      .addCase(fetchCourses.pending, (state) => {
         state.loading = true
       })
-      .addCase(fetAllCourses.fulfilled, (state, action: PayloadAction<Course[]>) => {
+      .addCase(fetchCourses.fulfilled, (state, action) => {
         state.loading = false
-        state.listCourse = action.payload
+        state.listCourse = action.payload.listCourse
+        state.pagination = action.payload.pagination || null
       })
-      .addCase(fetAllCourses.rejected, (state, action) => {
+      .addCase(fetchCourses.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message || 'An error occurred.'
       })

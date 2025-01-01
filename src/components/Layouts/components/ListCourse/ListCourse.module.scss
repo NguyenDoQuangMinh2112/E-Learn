@@ -9,3 +9,12 @@
     font-weight: 900;
   }
 }
+.seeAll {
+  .title {
+    color: #dc3c09;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

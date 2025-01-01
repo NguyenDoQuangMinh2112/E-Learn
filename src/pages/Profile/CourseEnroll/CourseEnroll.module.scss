@@ -3,7 +3,8 @@
   display: flex;
 }
 .thumb {
-  width: 228px;
+  min-width: 228px;
+  max-width: 228px;
   height: 128px;
   margin-right: 24px;
 

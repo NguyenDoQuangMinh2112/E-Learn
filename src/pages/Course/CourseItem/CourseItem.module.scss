@@ -1,0 +1,121 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #e8e8e8;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.author {
+  display: flex;
+  align-items: center;
+
+  font-size: 2.9px;
+
+  span {
+    font-size: 1.2rem;
+    color: #292929;
+    font-weight: 600;
+    margin-left: 8px;
+  }
+}
+
+.body {
+  display: flex;
+  align-items: center;
+}
+.title {
+  color: #292929;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.des {
+  margin-top: 4px;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: #505050;
+}
+.price {
+  font-weight: 800;
+  text-decoration: underline;
+  color: #f35319;
+}
+.info {
+  flex: 1;
+  padding-right: 32px;
+  font-size: 1.4rem;
+}
+.metaInfo {
+  margin-top: 16px;
+}
+.tag {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background-color: #f2f2f2;
+  color: #333;
+  line-height: 2rem;
+  margin-right: 12px;
+  font-weight: 500;
+}
+
+.dot {
+  margin: 0 8px;
+}
+.thumb {
+  flex-shrink: 0;
+
+  img {
+    width: 200px;
+    max-height: 120px;
+    border-radius: 15px;
+    display: block;
+    line-height: 1.8;
+    font-size: 1.4rem;
+    color: #757575;
+    background: #ebebeb;
+    overflow: hidden;
+    text-align: center;
+    object-fit: cover;
+  }
+}
+.icon {
+  color: #1b74e4;
+  margin-left: 4px;
+  font-size: 1rem;
+}
+.userMenu_avatar {
+  border-radius: 50%;
+  font-size: 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7em;
+  position: relative;
+
+  .avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 9em;
+    height: 9em;
+  }
+
+  .adminSignature {
+    position: absolute;
+    width: 3.2em !important;
+    height: 3.2em !important;
+    top: -0.2em;
+    right: -2em;
+  }
+}
