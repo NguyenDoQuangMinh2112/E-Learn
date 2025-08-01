@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
-
 import styles from './ListCourseDetails.module.scss'
 import classNames from 'classnames/bind'
 
 import Chapter from './Chapter'
-
-import { useParams } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
 import { fetchChapters } from '~/redux/course/courseAction'
@@ -15,14 +12,18 @@ import { courseSelector } from '~/redux/course/courseSelector'
 
 const cx = classNames.bind(styles)
 
-const ListCourseDetails = () => {
+// Define prop types
+interface ListCourseDetailsProps {
+  courseId?: string
+}
+
+const ListCourseDetails = ({ courseId }: ListCourseDetailsProps) => {
   const dispatch = useDispatch<AppDispatch>()
   const { chapters } = useSelector(courseSelector)
-  const { id } = useParams()
 
   useEffect(() => {
-    dispatch(fetchChapters(String(id)))
-  }, [])
+    dispatch(fetchChapters(String(courseId)))
+  }, [courseId])
 
   return (
     <div className={cx('body')}>

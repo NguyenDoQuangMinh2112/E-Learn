@@ -20,7 +20,7 @@ import Spinner from '~/components/Spinner/Spinner'
 
 const cx = classNames.bind(styles)
 
-// Khởi tạo MarkdownIt
+// Initialize MarkdownIt
 const mdParser = new MarkdownIt()
 
 interface EditorChangeEvent {

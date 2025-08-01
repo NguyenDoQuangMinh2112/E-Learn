@@ -15,7 +15,7 @@ const cx = classNames.bind(styles)
 const Setting = () => {
   const [activeItem, setActiveItem] = useState<number | null>(null)
   useEffect(() => {
-    // Đặt activeItem là ID của nút đầu tiên khi component được mount
+    // Set activeItem to the ID of the first button when component is mounted
     if (sideBarSettingAcountPage && sideBarSettingAcountPage.length > 0) {
       setActiveItem(sideBarSettingAcountPage[0].id)
     }

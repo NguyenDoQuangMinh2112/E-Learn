@@ -67,10 +67,10 @@ const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivE
   }
 
   const handleRemoveNoteLesson = useCallback((id: string) => {
-    const isConfirmed = window.confirm('Are you sure you want to delete this blog?')
+    const isConfirmed = window.confirm('Are you sure you want to delete this note?')
     if (isConfirmed) {
       dispatch(deleteNoteLesson({ id }))
-      toast.success('Xóa ghi chú thành công!')
+      toast.success('Note deleted successfully!')
     }
   }, [])
 
@@ -104,8 +104,8 @@ const NoteLesson = ({ noteLessonRef }: { noteLessonRef: React.RefObject<HTMLDivE
           {myNoteLessons && !myNoteLessons?.length ? (
             <div className={cx('noResult')}>
               <img src={noNoteYet} alt="note-result" loading="lazy" />
-              <div className={cx('heading')}>Bạn chưa có ghi chú nào</div>
-              <div className={cx('des')}>Hãy ghi chép để nhớ những gì bạn đã học!</div>
+              <div className={cx('heading')}>You don't have any notes yet.</div>
+              <div className={cx('des')}>Take notes to remember what you've learned!</div>
             </div>
           ) : (
             <ul className={cx('listNote')}>

@@ -27,11 +27,11 @@ const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({ strength }) =
       </div>
       <p className={cx('result')}>
         {strength === 1
-          ? 'Mật khẩu yếu'
+          ? 'Weak password'
           : strength === 2 || strength === 3
-          ? 'Mật khẩu trung bình'
+          ? 'Medium password'
           : strength === 4
-          ? 'Mật khẩu mạnh'
+          ? 'Strong password'
           : ''}
       </p>
     </div>

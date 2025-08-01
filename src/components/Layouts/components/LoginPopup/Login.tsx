@@ -63,7 +63,7 @@ const Login: React.FC = () => {
         }
       } catch (error) {
         setIsLoading(false)
-        setErrors({ ...errors, emailForgot: 'Email không tồn tại' })
+        setErrors({ ...errors, emailForgot: 'Email does not exist' })
       }
     }
   }, [values.emailForgot])
@@ -113,7 +113,7 @@ const Login: React.FC = () => {
             <img src={logo} alt="E-Learn Logo" loading="lazy" />
           </a>
           {isForgotPassword ? (
-            <h1 style={{ color: `var(--black)` }}>Quên mật khẩu</h1>
+            <h1 style={{ color: `var(--black)` }}>Forgot Password</h1>
           ) : (
             <h1 className={cx('heading-title')}>{type === 'register' ? 'Register' : 'Login'} E-Learn account.</h1>
           )}
@@ -122,7 +122,7 @@ const Login: React.FC = () => {
           </p>
           {isEmailLogin && (
             <Button leftIcon={<IoChevronBackSharp />} className={cx('back')} onClick={handleBack}>
-              Quay lại
+              Go back
             </Button>
           )}
         </header>
@@ -134,8 +134,8 @@ const Login: React.FC = () => {
                 <>
                   <FormGroup
                     id="newPasswordReset"
-                    label="Mật khẩu mới"
-                    placeholder="Nhập mật khẩu mới"
+                    label="New password"
+                    placeholder="Enter new password"
                     type="password"
                     value={values.newPasswordReset}
                     onChange={handleChange}
@@ -144,8 +144,8 @@ const Login: React.FC = () => {
                   />
                   <FormGroup
                     id="confirmPasswordReset"
-                    label="Nhập lại mật khẩu mới"
-                    placeholder="Nhập lại mật khẩu mới"
+                    label="Confirm new password"
+                    placeholder="Confirm new password"
                     type="password"
                     value={values.confirmPasswordReset}
                     onChange={handleChange}
@@ -157,7 +157,7 @@ const Login: React.FC = () => {
                 <>
                   <FormGroup
                     id="emailForgot"
-                    label="Email của bạn"
+                    label="Your email"
                     placeholder="Email"
                     type="email"
                     value={values.emailForgot}
@@ -167,7 +167,7 @@ const Login: React.FC = () => {
                   />
                   <FormGroup
                     id="code"
-                    placeholder="Nhập mã xác nhận"
+                    placeholder="Enter verification code"
                     isHide={true}
                     disabled={isDisabledInputCode}
                     isDisabledInputCode={isDisabledInputCode}

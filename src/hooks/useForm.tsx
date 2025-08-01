@@ -60,7 +60,7 @@ const useForm = (initialValues: FormValues) => {
     //     if (!res.isAvailable) {
     //       setErrors((prevErrors) => ({
     //         ...prevErrors,
-    //         [id]: 'Email đã được sử dụng. Vui lòng đăng nhập hoặc sử dụng email khác!'
+    //         [id]: 'Email is already in use. Please log in or use a different email!'
     //       }))
     //     }
     //   }, 700)

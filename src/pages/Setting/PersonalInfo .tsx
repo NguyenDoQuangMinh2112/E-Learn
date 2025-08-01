@@ -82,12 +82,12 @@ const PersonalInfo = () => {
   }
   const handleUpdateAvatar = async () => {
     if (files) {
-      // Kiểm tra files có phải là null không
+      // Check if files is not null
       const formData = new FormData()
-      formData.append('avatar_url', files) // Sử dụng files thay vì selectedFile
+      formData.append('avatar_url', files) // Use files instead of selectedFile
       try {
         setIsLoading(true)
-        const res = await uploadAvatarAPI(String(userInfo?._id), formData) // Gọi API với FormData
+        const res = await uploadAvatarAPI(String(userInfo?._id), formData) // Call API with FormData
         if (res.success) {
           dispatch(updateUserInfo({ avatar_url: res.avatar_url }))
           setSelectedFile(null)
@@ -132,7 +132,7 @@ const PersonalInfo = () => {
             <label htmlFor={`${!selectedFile && 'avatar'}`} className={cx('addNew')} onClick={handleUpdateAvatar}>
               {!selectedFile ? (
                 <>
-                  <FaPlus /> Tải ảnh mới lên
+                  <FaPlus /> Upload new photo
                 </>
               ) : (
                 <>

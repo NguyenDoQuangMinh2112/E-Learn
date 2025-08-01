@@ -14,7 +14,6 @@ import ListCourseDetails from '~/components/Layouts/components/ListCourseDetails
 
 import { FiPlus } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
-import { FaComments } from 'react-icons/fa6'
 
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
@@ -25,8 +24,6 @@ import { useSelector } from 'react-redux'
 import { courseSelector } from '~/redux/course/courseSelector'
 import { noteLessonSelector } from '~/redux/noteLesson/noteLesson.selector'
 import MetaData from '~/components/MetaData'
-import { checkUserEnrollAPI } from '~/apis/enroll'
-import Spinner from '~/components/Spinner/Spinner'
 import ChatBoxAI from '~/components/Layouts/components/ChatboxAI/ChatBoxAI'
 
 const cx = classNames.bind(styles)
@@ -108,9 +105,9 @@ const CourseDetails = () => {
   // }, [id, navigate])
 
   useEffect(() => {
-    if (searchParams.get('type') === 'lesson') {
-      fetchLessonDetails()
-    }
+    // if (searchParams.get('type') === 'lesson') {
+    fetchLessonDetails()
+    // }
   }, [endCodedId])
 
   useEffect(() => {
@@ -118,7 +115,8 @@ const CourseDetails = () => {
       const firstLesson = chapters[0]?.lessons?.[0]
       if (firstLesson) {
         const defaultId = btoa(firstLesson._id)
-        navigate(`/course/learning/66b2111e02402496c308a935?id=${defaultId}&type=lesson`)
+
+        navigate(`/course/learning/${firstLesson._id}?id=${defaultId}&type=lesson`)
       }
     }
   }, [searchParams, chapters])
@@ -207,7 +205,7 @@ const CourseDetails = () => {
               <h1 className={cx('headWrapper_title')}>Course Content</h1>
               <IoClose onClick={handleCloseMenuLesson} />
             </header>
-            <ListCourseDetails />
+            <ListCourseDetails courseId={detailLesson?.courseId} />
           </div>
         </div>
       </div>

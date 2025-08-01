@@ -61,7 +61,7 @@ const CourseInfoDescription = () => {
     dispatch(fetchCourses({}))
 
     if (userInfo) {
-      fetch('https://damp-bastion-99051-92c994c25ba2.herokuapp.com/sync_suggest')
+      fetch('http://127.0.0.1:5000/sync_suggest')
         .then((response) => {
           if (!response.ok) {
             throw new Error('Failed to sync suggest')
@@ -69,7 +69,7 @@ const CourseInfoDescription = () => {
           return response.json()
         })
         .then(() => {
-          return fetch('https://damp-bastion-99051-92c994c25ba2.herokuapp.com/get_suggest', {
+          return fetch('http://127.0.0.1:5000/get_suggest', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ const CourseInfoDescription = () => {
                 <div className={cx('text-content')}>{courseDetail?.description}</div>
               </div>
               <div className={cx('topic_list')}>
-                <h2 className={cx('topic_heading')}>Bạn sẽ học được gì?</h2>
+                <h2 className={cx('topic_heading')}>What will you learn?</h2>
                 <ul className={cx('list')}>
                   {requiredList?.map((item, index) => (
                     <li key={index}>
@@ -138,21 +138,7 @@ const CourseInfoDescription = () => {
               </div>
               <div className={cx('curriculumOfCourse')}>
                 <div className={cx('headingTitle')}>
-                  <h2>Nội dung khóa học</h2>
-                </div>
-
-                <div className={cx('subHead')}>
-                  <ul>
-                    <li>
-                      <strong>11</strong> chương
-                    </li>
-                    <li className={cx('dot')}>•</li>
-                    <li>
-                      <strong>138</strong> bài học
-                    </li>
-                    <li className={cx('dot')}>•</li>
-                  </ul>
-                  <div className={cx('openMore')}>Mở tất cả</div> {/* (su dung redux de hanlde) */}
+                  <h2>Course content</h2>
                 </div>
               </div>
             </div>
@@ -163,7 +149,7 @@ const CourseInfoDescription = () => {
             ))}
 
             <div className={cx('topic_list', 'm-top-40')}>
-              <h2 className={cx('topic_heading')}>Yêu cầu</h2>
+              <h2 className={cx('topic_heading')}>Requirements</h2>
               <ul className={cx('list', 'f-colunm')}>
                 <li>
                   <FaCheck />
@@ -205,7 +191,7 @@ const CourseInfoDescription = () => {
                     <span className={cx('group')}>
                       {' '}
                       <PiVideoLight />
-                      <strong> Bài giảng</strong>
+                      <strong> Lessons</strong>
                     </span>
                     <span>{totalLessons}</span>
                   </li>
@@ -231,7 +217,7 @@ const CourseInfoDescription = () => {
 
         {userInfo && (
           <div className={cx('courseRecommend')}>
-            <h2>Các khóa học liên quan</h2>
+            <h2>Related Courses</h2>
 
             <div
               className={cx(

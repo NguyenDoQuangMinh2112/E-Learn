@@ -1,9 +1,6 @@
 import classNames from 'classnames/bind'
 import styles from './CourseItem.module.scss'
 
-import { FaCirclePlay } from 'react-icons/fa6'
-import { GoClockFill } from 'react-icons/go'
-
 import { useNavigate } from 'react-router-dom'
 
 import { formatPrice, getLastTwoNames } from '~/utils/helper'

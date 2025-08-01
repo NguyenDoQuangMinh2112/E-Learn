@@ -67,8 +67,8 @@ const Profile = () => {
 
                 {!data?.length && (
                   <div className={cx('no-course')}>
-                    Bạn chưa đăng ký khóa học nào 👉
-                    <NavLink to="/">Trang chủ</NavLink>
+                    You haven't enrolled in any courses yet 👉
+                    <NavLink to="/">Home</NavLink>
                   </div>
                 )}
 

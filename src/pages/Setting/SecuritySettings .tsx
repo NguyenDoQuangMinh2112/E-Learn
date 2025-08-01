@@ -58,8 +58,8 @@ const SecuritySettings = () => {
           <div className={cx('formGroup')}>
             <FormGroup
               id="currentPassword"
-              label="Mật khẩu cũ"
-              placeholder="Mật khẩu cũ"
+              label="Current password"
+              placeholder="Current password"
               value={values.currentPassword}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -68,8 +68,8 @@ const SecuritySettings = () => {
             />
             <FormGroup
               id="newPassword"
-              label="Mật khẩu mới"
-              placeholder="Mật khẩu mới"
+              label="New password"
+              placeholder="New password"
               value={values.newPassword}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -78,8 +78,8 @@ const SecuritySettings = () => {
             />
             <FormGroup
               id="confirmPassword"
-              label="Xác nhận khẩu mới"
-              placeholder="Xác nhận khẩu mới"
+              label="Confirm new password"
+              placeholder="Confirm new password"
               value={values.confirmPassword}
               onChange={handleChange}
               onBlur={handleBlur}

@@ -20,11 +20,11 @@ const Blog = () => {
   const [params] = useSearchParams()
   const page = Number(params.get('page')) || 1
   const handlePageChange = (page: number) => {
-    dispatch(fetBlogs({ limit: 1, page }))
+    dispatch(fetBlogs({ limit: 10, page }))
   }
 
   useEffect(() => {
-    dispatch(fetBlogs({ limit: 1, page }))
+    dispatch(fetBlogs({ limit: 10, page }))
   }, [dispatch])
 
   return (

@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'
 
 const cx = classNames.bind(styles)
 
-// Khởi tạo MarkdownIt
+// Initialize MarkdownIt
 const mdParser = new MarkdownIt()
 
 interface EditorChangeEvent {

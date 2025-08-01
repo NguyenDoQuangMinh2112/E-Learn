@@ -95,9 +95,9 @@ const Notification = () => {
           <PopperWrapper className={cx('notification__list--popper')}>
             <ul className={cx('notification__list')}>
               <header>
-                <h4>Thông báo</h4>
+                <h4>Notifications</h4>
                 <Button className={cx('mark-as-read')} onClick={handleMarkAllAsRead}>
-                  Đánh dấu đã đọc
+                  Mark as read
                 </Button>
               </header>
 

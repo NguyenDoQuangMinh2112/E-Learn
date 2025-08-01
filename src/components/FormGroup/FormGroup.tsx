@@ -44,7 +44,7 @@ const FormGroup: React.FC<FormGroupProps> = ({
   isDisabledBtn,
   isLoading,
   disabled = false,
-  textValue = 'Xác thực'
+  textValue = 'Verify'
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
@@ -54,7 +54,7 @@ const FormGroup: React.FC<FormGroupProps> = ({
     }
   }, [id, status])
 
-  const isInvalid = error && (error.includes('Email đã được sử dụng') || error.length > 0)
+  const isInvalid = error && (error.includes('Email is already in use') || error.length > 0)
 
   return (
     <div className={cx('form-group')}>
